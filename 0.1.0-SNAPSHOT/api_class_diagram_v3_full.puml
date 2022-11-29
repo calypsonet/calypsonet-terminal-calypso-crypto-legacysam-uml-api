@@ -167,6 +167,13 @@ package "org.calypsonet.terminal.calypso.crypto.symmetric.legacysam" as api {
     }
     +interface LegacySamSecuritySetting {
         +LegacySamSecuritySetting setControlSamResource (<back:yellow>CardReader</back> samReader, LegacySam sam)
+        +LegacySamSecuritySetting setSamRevocationServiceSpi (SamRevocationServiceSpi service)
+    }
+    package spi {
+        +interface SamRevocationServiceSpi {
+            +boolean isSamRevoked (byte[] serialNumber)
+            +boolean isSamRevoked (byte[] serialNumber, int counterValue)
+        }
     }
     +interface CommonSignatureComputationData<T extends CommonSignatureComputationData<T>> {
         +T setData (byte[] data, byte kif, byte kvc)
@@ -207,6 +214,8 @@ LegacySamTransactionManagerFactory .up.> LegacyTargetSamStaticTransactionManager
 LegacySamTransactionManagerFactory ..> LegacySam #C_USE : use >
 LegacySamTransactionManagerFactory ..> LegacySamSecuritySetting #C_USE : use >
 
+LegacySamSecuritySetting ..> SamRevocationServiceSpi #C_USE : use >
+
 LegacySamFreeTransactionManager ..> CommonSignatureComputationData #C_USE : use >
 LegacySamFreeTransactionManager ..> CommonSignatureVerificationData #C_USE : use >
 
@@ -225,6 +234,8 @@ LegacySam ..> SamProductType #C_LINK : provide >
 ' == STYLE ==
 
 package api #C_GREY1 {}
+package spi #C_GREY2 {}
+package sam #C_GREY2 {}
 
 interface LegacySamSelection <<purple>>
 interface LegacySam <<purple>>
