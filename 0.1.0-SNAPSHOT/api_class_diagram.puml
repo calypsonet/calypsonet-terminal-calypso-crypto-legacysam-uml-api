@@ -126,10 +126,10 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             }
         }
         +interface LegacySamSecuritySettingFactory {
-            +LegacySamSecuritySetting createSecuritySetting ()
+            +<color:grey>LegacySamSecuritySetting createSecuritySetting ()
         }
         +interface LegacySamSecuritySetting {
-            +LegacySamSecuritySetting setControlSamResource (<back:yellow>CardReader</back> samReader, LegacySam sam)
+            +<color:grey>LegacySamSecuritySetting setControlSamResource (<back:yellow>CardReader</back> samReader, LegacySam sam)
         }
         together {
             +interface CardTransactionCryptoExtensionFactory {
@@ -174,6 +174,15 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
                 +BasicSignatureVerificationData createBasicSignatureVerificationData ()
                 +TraceableSignatureVerificationData createTraceableSignatureVerificationData ()
             }
+        }
+        ' Exceptions
+        +class "<<RuntimeException>>" as RuntimeException {
+            +**SamRevokedException**
+            +**InconsistentDataException**: Number of R-APDUs != number of C-APDUs
+            +**InvalidSignatureException**: R-APDU of PSO Verify Signature = 6988.
+            +**UnexpectedCommandStatusException**
+            +**ReaderIOException**: SAM reader communication is broken.
+            +**SamIOException**
         }
     }
     package sam {
