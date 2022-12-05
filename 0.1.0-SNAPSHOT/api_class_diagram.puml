@@ -214,7 +214,6 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             HSM_C1
             SAM_S1E1
             SAM_S1Dx
-            CSAM_F
             UNKNOWN
         }
     }
