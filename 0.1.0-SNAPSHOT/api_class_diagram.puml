@@ -53,6 +53,7 @@ hide <<grey>> stereotype
 
 legend top
     __Colors legend__ :
+    ** <color:grey>**Work in progress...**</color>
     * __External public API references__ :
     ** <back:yellow>**calypsonet-terminal-reader-java-api**</back>
     ** <back:pink>**calypsonet-terminal-calypso-java-api**</back>
@@ -167,7 +168,7 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
                 +TraceableSignatureVerificationData withSamTraceabilityMode (int offset, boolean isPartialSamSerialNumber, LegacySamRevocationServiceSpi samRevocationService)
                 +TraceableSignatureVerificationData withoutBusyMode ()
             }
-            +interface SignatureDataFactory {
+            +interface CommandDataFactory {
                 +BasicSignatureComputationData createBasicSignatureComputationData ()
                 +TraceableSignatureComputationData createTraceableSignatureComputationData ()
                 +BasicSignatureVerificationData createBasicSignatureVerificationData ()
@@ -178,13 +179,16 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
         +class "<<RuntimeException>>" as RuntimeException {
             +**SamRevokedException**
             +**InconsistentDataException**: Number of R-APDUs != number of C-APDUs
-            +**InvalidSignatureException**: R-APDU of PSO Verify Signature = 6988.
+            +**InvalidSignatureException**
             +**UnexpectedCommandStatusException**
             +**ReaderIOException**: SAM reader communication is broken.
             +**SamIOException**
         }
     }
     package sam {
+        +interface CardSelectionFactory {
+            +LegacySamSelection createSamSelection ()
+        }
         +interface "<<<back:yellow>CardSelection</back>>>\nLegacySamSelection" as LegacySamSelection {
             +LegacySamSelection filterByProductType (LegacySam.ProductType productType)
             +LegacySamSelection filterBySerialNumber (String serialNumberRegex)
@@ -232,13 +236,13 @@ LegacySamTransactionManagerFactory .up.> LegacySamFreeTransactionManager #C_LINK
 LegacySamTransactionManagerFactory .up.> LegacySamSecureWriteTransactionManager #C_LINK : provide >
 LegacySamTransactionManagerFactory .up.> LegacyControlSamAsyncTransactionManager #C_LINK : provide >
 LegacySamTransactionManagerFactory .up.> LegacyTargetSamAsyncTransactionManager #C_LINK : provide >
-LegacySamTransactionManagerFactory .left.> LegacySam #C_USE : use >
+LegacySamTransactionManagerFactory .up.> LegacySam #C_USE : use >
 LegacySamTransactionManagerFactory ..> LegacySamSecuritySetting #C_USE : use >
 
-SignatureDataFactory .up.> BasicSignatureComputationData #C_LINK : provide >
-SignatureDataFactory .up.> TraceableSignatureComputationData #C_LINK : provide >
-SignatureDataFactory .up.> BasicSignatureVerificationData #C_LINK : provide >
-SignatureDataFactory .up.> TraceableSignatureVerificationData #C_LINK : provide >
+CommandDataFactory .up.> BasicSignatureComputationData #C_LINK : provide >
+CommandDataFactory .up.> TraceableSignatureComputationData #C_LINK : provide >
+CommandDataFactory .up.> BasicSignatureVerificationData #C_LINK : provide >
+CommandDataFactory .up.> TraceableSignatureVerificationData #C_LINK : provide >
 
 TraceableSignatureVerificationData ..> LegacySamRevocationServiceSpi #C_USE : use >
 
@@ -251,6 +255,8 @@ CardTransactionCryptoExtensionFactory ..> LegacySamCardTransactionCryptoExtensio
 
 LegacySamCardTransactionCryptoExtension ..> CommonSignatureComputationData #C_USE : use >
 LegacySamCardTransactionCryptoExtension ..> CommonSignatureVerificationData #C_USE : use >
+
+CardSelectionFactory ..> LegacySamSelection #C_LINK : provide >
 
 LegacySamSelection ..> SamProductType #C_USE : use >
 
@@ -278,9 +284,10 @@ interface LegacySamSecureWriteTransactionManager <<blue>>
 interface LegacyControlSamAsyncTransactionManager <<blue>>
 interface LegacyTargetSamAsyncTransactionManager <<blue>>
 
+interface CardSelectionFactory <<red>>
 interface LegacySamTransactionManagerFactory <<red>>
 interface CardTransactionCryptoExtensionFactory <<red>>
-interface SignatureDataFactory <<red>>
+interface CommandDataFactory <<red>>
 interface LegacySamSecuritySettingFactory <<red>>
 
 interface LegacySamCardTransactionCryptoExtension <<green>>
