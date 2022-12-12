@@ -1,6 +1,6 @@
 @startuml
 title
-    Calypsonet - calypsonet-terminal-calypso-crypto-legacysam-java-api - 0.1.+ (2022-12-05)
+    Calypsonet - calypsonet-terminal-calypso-crypto-legacysam-java-api - 0.1.+ (2022-12-12)
 end title
 
 ' == THEME ==
@@ -132,7 +132,7 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             +<color:grey>LegacySamSecuritySetting setControlSamResource (<back:yellow>CardReader</back> samReader, LegacySam sam)
         }
         together {
-            +interface CardTransactionCryptoExtensionFactory {
+            +interface LegacySamCardTransactionCryptoExtensionFactory {
                 +<color:grey>LegacySamCardTransactionCryptoExtension createCardTransactionCryptoExtension ()
             }
             +interface "<<<back:pink>CardTransactionCryptoExtension</back>>>\nLegacySamCardTransactionCryptoExtension" as LegacySamCardTransactionCryptoExtension {
@@ -186,7 +186,7 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
         }
     }
     package sam {
-        +interface CardSelectionFactory {
+        +interface LegacySamSelectionFactory {
             +LegacySamSelection createSamSelection ()
         }
         +interface "<<<back:yellow>CardSelection</back>>>\nLegacySamSelection" as LegacySamSelection {
@@ -251,12 +251,12 @@ LegacySamSecuritySettingFactory .up.> LegacySamSecuritySetting #C_LINK : provide
 LegacySamFreeTransactionManager ..> CommonSignatureComputationData #C_USE : use >
 LegacySamFreeTransactionManager ..> CommonSignatureVerificationData #C_USE : use >
 
-CardTransactionCryptoExtensionFactory ..> LegacySamCardTransactionCryptoExtension #C_LINK : provide >
+LegacySamCardTransactionCryptoExtensionFactory ..> LegacySamCardTransactionCryptoExtension #C_LINK : provide >
 
 LegacySamCardTransactionCryptoExtension ..> CommonSignatureComputationData #C_USE : use >
 LegacySamCardTransactionCryptoExtension ..> CommonSignatureVerificationData #C_USE : use >
 
-CardSelectionFactory ..> LegacySamSelection #C_LINK : provide >
+LegacySamSelectionFactory ..> LegacySamSelection #C_LINK : provide >
 
 LegacySamSelection ..> SamProductType #C_USE : use >
 
@@ -284,9 +284,9 @@ interface LegacySamSecureWriteTransactionManager <<blue>>
 interface LegacyControlSamAsyncTransactionManager <<blue>>
 interface LegacyTargetSamAsyncTransactionManager <<blue>>
 
-interface CardSelectionFactory <<red>>
+interface LegacySamSelectionFactory <<red>>
 interface LegacySamTransactionManagerFactory <<red>>
-interface CardTransactionCryptoExtensionFactory <<red>>
+interface LegacySamCardTransactionCryptoExtensionFactory <<red>>
 interface CommandDataFactory <<red>>
 interface LegacySamSecuritySettingFactory <<red>>
 
