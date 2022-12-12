@@ -64,17 +64,17 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
         +{static} **final** String VERSION
     }
     package transaction {
-        +interface LegacySamTransactionManagerFactory {
-            +LegacySamFreeTransactionManager createFreeTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
-            +<color:grey>LegacySamSecureReadTransactionManager createSecureReadTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LegacySamSecuritySetting securitySetting)
-            +<color:grey>LegacySamSecureWriteTransactionManager createSecureWriteTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LegacySamSecuritySetting securitySetting)
-            +<color:grey>LegacyControlSamAsyncTransactionManager createControlSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
-            +<color:grey>LegacyTargetSamAsyncTransactionManager createTargetSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
+        +interface LSTransactionManagerFactory {
+            +LSFreeTransactionManager createFreeTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
+            +<color:grey>LSSecureReadTransactionManager createSecureReadTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LSSecuritySetting securitySetting)
+            +<color:grey>LSSecureWriteTransactionManager createSecureWriteTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LSSecuritySetting securitySetting)
+            +<color:grey>LSControlSamAsyncTransactionManager createControlSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
+            +<color:grey>LSTargetSamAsyncTransactionManager createTargetSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
         }
-        +interface LegacySamTransactionManager<T extends LegacySamTransactionManager<T>> {
+        +interface LSTransactionManager<T extends LSTransactionManager<T>> {
             +T processCommands ()
         }
-        +interface LegacySamReadTransactionManager<T extends LegacySamReadTransactionManager<T>> extends LegacySamTransactionManager {
+        +interface LSReadTransactionManager<T extends LSReadTransactionManager<T>> extends LSTransactionManager {
             +<color:grey>T prepareReadSamParameters ()
 
             +<color:grey>T prepareReadCaadRecord (int caadRecordNumber)
@@ -93,11 +93,11 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             +T prepareReadEventCeiling (int eventCeilingNumber)
             +T prepareReadEventCeilings (int fromEventCeilingNumber, int toEventCeilingNumber)
         }
-        +interface LegacySamFreeWriteTransactionManager<T extends LegacySamFreeWriteTransactionManager<T>> extends LegacySamTransactionManager {
+        +interface LSFreeWriteTransactionManager<T extends LSFreeWriteTransactionManager<T>> extends LSTransactionManager {
             +<color:grey>T prepareWriteExternalPlainWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters, byte[] workKeyValue)
             +<color:grey>T prepareWriteRandomlyGeneratedWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters)
         }
-        +interface LegacySamWriteTransactionManager<T extends LegacySamWriteTransactionManager<T>> extends LegacySamFreeWriteTransactionManager {
+        +interface LSWriteTransactionManager<T extends LSWriteTransactionManager<T>> extends LSFreeWriteTransactionManager {
             +<color:grey>T prepareWriteSamParameters (byte[] parameters)
             +<color:grey>T prepareWriteCaadRecord (int caadRecordNumber, byte[] caad)
 
@@ -109,35 +109,35 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             +<color:grey>T prepareWriteEventCeilings (int fromEventCeilingNumber, List<Integer> newValues)
         }
         together {
-            +interface LegacySamSecureReadTransactionManager extends LegacySamReadTransactionManager {
+            +interface LSSecureReadTransactionManager extends LSReadTransactionManager {
             }
-            +interface LegacySamFreeTransactionManager extends LegacySamReadTransactionManager, LegacySamFreeWriteTransactionManager {
-                +LegacySamFreeTransactionManager prepareComputeSignature (CommonSignatureComputationData<?> data)
-                +LegacySamFreeTransactionManager prepareVerifySignature (CommonSignatureVerificationData<?> data)
+            +interface LSFreeTransactionManager extends LSReadTransactionManager, LSFreeWriteTransactionManager {
+                +LSFreeTransactionManager prepareComputeSignature (CommonSignatureComputationData<?> data)
+                +LSFreeTransactionManager prepareVerifySignature (CommonSignatureVerificationData<?> data)
             }
-            +interface LegacySamSecureWriteTransactionManager extends LegacySamWriteTransactionManager {
+            +interface LSSecureWriteTransactionManager extends LSWriteTransactionManager {
             }
-            +interface LegacyTargetSamAsyncTransactionManager extends LegacySamTransactionManager {
-                +<color:grey>LegacyTargetSamAsyncTransactionManager importCommands (String cipheredSamCommands)
+            +interface LSTargetSamAsyncTransactionManager extends LSTransactionManager {
+                +<color:grey>LSTargetSamAsyncTransactionManager importCommands (String cipheredSamCommands)
             }
-            +interface LegacyControlSamAsyncTransactionManager extends LegacySamWriteTransactionManager {
-                +<color:grey>LegacyControlSamAsyncTransactionManager prepareGiveTargetSamPseudoRandom (? asyncRandom)
+            +interface LSControlSamAsyncTransactionManager extends LSWriteTransactionManager {
+                +<color:grey>LSControlSamAsyncTransactionManager prepareGiveTargetSamPseudoRandom (? asyncRandom)
                 +<color:grey>String exportCommands ()
             }
         }
-        +interface LegacySamSecuritySettingFactory {
-            +<color:grey>LegacySamSecuritySetting createSecuritySetting ()
+        +interface LSSecuritySettingFactory {
+            +<color:grey>LSSecuritySetting createSecuritySetting ()
         }
-        +interface LegacySamSecuritySetting {
-            +<color:grey>LegacySamSecuritySetting setControlSamResource (<back:yellow>CardReader</back> samReader, LegacySam sam)
+        +interface LSSecuritySetting {
+            +<color:grey>LSSecuritySetting setControlSamResource (<back:yellow>CardReader</back> samReader, LegacySam sam)
         }
         together {
-            +interface LegacySamCardTransactionCryptoExtensionFactory {
-                +<color:grey>LegacySamCardTransactionCryptoExtension createCardTransactionCryptoExtension ()
+            +interface LSCardTransactionCryptoExtensionFactory {
+                +<color:grey>LSCardTransactionCryptoExtensionFactory createCardTransactionCryptoExtension ()
             }
-            +interface "<<<back:pink>CardTransactionCryptoExtension</back>>>\nLegacySamCardTransactionCryptoExtension" as LegacySamCardTransactionCryptoExtension {
-                +<color:grey>LegacySamCardTransactionCryptoExtension prepareComputeSignature (CommonSignatureComputationData<?> data)
-                +<color:grey>LegacySamCardTransactionCryptoExtension prepareVerifySignature (CommonSignatureVerificationData<?> data)
+            +interface "<<<back:pink>CCTransactionCryptoExtension</back>>>\nLSCardTransactionCryptoExtension" as LSCardTransactionCryptoExtension {
+                +<color:grey>LSCardTransactionCryptoExtension prepareComputeSignature (CommonSignatureComputationData<?> data)
+                +<color:grey>LSCardTransactionCryptoExtension prepareVerifySignature (CommonSignatureVerificationData<?> data)
             }
         }
         together {
@@ -165,10 +165,10 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             +interface BasicSignatureVerificationData extends CommonSignatureVerificationData {
             }
             +interface TraceableSignatureVerificationData extends CommonSignatureVerificationData {
-                +TraceableSignatureVerificationData withSamTraceabilityMode (int offset, boolean isPartialSamSerialNumber, LegacySamRevocationServiceSpi samRevocationService)
+                +TraceableSignatureVerificationData withSamTraceabilityMode (int offset, boolean isPartialSamSerialNumber, LSRevocationServiceSpi samRevocationService)
                 +TraceableSignatureVerificationData withoutBusyMode ()
             }
-            +interface LegacySamCommandDataFactory {
+            +interface LSCommandDataFactory {
                 +BasicSignatureComputationData createBasicSignatureComputationData ()
                 +TraceableSignatureComputationData createTraceableSignatureComputationData ()
                 +BasicSignatureVerificationData createBasicSignatureVerificationData ()
@@ -222,7 +222,7 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
         }
     }
     package spi {
-        +interface LegacySamRevocationServiceSpi {
+        +interface LSRevocationServiceSpi {
             +boolean isSamRevoked (byte[] serialNumber)
             +boolean isSamRevoked (byte[] serialNumber, int counterValue)
         }
@@ -231,30 +231,30 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
 
 ' Associations
 
-LegacySamTransactionManagerFactory .up.> LegacySamSecureReadTransactionManager #C_LINK : provide >
-LegacySamTransactionManagerFactory .up.> LegacySamFreeTransactionManager #C_LINK : provide >
-LegacySamTransactionManagerFactory .up.> LegacySamSecureWriteTransactionManager #C_LINK : provide >
-LegacySamTransactionManagerFactory .up.> LegacyControlSamAsyncTransactionManager #C_LINK : provide >
-LegacySamTransactionManagerFactory .up.> LegacyTargetSamAsyncTransactionManager #C_LINK : provide >
-LegacySamTransactionManagerFactory .up.> LegacySam #C_USE : use >
-LegacySamTransactionManagerFactory ..> LegacySamSecuritySetting #C_USE : use >
+LSTransactionManagerFactory .up.> LSSecureReadTransactionManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LSFreeTransactionManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LSSecureWriteTransactionManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LSControlSamAsyncTransactionManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LSTargetSamAsyncTransactionManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LegacySam #C_USE : use >
+LSTransactionManagerFactory ..> LSSecuritySetting #C_USE : use >
 
-LegacySamCommandDataFactory .up.> BasicSignatureComputationData #C_LINK : provide >
-LegacySamCommandDataFactory .up.> TraceableSignatureComputationData #C_LINK : provide >
-LegacySamCommandDataFactory .up.> BasicSignatureVerificationData #C_LINK : provide >
-LegacySamCommandDataFactory .up.> TraceableSignatureVerificationData #C_LINK : provide >
+LSCommandDataFactory .up.> BasicSignatureComputationData #C_LINK : provide >
+LSCommandDataFactory .up.> TraceableSignatureComputationData #C_LINK : provide >
+LSCommandDataFactory .up.> BasicSignatureVerificationData #C_LINK : provide >
+LSCommandDataFactory .up.> TraceableSignatureVerificationData #C_LINK : provide >
 
-TraceableSignatureVerificationData ..> LegacySamRevocationServiceSpi #C_USE : use >
+TraceableSignatureVerificationData ..> LSRevocationServiceSpi #C_USE : use >
 
-LegacySamSecuritySettingFactory .up.> LegacySamSecuritySetting #C_LINK : provide >
+LSSecuritySettingFactory .up.> LSSecuritySetting #C_LINK : provide >
 
-LegacySamFreeTransactionManager ..> CommonSignatureComputationData #C_USE : use >
-LegacySamFreeTransactionManager ..> CommonSignatureVerificationData #C_USE : use >
+LSFreeTransactionManager ..> CommonSignatureComputationData #C_USE : use >
+LSFreeTransactionManager ..> CommonSignatureVerificationData #C_USE : use >
 
-LegacySamCardTransactionCryptoExtensionFactory ..> LegacySamCardTransactionCryptoExtension #C_LINK : provide >
+LSCardTransactionCryptoExtensionFactory ..> LSCardTransactionCryptoExtension #C_LINK : provide >
 
-LegacySamCardTransactionCryptoExtension ..> CommonSignatureComputationData #C_USE : use >
-LegacySamCardTransactionCryptoExtension ..> CommonSignatureVerificationData #C_USE : use >
+LSCardTransactionCryptoExtension ..> CommonSignatureComputationData #C_USE : use >
+LSCardTransactionCryptoExtension ..> CommonSignatureVerificationData #C_USE : use >
 
 LegacySamSelectionFactory ..> LegacySamSelection #C_LINK : provide >
 
@@ -265,7 +265,7 @@ LegacySam ..> SamProductType #C_LINK : provide >
 
 ' == LAYOUT ==
 
-'SamProductType .[hidden]. LegacySamRevocationServiceSpi
+'SamProductType .[hidden]. LSRevocationServiceSpi
 
 ' == STYLE ==
 
@@ -274,23 +274,23 @@ package spi #C_GREY2 {}
 package sam #C_GREY2 {}
 package transaction #C_GREY2 {}
 
-interface LegacySamTransactionManager <<blue>>
-interface LegacySamFreeTransactionManager <<blue>>
-interface LegacySamFreeWriteTransactionManager <<blue>>
-interface LegacySamReadTransactionManager <<blue>>
-interface LegacySamWriteTransactionManager <<blue>>
-interface LegacySamSecureReadTransactionManager <<blue>>
-interface LegacySamSecureWriteTransactionManager <<blue>>
-interface LegacyControlSamAsyncTransactionManager <<blue>>
-interface LegacyTargetSamAsyncTransactionManager <<blue>>
+interface LSTransactionManager <<blue>>
+interface LSFreeTransactionManager <<blue>>
+interface LSFreeWriteTransactionManager <<blue>>
+interface LSReadTransactionManager <<blue>>
+interface LSWriteTransactionManager <<blue>>
+interface LSSecureReadTransactionManager <<blue>>
+interface LSSecureWriteTransactionManager <<blue>>
+interface LSControlSamAsyncTransactionManager <<blue>>
+interface LSTargetSamAsyncTransactionManager <<blue>>
 
 interface LegacySamSelectionFactory <<red>>
-interface LegacySamTransactionManagerFactory <<red>>
-interface LegacySamCardTransactionCryptoExtensionFactory <<red>>
-interface LegacySamCommandDataFactory <<red>>
-interface LegacySamSecuritySettingFactory <<red>>
+interface LSTransactionManagerFactory <<red>>
+interface LSCardTransactionCryptoExtensionFactory <<red>>
+interface LSCommandDataFactory <<red>>
+interface LSSecuritySettingFactory <<red>>
 
-interface LegacySamCardTransactionCryptoExtension <<green>>
+interface LSCardTransactionCryptoExtension <<green>>
 
 interface LegacySamSelection <<green>>
 
