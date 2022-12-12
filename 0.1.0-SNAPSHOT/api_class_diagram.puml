@@ -168,7 +168,7 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
                 +TraceableSignatureVerificationData withSamTraceabilityMode (int offset, boolean isPartialSamSerialNumber, LegacySamRevocationServiceSpi samRevocationService)
                 +TraceableSignatureVerificationData withoutBusyMode ()
             }
-            +interface CommandDataFactory {
+            +interface LegacySamCommandDataFactory {
                 +BasicSignatureComputationData createBasicSignatureComputationData ()
                 +TraceableSignatureComputationData createTraceableSignatureComputationData ()
                 +BasicSignatureVerificationData createBasicSignatureVerificationData ()
@@ -239,10 +239,10 @@ LegacySamTransactionManagerFactory .up.> LegacyTargetSamAsyncTransactionManager 
 LegacySamTransactionManagerFactory .up.> LegacySam #C_USE : use >
 LegacySamTransactionManagerFactory ..> LegacySamSecuritySetting #C_USE : use >
 
-CommandDataFactory .up.> BasicSignatureComputationData #C_LINK : provide >
-CommandDataFactory .up.> TraceableSignatureComputationData #C_LINK : provide >
-CommandDataFactory .up.> BasicSignatureVerificationData #C_LINK : provide >
-CommandDataFactory .up.> TraceableSignatureVerificationData #C_LINK : provide >
+LegacySamCommandDataFactory .up.> BasicSignatureComputationData #C_LINK : provide >
+LegacySamCommandDataFactory .up.> TraceableSignatureComputationData #C_LINK : provide >
+LegacySamCommandDataFactory .up.> BasicSignatureVerificationData #C_LINK : provide >
+LegacySamCommandDataFactory .up.> TraceableSignatureVerificationData #C_LINK : provide >
 
 TraceableSignatureVerificationData ..> LegacySamRevocationServiceSpi #C_USE : use >
 
@@ -287,7 +287,7 @@ interface LegacyTargetSamAsyncTransactionManager <<blue>>
 interface LegacySamSelectionFactory <<red>>
 interface LegacySamTransactionManagerFactory <<red>>
 interface LegacySamCardTransactionCryptoExtensionFactory <<red>>
-interface CommandDataFactory <<red>>
+interface LegacySamCommandDataFactory <<red>>
 interface LegacySamSecuritySettingFactory <<red>>
 
 interface LegacySamCardTransactionCryptoExtension <<green>>
