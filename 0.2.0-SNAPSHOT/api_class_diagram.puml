@@ -68,7 +68,7 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             +LSFreeTransactionManager createFreeTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
             +<color:grey>LSSecureReadTransactionManager createSecureReadTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LSSecuritySetting securitySetting)
             +<color:grey>LSSecureWriteTransactionManager createSecureWriteTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LSSecuritySetting securitySetting)
-            +LSControlSamAsyncTransactionManager createControlSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam controlSam)
+            +<color:green>LSControlSamAsyncTransactionManager createControlSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam controlSam)
             +<color:green>LSControlSamAsyncTransactionManager createControlSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam controlSam, String targetSamContext)
             +<color:green>LSTargetSamAsyncTransactionManager createTargetSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam targetSam)
         }
