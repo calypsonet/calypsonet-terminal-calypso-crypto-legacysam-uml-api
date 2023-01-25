@@ -1,6 +1,6 @@
 @startuml
 title
-    Calypsonet - calypsonet-terminal-calypso-crypto-legacysam-java-api - 0.1.+ (2022-12-12)
+    Calypsonet - calypsonet-terminal-calypso-crypto-legacysam-java-api - 0.2.+ (2023-01-23)
 end title
 
 ' == THEME ==
@@ -68,8 +68,9 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             +LSFreeTransactionManager createFreeTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
             +<color:grey>LSSecureReadTransactionManager createSecureReadTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LSSecuritySetting securitySetting)
             +<color:grey>LSSecureWriteTransactionManager createSecureWriteTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LSSecuritySetting securitySetting)
-            +<color:grey>LSControlSamAsyncTransactionManager createControlSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
-            +<color:grey>LSTargetSamAsyncTransactionManager createTargetSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
+            +LSControlSamAsyncTransactionManager createControlSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam controlSam)
+            +<color:green>LSControlSamAsyncTransactionManager createControlSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam controlSam, String targetSamContext)
+            +<color:green>LSTargetSamAsyncTransactionManager createTargetSamAsyncTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam targetSam)
         }
         +interface LSTransactionManager<T extends LSTransactionManager<T>> {
             +T processCommands ()
@@ -105,8 +106,8 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             +<color:grey>T prepareWriteTransferredPlainWorkKey (byte sourceWorkKeyKif, byte sourceWorkKeyKvc, byte[] workKeyParameters)
             +<color:grey>T prepareWriteTransferredCipheredWorkKey (byte sourceWorkKeyKif, byte sourceWorkKeyKvc, byte[] workKeyParameters, byte cipheringSystemKeyKvc)
 
-            +<color:grey>T prepareWriteEventCeiling (int eventCeilingNumber, int newValue)
-            +<color:grey>T prepareWriteEventCeilings (int fromEventCeilingNumber, List<Integer> newValues)
+            +<color:green>T prepareWriteEventCeiling (int eventCeilingNumber, int newValue)
+            +<color:green>T prepareWriteEventCeilings (Map<Integer, Integer> eventCeilingNumberToNewValueMap)
         }
         together {
             +interface LSSecureReadTransactionManager extends LSReadTransactionManager {
@@ -114,15 +115,16 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
             +interface LSFreeTransactionManager extends LSReadTransactionManager, LSFreeWriteTransactionManager {
                 +LSFreeTransactionManager prepareComputeSignature (CommonSignatureComputationData<?> data)
                 +LSFreeTransactionManager prepareVerifySignature (CommonSignatureVerificationData<?> data)
+
+                +<color:green>LSFreeTransactionManager prepareInitializeContextForAsyncTransaction (TargetSamContextData data)
             }
             +interface LSSecureWriteTransactionManager extends LSWriteTransactionManager {
             }
             +interface LSTargetSamAsyncTransactionManager extends LSTransactionManager {
-                +<color:grey>LSTargetSamAsyncTransactionManager importCommands (String cipheredSamCommands)
+                +<color:green>LSTargetSamAsyncTransactionManager importCommands (String samCommands)
             }
             +interface LSControlSamAsyncTransactionManager extends LSWriteTransactionManager {
-                +<color:grey>LSControlSamAsyncTransactionManager prepareGiveTargetSamPseudoRandom (? asyncRandom)
-                +<color:grey>String exportCommands ()
+                +<color:green>String exportCommands ()
             }
         }
         +interface LSSecuritySettingFactory {
@@ -139,6 +141,9 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
                 +<color:grey>LSCardTransactionCryptoExtension prepareComputeSignature (CommonSignatureComputationData<?> data)
                 +<color:grey>LSCardTransactionCryptoExtension prepareVerifySignature (CommonSignatureVerificationData<?> data)
             }
+        }
+        +interface TargetSamContextData {
+            +<color:green>String getTargetSamContext ()
         }
         together {
             +interface CommonSignatureComputationData<T extends CommonSignatureComputationData<T>> {
@@ -173,6 +178,7 @@ package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
                 +TraceableSignatureComputationData createTraceableSignatureComputationData ()
                 +BasicSignatureVerificationData createBasicSignatureVerificationData ()
                 +TraceableSignatureVerificationData createTraceableSignatureVerificationData ()
+                +<color:green>TargetSamContextData createTargetSamContextData ()
             }
         }
         ' Exceptions
@@ -243,6 +249,7 @@ LSCommandDataFactory .up.> BasicSignatureComputationData #C_LINK : provide >
 LSCommandDataFactory .up.> TraceableSignatureComputationData #C_LINK : provide >
 LSCommandDataFactory .up.> BasicSignatureVerificationData #C_LINK : provide >
 LSCommandDataFactory .up.> TraceableSignatureVerificationData #C_LINK : provide >
+LSCommandDataFactory .up.> TargetSamContextData #C_LINK : provide >
 
 TraceableSignatureVerificationData ..> LSRevocationServiceSpi #C_USE : use >
 
@@ -250,6 +257,7 @@ LSSecuritySettingFactory .up.> LSSecuritySetting #C_LINK : provide >
 
 LSFreeTransactionManager ..> CommonSignatureComputationData #C_USE : use >
 LSFreeTransactionManager ..> CommonSignatureVerificationData #C_USE : use >
+LSFreeTransactionManager ..> TargetSamContextData #C_USE : use >
 
 LSCardTransactionCryptoExtensionFactory ..> LSCardTransactionCryptoExtension #C_LINK : provide >
 
