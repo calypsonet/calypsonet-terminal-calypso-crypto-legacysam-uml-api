@@ -286,7 +286,7 @@ LegacySam .up.> SystemKeyType #C_USE : use >
 
 ' SystemKeyType .[hidden]. LegacySamSelectionFactory
 LegacySamSelection .[hidden]. LegacySamSelectionFactory
-
+LSCommandDataFactory .[hidden]. LSRevocationServiceSpi
 
 ' == STYLE ==
 
