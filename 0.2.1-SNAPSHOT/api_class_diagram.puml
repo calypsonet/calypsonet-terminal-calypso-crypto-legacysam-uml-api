@@ -1,0 +1,317 @@
+@startuml
+title
+    Calypsonet - calypsonet-terminal-calypso-crypto-legacysam-java-api - 0.2.+ (2023-02-10)
+end title
+
+' == THEME ==
+
+'Couleurs issues de : https://htmlcolorcodes.com/fr/tableau-de-couleur/tableau-de-couleur-design-plat/
+!define C_GREY1 F8F9F9
+!define C_GREY2 F2F3F4
+!define C_GREY3 E5E7E9
+!define C_GREY4 D7DBDD
+!define C_GREY5 CACFD2
+!define C_GREY6 BDC3C7
+!define C_LINK 3498DB
+!define C_USE 27AE60
+
+' -- Styles that don't work with new version of plantuml --
+skinparam stereotypeABorderColor #A9DCDF
+skinparam stereotypeIBorderColor #B4A7E5
+skinparam stereotypeCBorderColor #ADD1B2
+skinparam stereotypeEBorderColor #EB93DF
+' -- END --
+
+skinparam ClassBorderThickness 2
+skinparam ArrowThickness 2
+
+' Yellow
+skinparam ClassBackgroundColor #FEFECE
+skinparam ClassBorderColor #D4AC0D
+' Red
+skinparam ClassBackgroundColor<<red>> #FDEDEC
+skinparam ClassBorderColor<<red>> #E74C3C
+hide <<red>> stereotype
+' Purple
+skinparam ClassBackgroundColor<<purple>> #F4ECF7
+skinparam ClassBorderColor<<purple>> #8E44AD
+hide <<purple>> stereotype
+' blue
+skinparam ClassBackgroundColor<<blue>> #EBF5FB
+skinparam ClassBorderColor<<blue>> #3498DB
+hide <<blue>> stereotype
+' Green
+skinparam ClassBackgroundColor<<green>> #E9F7EF
+skinparam ClassBorderColor<<green>> #27AE60
+hide <<green>> stereotype
+' Grey
+skinparam ClassBackgroundColor<<grey>> #EAECEE
+skinparam ClassBorderColor<<grey>> #2C3E50
+hide <<grey>> stereotype
+
+' == CONTENT ==
+
+legend top
+    __Colors legend__ :
+    ** <color:grey>**Work in progress...**</color>
+    * __External public API references__ :
+    ** <back:yellow>**calypsonet-terminal-reader-java-api**</back>
+    ** <back:pink>**calypsonet-terminal-calypso-java-api**</back>
+end legend
+
+package "org.calypsonet.terminal.calypso.crypto.legacysam" as api {
+    +class "**final** LegacySamApiProperties" as ApiProperties {
+        +{static} **final** String VERSION
+    }
+    package transaction {
+        +interface LSTransactionManagerFactory {
+            +LSFreeTransactionManager createFreeTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
+            +<color:grey>LSSecureReadTransactionManager createSecureReadTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LSSecuritySetting securitySetting)
+            +<color:grey>LSSecureWriteTransactionManager createSecureWriteTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, LSSecuritySetting securitySetting)
+            +<color:green>LSAsyncTransactionCreatorManager createAsyncTransactionCreatorManager (String targetSamContext, LSSecuritySetting securitySetting)
+            +<color:green>LSAsyncTransactionExecutorManager createAsyncTransactionExecutorManager (<back:yellow>CardReader</back> samReader, LegacySam sam, String samCommands)
+        }
+        +interface LSTransactionManager<T extends LSTransactionManager<T>> {
+            +T processCommands ()
+        }
+        +interface LSReadTransactionManager<T extends LSReadTransactionManager<T>> extends LSTransactionManager {
+            +<color:grey>T prepareReadSamParameters ()
+
+            +<color:grey>T prepareReadCaadRecord (int caadRecordNumber)
+            +<color:grey>T prepareReadCaadRecords (int fromCaadRecordNumber, int toCaadRecordNumber)
+
+            +<color:green>T prepareReadSystemKeyParameters (SystemKeyType systemKeyType)
+
+            +<color:grey>T prepareReadWorkKeyParameter (int workKeyRecordNumber)
+            +<color:grey>T prepareReadWorkKeyParameters (int fromWorkKeyRecordNumber, int toWorkKeyRecordNumber)
+
+            +<color:grey>T prepareReadWorkKeyParameter (byte workKeyKif, byte workKeyKvc)
+
+            +<color:green>T prepareReadCounterStatus (int counterNumber)
+            +<color:green>T prepareReadAllCountersStatus ()
+        }
+        +interface LSWriteTransactionManager<T extends LSWriteTransactionManager<T>> extends LSTransactionManager {
+            +<color:grey>T prepareWriteSamParameters (byte[] parameters)
+            +<color:grey>T prepareWriteCaadRecord (int caadRecordNumber, byte[] caad)
+
+            +<color:grey>T prepareLoadSystemKey (SystemKeyType sourceSystemKeyType, byte sourceSystemKeyKif, byte sourceSystemKeyKvc)
+            +<color:grey>T prepareLoadWorkKey (byte sourceWorkKeyKif, byte sourceWorkKeyKvc, byte[] workKeyParameters, byte cipheringSystemKeyKvc)
+
+            +<color:green>T prepareWriteCounterCeiling (int counterNumber, int ceilingValue)
+            +<color:green>T prepareWriteCounterConfiguration (int counterNumber, int ceilingValue, boolean isManualCounterIncrementAuthorized)
+        }
+        together {
+            +interface LSSecureReadTransactionManager extends LSReadTransactionManager {
+            }
+            +interface LSFreeTransactionManager extends LSReadTransactionManager {
+                +<color:grey>LSFreeTransactionManager prepareLoadPlainWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters, byte[] workKeyValue)
+                +<color:grey>LSFreeTransactionManager prepareGenerateWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters)
+
+                +LSFreeTransactionManager prepareComputeSignature (CommonSignatureComputationData<?> data)
+                +LSFreeTransactionManager prepareVerifySignature (CommonSignatureVerificationData<?> data)
+
+                +<color:green>String exportTargetSamContextForAsyncTransaction ()
+            }
+            +interface LSSecureWriteTransactionManager extends LSWriteTransactionManager {
+                +<color:grey>LSSecureWriteTransactionManager prepareLoadPlainWorkKey (byte sourceWorkKeyKif, byte sourceWorkKeyKvc, byte[] workKeyParameters)
+            }
+            +interface LSAsyncTransactionExecutorManager extends LSTransactionManager {
+            }
+            +interface LSAsyncTransactionCreatorManager extends LSWriteTransactionManager {
+                +<color:green>String exportCommands ()
+            }
+        }
+        +interface LSSecuritySettingFactory {
+            +<color:green>LSSecuritySetting createSecuritySetting ()
+        }
+        +interface LSSecuritySetting {
+            +<color:green>LSSecuritySetting setControlSamResource (<back:yellow>CardReader</back> samReader, LegacySam sam)
+        }
+        together {
+            +interface LSCardTransactionCryptoExtensionFactory {
+                +<color:grey>LSCardTransactionCryptoExtensionFactory createCardTransactionCryptoExtension ()
+            }
+            +interface "<<<back:pink>CCTransactionCryptoExtension</back>>>\nLSCardTransactionCryptoExtension" as LSCardTransactionCryptoExtension {
+                +<color:grey>LSCardTransactionCryptoExtension prepareComputeSignature (CommonSignatureComputationData<?> data)
+                +<color:grey>LSCardTransactionCryptoExtension prepareVerifySignature (CommonSignatureVerificationData<?> data)
+            }
+        }
+        together {
+            +interface CommonSignatureComputationData<T extends CommonSignatureComputationData<T>> {
+                +T setData (byte[] data, byte kif, byte kvc)
+                +T setSignatureSize (int size)
+                +T setKeyDiversifier (byte[] diversifier)
+
+                +byte[] getSignature ()
+            }
+            +interface BasicSignatureComputationData extends CommonSignatureComputationData {
+            }
+            +interface TraceableSignatureComputationData extends CommonSignatureComputationData {
+                +TraceableSignatureComputationData withSamTraceabilityMode (int offset, boolean usePartialSamSerialNumber)
+                +TraceableSignatureComputationData withoutBusyMode ()
+
+                +byte[] getSignedData ()
+            }
+            +interface CommonSignatureVerificationData<T extends CommonSignatureVerificationData<T>> {
+                +T setData (byte[] data, byte[] signature, byte kif, byte kvc)
+                +T setKeyDiversifier (byte[] diversifier)
+
+                +boolean isSignatureValid ()
+            }
+            +interface BasicSignatureVerificationData extends CommonSignatureVerificationData {
+            }
+            +interface TraceableSignatureVerificationData extends CommonSignatureVerificationData {
+                +TraceableSignatureVerificationData withSamTraceabilityMode (int offset, boolean isPartialSamSerialNumber, LSRevocationServiceSpi samRevocationService)
+                +TraceableSignatureVerificationData withoutBusyMode ()
+            }
+            +interface LSCommandDataFactory {
+                +BasicSignatureComputationData createBasicSignatureComputationData ()
+                +TraceableSignatureComputationData createTraceableSignatureComputationData ()
+                +BasicSignatureVerificationData createBasicSignatureVerificationData ()
+                +TraceableSignatureVerificationData createTraceableSignatureVerificationData ()
+            }
+        }
+        ' Exceptions
+        +class "<<RuntimeException>>" as RuntimeException {
+            +**SamRevokedException**
+            +**InconsistentDataException**: Number of R-APDUs != number of C-APDUs
+            +**InvalidSignatureException**
+            +**UnexpectedCommandStatusException**
+            +**ReaderIOException**: SAM reader communication is broken.
+            +**SamIOException**
+        }
+    }
+    +enum SystemKeyType {
+        <color:green>PERSONALIZATION
+        <color:green>KEY_MANAGEMENT
+        <color:green>RELOADING
+        <color:green>AUTHENTICATION
+    }
+    package sam {
+        +interface LegacySamSelectionFactory {
+            +LegacySamSelection createSamSelection ()
+        }
+        +interface "<<<back:yellow>CardSelection</back>>>\nLegacySamSelection" as LegacySamSelection {
+            +LegacySamSelection filterByProductType (LegacySam.ProductType productType)
+            +LegacySamSelection filterBySerialNumber (String serialNumberRegex)
+
+            +LegacySamSelection setUnlockData (String unlockData)
+        }
+        +interface "<<<back:yellow>SmartCard</back>>>\nLegacySam" as LegacySam {
+            +ProductType getProductType ()
+            +String getProductInfo ()
+
+            +byte[] getSerialNumber ()
+            +byte getPlatform ()
+            +byte getApplicationType ()
+            +byte getApplicationSubType ()
+            +byte getSoftwareIssuer ()
+            +byte getSoftwareVersion ()
+            +byte getSoftwareRevision ()
+
+            +Integer getCounter (int counterNumber)
+            +SortedMap<Integer, Integer> getCounters ()
+            +<color:green>Boolean isManualCounterIncrementAuthorized (int counterNumber)
+
+            +Integer getCounterCeiling (int counterNumber)
+            +SortedMap<Integer, Integer> getCounterCeilings ()
+
+            +<color:green>KeyParameter getSystemKeyParameter (SystemKeyType systemKeyType)
+        }
+        +interface KeyParameter {
+            +<color:green>byte getRawData ()
+            +<color:green>byte getKif ()
+            +<color:green>byte getKvc ()
+            +<color:green>byte getAlgorithm ()
+            +<color:green>byte getParameterValue (int parameterNumber)
+        }
+        +enum "ProductType" as SamProductType {
+            SAM_C1
+            HSM_C1
+            SAM_S1E1
+            SAM_S1Dx
+            UNKNOWN
+        }
+    }
+    package spi {
+        +interface LSRevocationServiceSpi {
+            +boolean isSamRevoked (byte[] serialNumber)
+            +boolean isSamRevoked (byte[] serialNumber, int counterValue)
+        }
+    }
+}
+
+' Associations
+
+LSTransactionManagerFactory .up.> LSSecureReadTransactionManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LSFreeTransactionManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LSSecureWriteTransactionManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LSAsyncTransactionCreatorManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LSAsyncTransactionExecutorManager #C_LINK : provide >
+LSTransactionManagerFactory .up.> LegacySam #C_USE : use >
+LSTransactionManagerFactory ..> LSSecuritySetting #C_USE : use >
+
+LSCommandDataFactory .up.> BasicSignatureComputationData #C_LINK : provide >
+LSCommandDataFactory .up.> TraceableSignatureComputationData #C_LINK : provide >
+LSCommandDataFactory .up.> BasicSignatureVerificationData #C_LINK : provide >
+LSCommandDataFactory .up.> TraceableSignatureVerificationData #C_LINK : provide >
+
+TraceableSignatureVerificationData ..> LSRevocationServiceSpi #C_USE : use >
+
+LSSecuritySettingFactory .up.> LSSecuritySetting #C_LINK : provide >
+
+LSFreeTransactionManager ..> CommonSignatureComputationData #C_USE : use >
+LSFreeTransactionManager ..> CommonSignatureVerificationData #C_USE : use >
+
+LSReadTransactionManager .up.> SystemKeyType #C_USE : use >
+
+LSWriteTransactionManager .up.> SystemKeyType #C_USE : use >
+
+LSCardTransactionCryptoExtensionFactory ..> LSCardTransactionCryptoExtension #C_LINK : provide >
+
+LSCardTransactionCryptoExtension ..> CommonSignatureComputationData #C_USE : use >
+LSCardTransactionCryptoExtension ..> CommonSignatureVerificationData #C_USE : use >
+
+LegacySamSelectionFactory ..> LegacySamSelection #C_LINK : provide >
+
+LegacySamSelection ..> SamProductType #C_USE : use >
+
+LegacySam +-- SamProductType
+LegacySam ..> SamProductType #C_LINK : provide >
+LegacySam ..> KeyParameter #C_LINK : provide >
+LegacySam .up.> SystemKeyType #C_USE : use >
+
+
+' == LAYOUT ==
+
+' SystemKeyType .[hidden]. LegacySamSelectionFactory
+LegacySamSelection .[hidden]. LegacySamSelectionFactory
+LSCommandDataFactory .[hidden]. LSRevocationServiceSpi
+
+' == STYLE ==
+
+package api #C_GREY1 {}
+package spi #C_GREY2 {}
+package sam #C_GREY2 {}
+package transaction #C_GREY2 {}
+
+interface LSTransactionManager <<blue>>
+interface LSFreeTransactionManager <<blue>>
+interface LSReadTransactionManager <<blue>>
+interface LSWriteTransactionManager <<blue>>
+interface LSSecureReadTransactionManager <<blue>>
+interface LSSecureWriteTransactionManager <<blue>>
+interface LSAsyncTransactionCreatorManager <<blue>>
+interface LSAsyncTransactionExecutorManager <<blue>>
+
+interface LegacySamSelectionFactory <<red>>
+interface LSTransactionManagerFactory <<red>>
+interface LSCardTransactionCryptoExtensionFactory <<red>>
+interface LSCommandDataFactory <<red>>
+interface LSSecuritySettingFactory <<red>>
+
+interface LSCardTransactionCryptoExtension <<green>>
+
+interface LegacySamSelection <<green>>
+
+@enduml
