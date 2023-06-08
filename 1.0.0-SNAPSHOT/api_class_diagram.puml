@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.png>
 
-    Terminal Calypso Crypto Legacy SAM API 1.0.+ (2023-06-05)
+    Terminal Calypso Crypto Legacy SAM API 1.0.+ (2023-06-08)
 end title
 
 ' == THEME ==
@@ -110,8 +110,8 @@ package "transaction" as transaction {
             +<color:grey>LSFreeTransactionManager prepareLoadPlainWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters, byte[] workKeyValue)
             +<color:grey>LSFreeTransactionManager prepareGenerateWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters)
 
-            +LSFreeTransactionManager prepareComputeSignature (CommonSignatureComputationData<?> data)
-            +LSFreeTransactionManager prepareVerifySignature (CommonSignatureVerificationData<?> data)
+            +LSFreeTransactionManager prepareComputeSignature (SignatureComputationData<?> data)
+            +LSFreeTransactionManager prepareVerifySignature (SignatureVerificationData<?> data)
 
             +String exportTargetSamContextForAsyncTransaction ()
         }
@@ -135,35 +135,35 @@ package "transaction" as transaction {
             +<color:blue>LSCardTransactionCryptoExtensionFactory createCardTransactionCryptoExtension ()
         }
         +interface "<<<back:pink>CCTransactionCryptoExtension</back>>>\n<color:blue>LSCardTransactionCryptoExtension" as LSCardTransactionCryptoExtension {
-            +<color:blue>LSCardTransactionCryptoExtension prepareComputeSignature (CommonSignatureComputationData<?> data)
-            +<color:blue>LSCardTransactionCryptoExtension prepareVerifySignature (CommonSignatureVerificationData<?> data)
+            +<color:blue>LSCardTransactionCryptoExtension prepareComputeSignature (SignatureComputationData<?> data)
+            +<color:blue>LSCardTransactionCryptoExtension prepareVerifySignature (SignatureVerificationData<?> data)
         }
     }
     together {
-        +interface CommonSignatureComputationData<T extends CommonSignatureComputationData<T>> {
+        +interface "<color:blue>SignatureComputationData" as SignatureComputationData<T extends SignatureComputationData<T>> {
             +T setData (byte[] data, byte kif, byte kvc)
             +T setSignatureSize (int size)
             +T setKeyDiversifier (byte[] diversifier)
 
             +byte[] getSignature ()
         }
-        +interface BasicSignatureComputationData extends CommonSignatureComputationData {
+        +interface BasicSignatureComputationData extends SignatureComputationData {
         }
-        +interface TraceableSignatureComputationData extends CommonSignatureComputationData {
+        +interface TraceableSignatureComputationData extends SignatureComputationData {
             +TraceableSignatureComputationData withSamTraceabilityMode (int offset, boolean usePartialSamSerialNumber)
             +TraceableSignatureComputationData withoutBusyMode ()
 
             +byte[] getSignedData ()
         }
-        +interface CommonSignatureVerificationData<T extends CommonSignatureVerificationData<T>> {
+        +interface "<color:blue>SignatureVerificationData" as SignatureVerificationData<T extends SignatureVerificationData<T>> {
             +T setData (byte[] data, byte[] signature, byte kif, byte kvc)
             +T setKeyDiversifier (byte[] diversifier)
 
             +boolean isSignatureValid ()
         }
-        +interface BasicSignatureVerificationData extends CommonSignatureVerificationData {
+        +interface BasicSignatureVerificationData extends SignatureVerificationData {
         }
-        +interface TraceableSignatureVerificationData extends CommonSignatureVerificationData {
+        +interface TraceableSignatureVerificationData extends SignatureVerificationData {
             +TraceableSignatureVerificationData withSamTraceabilityMode (int offset, boolean isPartialSamSerialNumber, LSRevocationServiceSpi samRevocationService)
             +TraceableSignatureVerificationData withoutBusyMode ()
         }
@@ -279,8 +279,8 @@ TraceableSignatureVerificationData ..> LSRevocationServiceSpi #C_USE : use >
 
 LSSecuritySettingFactory .up.> LSSecuritySetting #C_LINK : provide >
 
-LSFreeTransactionManager .up.> CommonSignatureComputationData #C_USE : use >
-LSFreeTransactionManager .up.> CommonSignatureVerificationData #C_USE : use >
+LSFreeTransactionManager .up.> SignatureComputationData #C_USE : use >
+LSFreeTransactionManager .up.> SignatureVerificationData #C_USE : use >
 
 LSReadTransactionManager .up.> SystemKeyType #C_USE : use >
 
@@ -288,8 +288,8 @@ LSWriteTransactionManager .up.> SystemKeyType #C_USE : use >
 
 LSCardTransactionCryptoExtensionFactory ..> LSCardTransactionCryptoExtension #C_LINK : provide >
 
-LSCardTransactionCryptoExtension ..> CommonSignatureComputationData #C_USE : use >
-LSCardTransactionCryptoExtension ..> CommonSignatureVerificationData #C_USE : use >
+LSCardTransactionCryptoExtension ..> SignatureComputationData #C_USE : use >
+LSCardTransactionCryptoExtension ..> SignatureVerificationData #C_USE : use >
 
 LegacySamSelectionExtensionFactory ..> LegacySamSelectionExtension #C_LINK : provide >
 
