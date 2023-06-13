@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.png>
 
-    Terminal Calypso Crypto Legacy SAM API 1.0.+ (2023-06-08)
+    Terminal Calypso Crypto Legacy SAM API 1.0.+ (2023-06-13)
 end title
 
 ' == THEME ==
@@ -55,7 +55,7 @@ hide <<grey>> stereotype
 
 legend top
     __Colors legend__ :
-    ** <color:grey>**Work in progress...**</color>
+    ** <color:grey>**WIP (work in progress...)**</color>
     * __External public API references__ :
     ** <back:yellow>**Calypsonet Terminal Reader API**</back>
     ** <back:pink>**Calypsonet Terminal Calypso API**</back>
@@ -115,7 +115,7 @@ package "transaction" as transaction {
 
             +String exportTargetSamContextForAsyncTransaction ()
         }
-        +interface LSSecureWriteTransactionManager extends LSWriteTransactionManager {
+        +interface "<color:grey>LSSecureWriteTransactionManager" as LSSecureWriteTransactionManager extends LSWriteTransactionManager {
             +<color:grey>LSSecureWriteTransactionManager prepareLoadPlainWorkKey (byte sourceWorkKeyKif, byte sourceWorkKeyKvc, byte[] workKeyParameters)
         }
         +interface LSAsyncTransactionExecutorManager extends LSTransactionManager {
@@ -192,7 +192,7 @@ package "transaction" as transaction {
 }
 package "sam" as sam {
     +interface "<color:blue>LegacySamSelectionExtensionFactory" as LegacySamSelectionExtensionFactory {
-        +LegacySamSelectionExtension createSamSelection ()
+        +<color:blue>LegacySamSelectionExtension createSamSelectionExtension ()
     }
     +interface "<<<back:yellow>CardSelectionExtension</back>>>\n<color:blue>LegacySamSelectionExtension" as LegacySamSelectionExtension {
         +LegacySamSelectionExtension filterByProductType (LegacySam.ProductType productType)
