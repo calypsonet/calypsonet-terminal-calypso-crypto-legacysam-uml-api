@@ -83,6 +83,7 @@ package "calypso.crypto.legacysam" as legacysam {
     +<color:blue>BasicSignatureVerificationData createBasicSignatureVerificationData ()
     +<color:blue>TraceableSignatureVerificationData createTraceableSignatureVerificationData ()
 }
+
 package "transaction" as transaction {
     +interface TransactionManager<T extends TransactionManager<T>> {
         +T processCommands ()
@@ -195,9 +196,6 @@ package "transaction" as transaction {
 }
 package "sam" as sam {
     +interface "<<<back:yellow>CardSelectionExtension</back>>>\n<color:blue>LegacySamSelectionExtension" as LegacySamSelectionExtension <<blue>> {
-        +LegacySamSelectionExtension filterByProductType (LegacySam.ProductType productType)
-        +LegacySamSelectionExtension filterBySerialNumber (String serialNumberRegex)
-
         +LegacySamSelectionExtension setUnlockData (String unlockData)
 
         +<color:grey>LegacySamSelectionExtension prepareReadSamParameters ()
