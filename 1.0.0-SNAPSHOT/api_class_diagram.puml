@@ -83,6 +83,16 @@ package "calypso.crypto.legacysam" as legacysam {
     +<color:blue>BasicSignatureVerificationData createBasicSignatureVerificationData ()
     +<color:blue>TraceableSignatureVerificationData createTraceableSignatureVerificationData ()
 }
++enum SystemKeyType <<green>> {
+    PERSONALIZATION
+    KEY_MANAGEMENT
+    RELOADING
+    AUTHENTICATION
+}
++enum "<color:blue>CounterIncrementAccess" as CounterIncrementAccess <<green>> {
+    <color:blue>FREE_COUNTING_ENABLED
+    <color:blue>FREE_COUNTING_DISABLED
+}
 
 package "transaction" as transaction {
     +interface TransactionManager<T extends TransactionManager<T>> {
@@ -113,10 +123,6 @@ package "transaction" as transaction {
 
         +T prepareWriteCounterCeiling (int counterNumber, int ceilingValue)
         +<color:blue>T prepareWriteCounterConfiguration (int counterNumber, int ceilingValue, CounterIncrementAccess counterIncrementAccess)
-    }
-    +enum "<color:blue>CounterIncrementAccess" as CounterIncrementAccess <<green>> {
-        <color:blue>FREE_COUNTING_ENABLED
-        <color:blue>FREE_COUNTING_DISABLED
     }
     +interface SecureReadTransactionManager <<blue>> extends ReadTransactionManager {
     }
@@ -188,12 +194,6 @@ package "transaction" as transaction {
         +**SamIOException**
     }
 }
-+enum SystemKeyType <<green>> {
-    PERSONALIZATION
-    KEY_MANAGEMENT
-    RELOADING
-    AUTHENTICATION
-}
 package "sam" as sam {
     +interface "<<<back:yellow>CardSelectionExtension</back>>>\n<color:blue>LegacySamSelectionExtension" as LegacySamSelectionExtension <<blue>> {
         +LegacySamSelectionExtension setUnlockData (String unlockData)
@@ -228,7 +228,7 @@ package "sam" as sam {
 
         +Integer getCounter (int counterNumber)
         +SortedMap<Integer, Integer> getCounters ()
-        +Boolean isManualCounterIncrementAuthorized (int counterNumber)
+        +<color:blue>CounterIncrementAccess getCounterIncrementAccess (int counterNumber)
 
         +Integer getCounterCeiling (int counterNumber)
         +SortedMap<Integer, Integer> getCounterCeilings ()
@@ -271,8 +271,8 @@ FreeTransactionManager ....> SignatureVerificationData #C_USE : use >
 
 ReadTransactionManager .up.> SystemKeyType #C_USE : use >
 
-WriteTransactionManager .up.> SystemKeyType #C_USE : use >
-WriteTransactionManager .up.> CounterIncrementAccess #C_USE : use >
+WriteTransactionManager .up..> SystemKeyType #C_USE : use >
+WriteTransactionManager .up..> CounterIncrementAccess #C_USE : use >
 
 CardTransactionLegacySamExtension ..> SignatureComputationData #C_USE : use >
 CardTransactionLegacySamExtension ..> SignatureVerificationData #C_USE : use >
@@ -282,12 +282,13 @@ LegacySamSelectionExtension ..> SamProductType #C_USE : use >
 LegacySam +-- SamProductType
 LegacySam ..> SamProductType #C_LINK : provide >
 LegacySam ..> KeyParameter #C_LINK : provide >
-LegacySam .up.> SystemKeyType #C_USE : use >
-
+LegacySam .up..> SystemKeyType #C_USE : use >
+LegacySam .up..> CounterIncrementAccess #C_LINK : provide >
 
 ' == LAYOUT ==
 
-' SystemKeyType .[hidden]. LegacySamSelectionFactory
+'LegacySamApiFactory -[hidden]- RuntimeException
+'LegacySamApiFactory -[hidden]right- ApiProperties
 
 ' == STYLE ==
 
