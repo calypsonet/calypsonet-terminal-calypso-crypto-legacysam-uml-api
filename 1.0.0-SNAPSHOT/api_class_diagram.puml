@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.svg{scale=0.2}>
 
-    Terminal Calypso Crypto Legacy SAM API 1.0.+ (2023-06-29)
+    Terminal Calypso Crypto Legacy SAM API 1.0.+ (2023-06-30)
 end title
 
 ' == THEME ==
@@ -197,6 +197,7 @@ package "transaction" as transaction {
 package "sam" as sam {
     +interface "<<<back:yellow>CardSelectionExtension</back>>>\n<color:blue>LegacySamSelectionExtension" as LegacySamSelectionExtension <<blue>> {
         +LegacySamSelectionExtension setUnlockData (String unlockData)
+        +<color:blue>LegacySamSelectionExtension setUnlockData (String unlockData, LegacySam.ProductType productType)
 
         +<color:grey>LegacySamSelectionExtension prepareReadSamParameters ()
 
