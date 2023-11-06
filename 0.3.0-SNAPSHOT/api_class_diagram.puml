@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.svg{scale=0.2}>
 
-    Terminal Calypso Crypto Legacy SAM API 0.3.+ (2023-09-26)
+    Terminal Calypso Crypto Legacy SAM API 0.3.+ (2023-11-06)
 end title
 
 ' == THEME ==
@@ -71,7 +71,7 @@ package "calypso.crypto.legacysam" as legacysam {
 
     +<color:blue>LegacySamSelectionExtension createLegacySamSelectionExtension ()
 
-    +<color:blue><back:pink>SymmetricCryptoTransactionManagerFactory</back> createSymmetricCryptoTransactionManagerFactory (<back:yellow>CardReader</back> samReader, LegacySam sam)
+    +<color:blue><back:pink>SymmetricCryptoCardTransactionManagerFactory</back> createSymmetricCryptoCardTransactionManagerFactory (<back:yellow>CardReader</back> samReader, LegacySam sam)
 
     +<color:blue>SecuritySetting createSecuritySetting ()
 
