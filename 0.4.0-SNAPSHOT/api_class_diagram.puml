@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.svg{scale=0.2}>
 
-    Terminal Calypso Crypto Legacy SAM API 0.4.+ (2023-11-06)
+    Terminal Calypso Crypto Legacy SAM API 0.4.+ (2023-12-21)
 end title
 
 ' == THEME ==
@@ -70,6 +70,7 @@ package "calypso.crypto.legacysam" as legacysam {
 +interface "LegacySamApiFactory" as LegacySamApiFactory <<blue>> {
 
     +LegacySamSelectionExtension createLegacySamSelectionExtension ()
+    +<color:blue>LegacySamSelectionExtension createLegacySamSelectionExtension (<back:yellow>CardReader</back> samReader)
 
     +<back:pink>SymmetricCryptoCardTransactionManagerFactory</back> createSymmetricCryptoCardTransactionManagerFactory (<back:yellow>CardReader</back> samReader, LegacySam sam)
 
@@ -201,6 +202,8 @@ package "sam" as sam {
     +interface "<<<back:yellow>CardSelectionExtension</back>>>\nLegacySamSelectionExtension" as LegacySamSelectionExtension <<blue>> {
         +LegacySamSelectionExtension setUnlockData (String unlockData)
         +LegacySamSelectionExtension setUnlockData (String unlockData, LegacySam.ProductType productType)
+        +<color:blue>LegacySamSelectionExtension setStaticUnlockDataProvider (LegacySamStaticUnlockDataProviderSpi unlockDataProvider)
+        +<color:blue>LegacySamSelectionExtension setDynamicUnlockDataProvider (LegacySamDynamicUnlockDataProviderSpi unlockDataProvider)
 
         +<color:grey>LegacySamSelectionExtension prepareReadSamParameters ()
 
@@ -254,6 +257,12 @@ package "sam" as sam {
     }
 }
 package "spi" as spi {
+    +interface "<color:blue>LegacySamStaticUnlockDataProviderSpi" as LegacySamStaticUnlockDataProviderSpi <<red>> {
+        +<color:blue>byte[] getUnlockData (byte[] samSerialNumber)
+    }
+    +interface "<color:blue>LegacySamDynamicUnlockDataProviderSpi" as LegacySamDynamicUnlockDataProviderSpi <<red>> {
+        +<color:blue>byte[] getUnlockData (byte[] samSerialNumber, byte[] samChallenge)
+    }
     +interface LegacySamRevocationServiceSpi <<red>> {
         +boolean isSamRevoked (byte[] serialNumber)
         +boolean isSamRevoked (byte[] serialNumber, int counterValue)
@@ -280,6 +289,8 @@ WriteTransactionManager .up..> CounterIncrementAccess #C_USE : use >
 CardTransactionLegacySamExtension ..> SignatureComputationData #C_USE : use >
 CardTransactionLegacySamExtension ..> SignatureVerificationData #C_USE : use >
 
+LegacySamSelectionExtension ..> LegacySamStaticUnlockDataProviderSpi #C_USE : use >
+LegacySamSelectionExtension ..> LegacySamDynamicUnlockDataProviderSpi #C_USE : use >
 LegacySamSelectionExtension ..> SamProductType #C_USE : use >
 
 LegacySam +-- SamProductType
