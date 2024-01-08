@@ -70,7 +70,6 @@ package "calypso.crypto.legacysam" as legacysam {
 +interface "LegacySamApiFactory" as LegacySamApiFactory <<blue>> {
 
     +LegacySamSelectionExtension createLegacySamSelectionExtension ()
-    +<color:blue>LegacySamSelectionExtension createLegacySamSelectionExtension (<back:yellow>CardReader</back> samReader)
 
     +<back:pink>SymmetricCryptoCardTransactionManagerFactory</back> createSymmetricCryptoCardTransactionManagerFactory (<back:yellow>CardReader</back> samReader, LegacySam sam)
 
@@ -203,7 +202,9 @@ package "sam" as sam {
         +LegacySamSelectionExtension setUnlockData (String unlockData)
         +LegacySamSelectionExtension setUnlockData (String unlockData, LegacySam.ProductType productType)
         +<color:blue>LegacySamSelectionExtension setStaticUnlockDataProvider (LegacySamStaticUnlockDataProviderSpi unlockDataProvider)
+        +<color:blue>LegacySamSelectionExtension setStaticUnlockDataProvider (LegacySamStaticUnlockDataProviderSpi unlockDataProvider, CardReader targetSamReader)
         +<color:blue>LegacySamSelectionExtension setDynamicUnlockDataProvider (LegacySamDynamicUnlockDataProviderSpi unlockDataProvider)
+        +<color:blue>LegacySamSelectionExtension setDynamicUnlockDataProvider (LegacySamDynamicUnlockDataProviderSpi unlockDataProvider, CardReader targetSamReader)
 
         +<color:grey>LegacySamSelectionExtension prepareReadSamParameters ()
 
