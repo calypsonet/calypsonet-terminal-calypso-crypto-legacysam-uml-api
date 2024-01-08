@@ -201,10 +201,10 @@ package "sam" as sam {
     +interface "<<<back:yellow>CardSelectionExtension</back>>>\nLegacySamSelectionExtension" as LegacySamSelectionExtension <<blue>> {
         +LegacySamSelectionExtension setUnlockData (String unlockData)
         +LegacySamSelectionExtension setUnlockData (String unlockData, LegacySam.ProductType productType)
-        +<color:blue>LegacySamSelectionExtension setStaticUnlockDataProvider (LegacySamStaticUnlockDataProviderSpi unlockDataProvider)
-        +<color:blue>LegacySamSelectionExtension setStaticUnlockDataProvider (LegacySamStaticUnlockDataProviderSpi unlockDataProvider, CardReader targetSamReader)
-        +<color:blue>LegacySamSelectionExtension setDynamicUnlockDataProvider (LegacySamDynamicUnlockDataProviderSpi unlockDataProvider)
-        +<color:blue>LegacySamSelectionExtension setDynamicUnlockDataProvider (LegacySamDynamicUnlockDataProviderSpi unlockDataProvider, CardReader targetSamReader)
+        +<color:blue>LegacySamSelectionExtension setStaticUnlockDataProvider (LegacySamStaticUnlockDataProviderSpi staticUnlockDataProvider)
+        +<color:blue>LegacySamSelectionExtension setStaticUnlockDataProvider (LegacySamStaticUnlockDataProviderSpi staticUnlockDataProvider, CardReader targetSamReader)
+        +<color:blue>LegacySamSelectionExtension setDynamicUnlockDataProvider (LegacySamDynamicUnlockDataProviderSpi dynamicUnlockDataProvider)
+        +<color:blue>LegacySamSelectionExtension setDynamicUnlockDataProvider (LegacySamDynamicUnlockDataProviderSpi dynamicUnlockDataProvider, CardReader targetSamReader)
 
         +<color:grey>LegacySamSelectionExtension prepareReadSamParameters ()
 
