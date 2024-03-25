@@ -60,7 +60,6 @@ legend top
     * __External public API references__ :
     ** <back:yellow>**Calypsonet Terminal Reader API**</back>
     ** <back:pink>**Calypsonet Terminal Calypso Card API**</back>
-    ** <color:blue><back:lightgreen>**Calypsonet Terminal Calypso Certificate API**</back>
 end legend
 
 package "calypso.crypto.legacysam" as legacysam {
@@ -81,7 +80,6 @@ package "calypso.crypto.legacysam" as legacysam {
     +<color:grey>SecureWriteTransactionManager createSecureWriteTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, SecuritySetting securitySetting)
     +AsyncTransactionCreatorManager createAsyncTransactionCreatorManager (String targetSamContext, SecuritySetting securitySetting)
     +AsyncTransactionExecutorManager createAsyncTransactionExecutorManager (<back:yellow>CardReader</back> samReader, LegacySam sam, String samCommands)
-    +<color:blue><back:lightgreen>CalypsoCertificateSignerSpi</back> createCalypsoCertificateSignerSpi(CardReader samReader, LegacySam sam)
 
     +BasicSignatureComputationData createBasicSignatureComputationData ()
     +TraceableSignatureComputationData createTraceableSignatureComputationData ()
@@ -94,13 +92,8 @@ package "calypso.crypto.legacysam" as legacysam {
     RELOADING
     AUTHENTICATION
 }
-+enum GetDataTag <<green>> {
-    FILE_CONTROL_INFORMATION,
-    SAM_STATUS,
-    GROUP_NUMBER,
-    CA_CERTIFICATE,
-    GENERATED_CARD_ECC_KEY_PAIR,
-    GENERATED_CARD_CERTIFICATE
++enum "<color:blue>GetDataTag" as GetDataTag <<green>> {
+    <color:blue>CA_CERTIFICATE
 }
 +enum "CounterIncrementAccess" as CounterIncrementAccess <<green>> {
     FREE_COUNTING_ENABLED
@@ -126,9 +119,6 @@ package "transaction" as transaction {
 
         +T prepareReadCounterStatus (int counterNumber)
         +T prepareReadAllCountersStatus ()
-
-        +<color:blue>T prepareReadTagValue(GetDataTag tag)
-        +<color:blue>T prepareCardGenerateAsymmetricKeyPair()
     }
     +interface WriteTransactionManager<T extends WriteTransactionManager<T>> extends TransactionManager {
         +<color:grey>T prepareWriteSamParameters (byte[] parameters)
@@ -143,6 +133,9 @@ package "transaction" as transaction {
     +interface SecureReadTransactionManager <<blue>> extends ReadTransactionManager {
     }
     +interface FreeTransactionManager <<blue>> extends ReadTransactionManager {
+        +<color:blue>T prepareGetData (GetDataTag tag)
+        +<color:blue>T prepareGenerateCardAsymmetricKeyPair ()
+
         +<color:grey>FreeTransactionManager prepareLoadPlainWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters, byte[] workKeyValue)
         +<color:grey>FreeTransactionManager prepareGenerateWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters)
 
@@ -233,6 +226,8 @@ package "sam" as sam {
 
         +LegacySamSelectionExtension prepareReadCounterStatus (int counterNumber)
         +LegacySamSelectionExtension prepareReadAllCountersStatus ()
+
+        +<color:blue>T prepareGetData (GetDataTag tag)
     }
     +interface "<<<back:yellow>SmartCard</back>>>\nLegacySam" as LegacySam <<blue>> {
         +ProductType getProductType ()
@@ -253,7 +248,7 @@ package "sam" as sam {
         +Integer getCounterCeiling (int counterNumber)
         +SortedMap<Integer, Integer> getCounterCeilings ()
 
-        +byte[] getTagValue(GetDataTag tag)
+        +<color:blue>byte[] getCaCertificate ()
 
         +KeyParameter getSystemKeyParameter (SystemKeyType systemKeyType)
     }
@@ -294,10 +289,10 @@ TraceableSignatureComputationData ..> SamTraceabilityMode #C_USE : use >
 TraceableSignatureVerificationData ...> LegacySamRevocationServiceSpi #C_USE : use >
 TraceableSignatureVerificationData ..> SamTraceabilityMode #C_USE : use >
 
+FreeTransactionManager .up.> GetDataTag #C_USE : use >
 FreeTransactionManager ....> SignatureComputationData #C_USE : use >
 FreeTransactionManager ....> SignatureVerificationData #C_USE : use >
 
-ReadTransactionManager .left.> GetDataTag #C_USE : use >
 ReadTransactionManager .up.> SystemKeyType #C_USE : use >
 
 WriteTransactionManager .up..> SystemKeyType #C_USE : use >
@@ -309,12 +304,12 @@ CardTransactionLegacySamExtension ..> SignatureVerificationData #C_USE : use >
 LegacySamSelectionExtension ..> LegacySamStaticUnlockDataProviderSpi #C_USE : use >
 LegacySamSelectionExtension ..> LegacySamDynamicUnlockDataProviderSpi #C_USE : use >
 LegacySamSelectionExtension ..> SamProductType #C_USE : use >
+LegacySamSelectionExtension .up.> GetDataTag #C_USE : use >
 
 LegacySam +-- SamProductType
 LegacySam ..> SamProductType #C_LINK : provide >
 LegacySam ..> KeyParameter #C_LINK : provide >
 LegacySam .up..> SystemKeyType #C_USE : use >
-LegacySam ..> GetDataTag #C_USE : use >
 LegacySam .up..> CounterIncrementAccess #C_LINK : provide >
 
 ' == LAYOUT ==
