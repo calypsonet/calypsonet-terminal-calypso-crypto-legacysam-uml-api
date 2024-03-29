@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.svg{scale=0.2}>
 
-    Terminal Calypso Crypto Legacy SAM API 0.5.+ (?)
+    Terminal Calypso Crypto Legacy SAM API 0.5.+ (2024-03-29)
 end title
 
 ' == THEME ==
@@ -81,6 +81,9 @@ package "calypso.crypto.legacysam" as legacysam {
     +AsyncTransactionCreatorManager createAsyncTransactionCreatorManager (String targetSamContext, SecuritySetting securitySetting)
     +AsyncTransactionExecutorManager createAsyncTransactionExecutorManager (<back:yellow>CardReader</back> samReader, LegacySam sam, String samCommands)
 
+    +<color:blue>KeyPairContainer createKeyPairContainer ()
+    +<color:blue>CardCertificateComputationData createCardCertificateComputationData ()
+
     +BasicSignatureComputationData createBasicSignatureComputationData ()
     +TraceableSignatureComputationData createTraceableSignatureComputationData ()
     +BasicSignatureVerificationData createBasicSignatureVerificationData ()
@@ -91,6 +94,9 @@ package "calypso.crypto.legacysam" as legacysam {
     KEY_MANAGEMENT
     RELOADING
     AUTHENTICATION
+}
++enum "<color:blue>GetDataTag" as GetDataTag <<green>> {
+    <color:blue>CA_CERTIFICATE
 }
 +enum "CounterIncrementAccess" as CounterIncrementAccess <<green>> {
     FREE_COUNTING_ENABLED
@@ -130,6 +136,10 @@ package "transaction" as transaction {
     +interface SecureReadTransactionManager <<blue>> extends ReadTransactionManager {
     }
     +interface FreeTransactionManager <<blue>> extends ReadTransactionManager {
+        +<color:blue>FreeTransactionManager prepareGetData (GetDataTag tag)
+        +<color:blue>FreeTransactionManager prepareGenerateCardAsymmetricKeyPair (KeyPairContainer keyPairContainer)
+        +<color:blue>FreeTransactionManager prepareComputeCardCertificate (CardCertificateComputationData data)
+
         +<color:grey>FreeTransactionManager prepareLoadPlainWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters, byte[] workKeyValue)
         +<color:grey>FreeTransactionManager prepareGenerateWorkKey (byte workKeyKif, byte workKeyKvc, byte[] workKeyParameters)
 
@@ -153,6 +163,21 @@ package "transaction" as transaction {
     +interface "<<<back:pink>CardTransactionCryptoExtension</back>>>\nCardTransactionLegacySamExtension" as CardTransactionLegacySamExtension {
         +CardTransactionLegacySamExtension prepareComputeSignature (SignatureComputationData<?> data)
         +CardTransactionLegacySamExtension prepareVerifySignature (SignatureVerificationData<?> data)
+    }
+
+    +interface "<color:blue>KeyPairContainer" as KeyPairContainer <<blue>> {
+        +<color:blue>byte[] getKeyPair ()
+    }
+    +interface "<color:blue>CardCertificateComputationData" as CardCertificateComputationData <<blue>> {
+        +<color:blue>CardCertificateComputationData withCardPublicKey (byte[] cardPublicKey)
+        +<color:blue>CardCertificateComputationData withStartDate (int year, int month, int day)
+        +<color:blue>CardCertificateComputationData withEndDate (int year, int month, int day)
+        +<color:blue>CardCertificateComputationData withCardAid (byte[] aid)
+        +<color:blue>CardCertificateComputationData withCardSerialNumber (byte[] serialNumber)
+        +<color:blue>CardCertificateComputationData withCardStartupInfo (byte[] startupInfo)
+        +<color:blue>CardCertificateComputationData withIndex (int index)
+
+        +<color:blue>byte[] getCertificate ()
     }
 
     +interface "SignatureComputationData" as SignatureComputationData<T extends SignatureComputationData<T>> {
@@ -220,6 +245,8 @@ package "sam" as sam {
 
         +LegacySamSelectionExtension prepareReadCounterStatus (int counterNumber)
         +LegacySamSelectionExtension prepareReadAllCountersStatus ()
+
+        +<color:blue>T prepareGetData (GetDataTag tag)
     }
     +interface "<<<back:yellow>SmartCard</back>>>\nLegacySam" as LegacySam <<blue>> {
         +ProductType getProductType ()
@@ -239,6 +266,8 @@ package "sam" as sam {
 
         +Integer getCounterCeiling (int counterNumber)
         +SortedMap<Integer, Integer> getCounterCeilings ()
+
+        +<color:blue>byte[] getCaCertificate ()
 
         +KeyParameter getSystemKeyParameter (SystemKeyType systemKeyType)
     }
@@ -279,6 +308,9 @@ TraceableSignatureComputationData ..> SamTraceabilityMode #C_USE : use >
 TraceableSignatureVerificationData ...> LegacySamRevocationServiceSpi #C_USE : use >
 TraceableSignatureVerificationData ..> SamTraceabilityMode #C_USE : use >
 
+FreeTransactionManager .up.> GetDataTag #C_USE : use >
+FreeTransactionManager ..> KeyPairContainer #C_USE : use >
+FreeTransactionManager ..> CardCertificateComputationData #C_USE : use >
 FreeTransactionManager ....> SignatureComputationData #C_USE : use >
 FreeTransactionManager ....> SignatureVerificationData #C_USE : use >
 
@@ -293,6 +325,7 @@ CardTransactionLegacySamExtension ..> SignatureVerificationData #C_USE : use >
 LegacySamSelectionExtension ..> LegacySamStaticUnlockDataProviderSpi #C_USE : use >
 LegacySamSelectionExtension ..> LegacySamDynamicUnlockDataProviderSpi #C_USE : use >
 LegacySamSelectionExtension ..> SamProductType #C_USE : use >
+LegacySamSelectionExtension .up.> GetDataTag #C_USE : use >
 
 LegacySam +-- SamProductType
 LegacySam ..> SamProductType #C_LINK : provide >
