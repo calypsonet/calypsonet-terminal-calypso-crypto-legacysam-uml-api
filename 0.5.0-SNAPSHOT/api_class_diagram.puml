@@ -169,13 +169,13 @@ package "transaction" as transaction {
         +<color:blue>byte[] getKeyPair ()
     }
     +interface "<color:blue>CardCertificateComputationData" as CardCertificateComputationData <<blue>> {
-        +<color:blue>CardCertificateComputationData withCardPublicKey (byte[] cardPublicKey)
-        +<color:blue>CardCertificateComputationData withStartDate (int year, int month, int day)
-        +<color:blue>CardCertificateComputationData withEndDate (int year, int month, int day)
-        +<color:blue>CardCertificateComputationData withCardAid (byte[] aid)
-        +<color:blue>CardCertificateComputationData withCardSerialNumber (byte[] serialNumber)
-        +<color:blue>CardCertificateComputationData withCardStartupInfo (byte[] startupInfo)
-        +<color:blue>CardCertificateComputationData withIndex (int index)
+        +<color:blue>CardCertificateComputationData setCardPublicKey (byte[] cardPublicKey)
+        +<color:blue>CardCertificateComputationData setStartDate (int year, int month, int day)
+        +<color:blue>CardCertificateComputationData setEndDate (int year, int month, int day)
+        +<color:blue>CardCertificateComputationData setCardAid (byte[] aid)
+        +<color:blue>CardCertificateComputationData setCardSerialNumber (byte[] serialNumber)
+        +<color:blue>CardCertificateComputationData setCardStartupInfo (byte[] startupInfo)
+        +<color:blue>CardCertificateComputationData setIndex (int index)
 
         +<color:blue>byte[] getCertificate ()
     }
