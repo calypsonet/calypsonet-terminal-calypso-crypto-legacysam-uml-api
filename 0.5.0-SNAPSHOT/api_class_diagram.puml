@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.svg{scale=0.2}>
 
-    Terminal Calypso Crypto Legacy SAM API 0.5.+ (2024-04-02)
+    Terminal Calypso Crypto Legacy SAM API 0.5.+ (2024-04-11)
 end title
 
 ' == THEME ==
@@ -170,8 +170,8 @@ package "transaction" as transaction {
     }
     +interface "<color:blue>CardCertificateComputationData" as CardCertificateComputationData <<blue>> {
         +<color:blue>CardCertificateComputationData setCardPublicKey (byte[] cardPublicKey)
-        +<color:blue>CardCertificateComputationData setStartDate (int year, int month, int day)
-        +<color:blue>CardCertificateComputationData setEndDate (int year, int month, int day)
+        +<color:blue>CardCertificateComputationData setStartDate (LocalDate startDate)
+        +<color:blue>CardCertificateComputationData setEndDate (LocalDate endDate)
         +<color:blue>CardCertificateComputationData setCardAid (byte[] aid)
         +<color:blue>CardCertificateComputationData setCardSerialNumber (byte[] serialNumber)
         +<color:blue>CardCertificateComputationData setCardStartupInfo (byte[] startupInfo)
