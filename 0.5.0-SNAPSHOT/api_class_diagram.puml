@@ -245,7 +245,7 @@ package "sam" as sam {
         +LegacySamSelectionExtension prepareReadCounterStatus (int counterNumber)
         +LegacySamSelectionExtension prepareReadAllCountersStatus ()
 
-        +<color:blue>T prepareGetData (GetDataTag tag)
+        +<color:blue>LegacySamSelectionExtension prepareGetData (GetDataTag tag)
     }
     +interface "<<<back:yellow>SmartCard</back>>>\nLegacySam" as LegacySam <<blue>> {
         +ProductType getProductType ()
