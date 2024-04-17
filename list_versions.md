@@ -1,5 +1,6 @@
 | Version | Documents |
 |:---:|---|
+| 0.6.0-SNAPSHOT |[api_class_diagram.svg](0.6.0-SNAPSHOT/api_class_diagram.svg)<br/>|
 | 0.5.0 |[api_class_diagram.svg](0.5.0/api_class_diagram.svg)<br/>|
 | 0.4.0 |[api_class_diagram.svg](0.4.0/api_class_diagram.svg)<br/>|
 | 0.3.0 |[api_class_diagram.svg](0.3.0/api_class_diagram.svg)<br/>|
