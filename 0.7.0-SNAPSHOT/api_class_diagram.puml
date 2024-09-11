@@ -104,10 +104,10 @@ package "calypso.crypto.legacysam" as legacysam {
 }
 
 package "transaction" as transaction {
-    +interface TransactionManager<T extends TransactionManager<T>> {
+    +interface TransactionManager<T extends TransactionManager<T>> <<grey>> {
         +T processCommands ()
     }
-    +interface ReadTransactionManager<T extends ReadTransactionManager<T>> extends TransactionManager {
+    +interface ReadTransactionManager<T extends ReadTransactionManager<T>> <<grey>> extends TransactionManager {
         +<color:blue>T prepareReadSamParameters ()
 
         +<color:grey>T prepareReadCaadRecord (int caadRecordNumber)
@@ -121,11 +121,11 @@ package "transaction" as transaction {
         +T prepareReadCounterStatus (int counterNumber)
         +T prepareReadAllCountersStatus ()
     }
-    +interface WriteTransactionManager<T extends WriteTransactionManager<T>> extends TransactionManager {
+    +interface WriteTransactionManager<T extends WriteTransactionManager<T>> <<grey>> extends TransactionManager {
         +T prepareWriteCounterCeiling (int counterNumber, int ceilingValue)
         +T prepareWriteCounterConfiguration (int counterNumber, int ceilingValue, CounterIncrementAccess counterIncrementAccess)
     }
-    +interface SecureReadTransactionManager <<blue>> extends ReadTransactionManager {
+    +interface "<color:grey>SecureReadTransactionManager" as SecureReadTransactionManager <<blue>> extends ReadTransactionManager {
     }
     +interface FreeTransactionManager <<blue>> extends ReadTransactionManager {
         +FreeTransactionManager prepareGetData (GetDataTag tag)
@@ -134,6 +134,8 @@ package "transaction" as transaction {
 
         +<color:grey>FreeTransactionManager preparePlainLoadWorkKey (byte kif, byte kvc, byte[] workKeyParameters, byte[] workKeyValue)
         +<color:grey>FreeTransactionManager preparePlainExportWorkKey (byte kif, byte kvc, byte[] workKeyParameters, byte[] workKeyValue)
+
+        +<color:blue>FreeTransactionManager preparePlainWriteLock (int lockIndex, byte lockParameters, byte[] lockValue)
 
         +FreeTransactionManager prepareComputeSignature (SignatureComputationData<?> data)
         +FreeTransactionManager prepareVerifySignature (SignatureVerificationData<?> data)
@@ -147,8 +149,9 @@ package "transaction" as transaction {
 
         +<color:blue>SecureWriteTransactionManager prepareTransferSystemKey (SystemKeyType systemKeyType, byte kvc, byte[] systemKeyParameters)
         +<color:blue>SecureWriteTransactionManager prepareTransferWorkKey (byte kif, byte kvc, byte[] workKeyParameters, int recordNumber)
-        +<color:blue>SecureWriteTransactionManager prepareWriteLock(int lockIndex, byte parameters, byte[] lockValue)
-        +<color:blue>SecureWriteTransactionManager prepareTransferLock(byte kif, byte kvc)
+        +<color:blue>SecureWriteTransactionManager prepareTransferLock (int lockIndex)
+
+        +<color:blue>SecureWriteTransactionManager preparePlainWriteLock (int lockIndex, byte lockParameters, byte[] lockValue)
     }
     +interface AsyncTransactionCreatorManager <<blue>> extends WriteTransactionManager {
         +String exportCommands ()
@@ -178,7 +181,7 @@ package "transaction" as transaction {
         +byte[] getCertificate ()
     }
 
-    +interface "SignatureComputationData" as SignatureComputationData<T extends SignatureComputationData<T>> {
+    +interface "SignatureComputationData" as SignatureComputationData<T extends SignatureComputationData<T>> <<grey>> {
         +T setData (byte[] data, byte kif, byte kvc)
         +T setSignatureSize (int size)
         +T setKeyDiversifier (byte[] diversifier)
@@ -197,7 +200,7 @@ package "transaction" as transaction {
         FULL_SERIAL_NUMBER
         TRUNCATED_SERIAL_NUMBER
     }
-    +interface "SignatureVerificationData" as SignatureVerificationData<T extends SignatureVerificationData<T>> {
+    +interface "SignatureVerificationData" as SignatureVerificationData<T extends SignatureVerificationData<T>> <<grey>> {
         +T setData (byte[] data, byte[] signature, byte kif, byte kvc)
         +T setKeyDiversifier (byte[] diversifier)
 
@@ -244,7 +247,7 @@ package "sam" as sam {
 
         +LegacySamSelectionExtension prepareGetData (GetDataTag tag)
     }
-    +interface "<<<back:yellow>SmartCard</back>>>\nLegacySam" as LegacySam <<blue>> {
+    +interface "<<<back:yellow>SmartCard</back>>>\nLegacySam" as LegacySam {
         +ProductType getProductType ()
         +String getProductInfo ()
 
