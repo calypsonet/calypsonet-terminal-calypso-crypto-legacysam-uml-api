@@ -147,6 +147,8 @@ package "transaction" as transaction {
 
         +<color:blue>SecureWriteTransactionManager prepareTransferSystemKey (SystemKeyType systemKeyType, byte kvc, byte[] systemKeyParameters)
         +<color:blue>SecureWriteTransactionManager prepareTransferWorkKey (byte kif, byte kvc, byte[] workKeyParameters, int recordNumber)
+        +<color:blue>SecureWriteTransactionManager prepareWriteLock(int lockIndex, byte parameters, byte[] lockValue)
+        +<color:blue>SecureWriteTransactionManager prepareTransferLock(byte kif, byte kvc)
     }
     +interface AsyncTransactionCreatorManager <<blue>> extends WriteTransactionManager {
         +String exportCommands ()
