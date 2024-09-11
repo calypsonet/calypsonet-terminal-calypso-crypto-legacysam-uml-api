@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.svg{scale=0.2}>
 
-    Terminal Calypso Crypto Legacy SAM API 0.7.+ (2024-08-29)
+    Terminal Calypso Crypto Legacy SAM API 0.7.+ (2024-09-11)
 end title
 
 ' == THEME ==
@@ -145,7 +145,7 @@ package "transaction" as transaction {
 
         +<color:grey>SecureWriteTransactionManager prepareWriteCaadRecord (int caadRecordNumber, byte[] caad)
 
-        +<color:blue>SecureWriteTransactionManager prepareTransferSystemKey (SystemKeyType systemKeyType, byte[] systemKeyParameters)
+        +<color:blue>SecureWriteTransactionManager prepareTransferSystemKey (SystemKeyType systemKeyType, byte kvc, byte[] systemKeyParameters)
         +<color:blue>SecureWriteTransactionManager prepareTransferWorkKey (byte kif, byte kvc, byte[] workKeyParameters, int recordNumber)
     }
     +interface AsyncTransactionCreatorManager <<blue>> extends WriteTransactionManager {
