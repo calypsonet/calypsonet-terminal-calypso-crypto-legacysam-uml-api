@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.svg{scale=0.2}>
 
-    Terminal Calypso Crypto Legacy SAM API 0.7.+ (2024-09-11)
+    Terminal Calypso Crypto Legacy SAM API 0.7.+ (2024-11-26)
 end title
 
 ' == THEME ==
@@ -77,7 +77,7 @@ package "calypso.crypto.legacysam" as legacysam {
 
     +FreeTransactionManager createFreeTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
     +<color:grey>SecureReadTransactionManager createSecureReadTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, SecuritySetting securitySetting)
-    +<color:grey>SecureWriteTransactionManager createSecureWriteTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, SecuritySetting securitySetting)
+    +<color:blue>SecureWriteTransactionManager createSecureWriteTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, SecuritySetting securitySetting)
     +AsyncTransactionCreatorManager createAsyncTransactionCreatorManager (String targetSamContext, SecuritySetting securitySetting)
     +AsyncTransactionExecutorManager createAsyncTransactionExecutorManager (<back:yellow>CardReader</back> samReader, LegacySam sam, String samCommands)
 
@@ -148,8 +148,14 @@ package "transaction" as transaction {
         +<color:grey>SecureWriteTransactionManager prepareWriteCaadRecord (int caadRecordNumber, byte[] caad)
 
         +<color:blue>SecureWriteTransactionManager prepareTransferSystemKey (SystemKeyType systemKeyType, byte kvc, byte[] systemKeyParameters)
-        +<color:blue>SecureWriteTransactionManager prepareTransferWorkKey (byte kif, byte kvc, byte[] workKeyParameters, int recordNumber)
-        +<color:blue>SecureWriteTransactionManager prepareTransferLock (int lockIndex)
+        +<color:blue>SecureWriteTransactionManager prepareTransferSystemKeyDiversified (SystemKeyType systemKeyType, byte kvc, byte[] systemKeyParameters)
+
+        +<color:blue>SecureWriteTransactionManager prepareTransferWorkKey (byte kif, byte kvc, byte[] workKeyParameters, int targetRecordNumber)
+        +<color:blue>SecureWriteTransactionManager prepareTransferWorkKeyDiversified (byte kif, byte kvc, byte[] workKeyParameters, int targetRecordNumber)
+        +<color:blue>SecureWriteTransactionManager prepareTransferWorkKeyDiversified (byte kif, byte kvc, byte[] workKeyParameters, int targetRecordNumber, byte[] diversifier)
+
+        +<color:blue>SecureWriteTransactionManager prepareTransferLock (int lockIndex, byte lockParameters)
+        +<color:blue>SecureWriteTransactionManager prepareTransferLockDiversified (int lockIndex, byte lockParameters)
 
         +<color:blue>SecureWriteTransactionManager preparePlainWriteLock (int lockIndex, byte lockParameters, byte[] lockValue)
     }
