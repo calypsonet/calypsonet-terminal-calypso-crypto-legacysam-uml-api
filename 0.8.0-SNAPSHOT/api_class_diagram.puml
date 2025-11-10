@@ -2,7 +2,7 @@
 title
     <img:../assets/logo.svg{scale=0.2}>
 
-    Terminal Calypso Crypto Legacy SAM API 0.8.+ (2025-11-06)
+    Terminal Calypso Crypto Legacy SAM API 0.8.+ (2025-11-10)
 end title
 
 ' == THEME ==
@@ -224,9 +224,9 @@ package "transaction" as transaction {
         +**SamRevokedException**
         +**InconsistentDataException**: Number of R-APDUs != number of C-APDUs
         +**InvalidSignatureException**
-        +**UnexpectedCommandStatusException**
-        +**ReaderIOException**: SAM reader communication is broken.
-        +**SamIOException**
+        +<color:red><s>**UnexpectedCommandStatusException**
+        +<color:red><s>**ReaderIOException**: SAM reader communication is broken.
+        +<color:red><s>**SamIOException**
     }
 }
 package "sam" as sam {
