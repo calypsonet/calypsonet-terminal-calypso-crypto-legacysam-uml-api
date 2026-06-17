@@ -144,7 +144,7 @@ order to avoid ambiguity.
 
 === References
 
-[cols="1,4", options="header"]
+[cols="1,1,4", options="header"]
 |===
 | Reference | Identifier | Title
 
@@ -236,7 +236,7 @@ TCCL --> SAM  : drives
 
 === Logical packages
 
-[cols="1,4", options="header"]
+[cols="1,1,4", options="header"]
 |===
 | Package                                              | Role     | Summary
 
@@ -258,7 +258,6 @@ TCCL --> SAM  : drives
 
 * link:api_class_diagram.puml[`api_class_diagram.puml`] -- canonical UML model,
 * link:api_class_diagram.svg[`api_class_diagram.svg`]   -- rendered representation,
-* link:api_class_diagram_diff.puml[`api_class_diagram_diff.puml`] -- delta against the previous version.
 
 image::../api_class_diagram.svg[Terminal Calypso Crypto Legacy SAM API class diagram, align=center]
 
