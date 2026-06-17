@@ -1,0 +1,1661 @@
+= Terminal Calypso Crypto Legacy SAM API -- Technical Specification
+Calypso Networks Association <https://calypsonet.org>
+v1.0.0-SNAPSHOT, {docdate}
+:doctype: book
+:toc: left
+:toclevels: 4
+:sectnums:
+:sectnumlevels: 4
+:sectanchors:
+:sectlinks:
+:data-uri:
+:icons: font
+:rouge-style: github
+:source-highlighter: rouge
+:docinfodir: {docdir}/assets
+:docinfo: shared
+:imagesoutdir: {docdir}/gen
+:pdf-themesdir: {docdir}/assets
+:pdf-theme: calypso
+:pdf-fontsdir: {docdir}/assets/fonts
+:experimental:
+:xrefstyle: short
+:figure-caption: Figure
+:table-caption: Table
+:example-caption: Example
+:appendix-caption: Appendix
+:organization: Calypso Networks Association
+:short-name: CNA
+:spec-name: Terminal Calypso Crypto Legacy SAM API
+:spec-id: CNA-TCCL-API
+:spec-version: 1.0.0-SNAPSHOT
+
+[abstract]
+== Abstract
+
+This document is the official technical specification of the **{spec-name}** standardised
+by the **{organization}** ({short-name}).
+It defines, in a language-agnostic way, the interfaces, classes, enumerations, exceptions, structural
+relationships and behavioural requirements that any conforming implementation of the {spec-name} MUST satisfy.
+
+The {spec-name} exposes the abstractions required to operate Calypso *Legacy SAM* products (SAM C1, HSM C1, S1E1,
+S1Dx). It is the symmetric counterpart of the *Terminal Calypso Crypto Symmetric API* ([CNA-TCCS-API]) for the
+specific case where the crypto module is a legacy Calypso SAM.
+
+[discrete]
+== Document Status
+
+[cols="1h,3", grid=rows, frame=ends]
+|===
+| Specification ID    | {spec-id}
+| Version             | {spec-version}
+| Status              | Working Draft
+| Editor              | {organization}
+| Reference model     | link:api_class_diagram.puml[`api_class_diagram.puml`] / link:api_class_diagram.svg[`api_class_diagram.svg`]
+| Reference license   | Eclipse Public License -- v 2.0 (EPL-2.0)
+|===
+
+[discrete]
+== Revision History
+
+[cols="1,2,2,5", options="header"]
+|===
+| Version | Date | Editor | Description
+| {spec-version} | _TBD_ | CNA  | _Working draft consolidating SAM operations, signature workflows, asynchronous transactions and PKI-related operations._
+|===
+
+// =============================================================================
+== Introduction
+
+=== Purpose
+
+The {spec-name} defines the public surface used by terminal applications and card-transaction managers to:
+
+* select, unlock and identify a Legacy SAM;
+* read SAM parameters, system keys, work keys and event counters;
+* write counter ceilings and configurations (with or without a control SAM);
+* compute and verify *basic* and *traceable* signatures using SAM keys;
+* perform PKI-related operations on the SAM: key-pair generation, card-certificate computation, lock-file
+  transfer/write;
+* operate *asynchronous* write transactions through a create/execute split;
+* enrich a Calypso card transaction with SAM-backed crypto operations through a card-transaction extension.
+
+The API spans three categories of transaction managers:
+
+[cols="1,4", options="header"]
+|===
+| Manager family
+| Purpose
+
+| `FreeTransactionManager`
+| Operations on the SAM without involving a *control SAM* -- the typical "read" workflow plus signature computation and verification.
+
+| `SecureWriteTransactionManager`
+| Synchronous *write* operations on the SAM, requiring a *control SAM* to authorise the key/lock transfers.
+
+| `AsyncTransactionCreatorManager` / `AsyncTransactionExecutorManager`
+| Two-step *asynchronous* write workflow: the creator prepares the command stream using a control SAM, the executor replays it on the target SAM.
+|===
+
+=== Scope
+
+This specification covers:
+
+* the SAM data model (`LegacySam`, `SamParameters`, `KeyParameter`);
+* the selection extension used to enrich a Calypso reader selection with SAM-specific commands;
+* the transaction managers, signature data carriers, key-pair and certificate computation data carriers;
+* the security setting carrier and the card-transaction crypto extension;
+* the SPIs implemented by the application to provide unlock data and revocation information;
+* the exceptions raised by the transaction managers.
+
+The following topics are *out of scope*:
+
+* the on-the-wire APDU dialogue with the SAM (handled internally by implementations),
+* the algorithms used by the SAM to derive keys or sign data,
+* the storage of certificates and key parameters outside the SAM.
+
+=== Conformance
+
+A software product conforms to this specification if and only if:
+
+. it implements every interface and class defined in <<sec_specification>> with the operations and semantics
+  prescribed in this document,
+. it raises exceptions exclusively of the types defined in <<sec_exceptions>> for the situations described,
+. it preserves the structural and behavioural relationships described in <<sec_architecture>>.
+
+Throughout this specification, the key words **MUST**, **MUST NOT**, **SHALL**, **SHALL NOT**, **SHOULD**,
+**SHOULD NOT**, **RECOMMENDED**, **MAY** and **OPTIONAL** are to be interpreted as described in **RFC 2119** and
+**RFC 8174** when, and only when, they appear in all capitals.
+
+=== Document Conventions
+
+==== Language-agnostic types
+
+[cols="1,3,3", options="header"]
+|===
+| Symbolic type   | Description                                                     | Typical bindings
+| `string`        | Sequence of characters, UTF-8 encoded by default.                | `String`, `string`, `str`.
+| `boolean`       | Two-state truth value.                                           | `boolean`, `bool`.
+| `integer`       | Signed 32-bit integer.                                           | `int`, `Int32`.
+| `byte`          | Signed 8-bit value.                                              | `byte`, `i8`.
+| `byte array`    | Ordered sequence of octets.                                      | `byte[]`, `[u8]`, `bytes`.
+| `date`          | Calendar date without a time-of-day or timezone.                 | `LocalDate`, `Date`.
+| `sortedMap<K,V>`| Associative array sorted by key.                                 | `SortedMap<K,V>`, `BTreeMap<K,V>`.
+| `void`          | Indicates that an operation returns no value.                    | `void`, `Unit`, `None`.
+|===
+
+=== References
+
+[cols="1,1,4", options="header"]
+|===
+| Reference | Identifier | Title
+
+| [[ref_rfc2119]] [RFC 2119]
+| RFC 2119
+| _Key words for use in RFCs to Indicate Requirement Levels_.
+
+| [[ref_cna_tr]]  [CNA-TR-API]
+| CNA-TR-API
+| _Terminal Reader API Specification_, {organization}.
+
+| [[ref_cna_tcc]] [CNA-TCC-API]
+| CNA-TCC-API
+| _Terminal Calypso Card API Specification_, {organization}.
+
+| [[ref_cna_tccs]] [CNA-TCCS-API]
+| CNA-TCCS-API
+| _Terminal Calypso Crypto Symmetric API Specification_, {organization}.
+|===
+
+// =============================================================================
+== Terms, Definitions and Abbreviations
+
+=== Terms and Definitions
+
+[cols="1,4", options="header"]
+|===
+| Term              | Definition
+
+| SAM               | Secure Application Module -- a tamper-resistant cryptographic module used to perform Calypso operations.
+| Legacy SAM        | A SAM compliant with the original Calypso SAM specifications (SAM C1, HSM C1, S1E1, S1Dx).
+| Control SAM       | SAM used to authorise sensitive operations on a *target SAM* (e.g. key transfer).
+| Target SAM        | SAM on which the operations are applied.
+| System Key        | Key dedicated to the management of the SAM itself (personalisation, key management, reloading, authentication).
+| Work Key          | Key used for application-level cryptographic operations.
+| Event Counter     | Numeric counter managed by the SAM, typically used to track the usage of a work key.
+| Counter Ceiling   | Maximum value an event counter is allowed to reach before being considered exhausted.
+| Unlock Data       | Secret value required to unlock a locked SAM. Can be static or dynamic.
+| Lock File         | SAM file controlling whether the SAM is locked or unlocked.
+| SAM Traceability  | Mode in which the signature embeds the signing SAM serial number and the value of the counter associated with the signing key.
+| Busy Mode         | Defensive mode that rate-limits repeated "PSO Verify Signature" attempts after a failure.
+|===
+
+=== Abbreviations
+
+[cols="1,4", options="header"]
+|===
+| Abbreviation | Expansion
+
+| APDU | Application Protocol Data Unit
+| AID  | Application IDentifier
+| CA   | Certification Authority
+| CNA  | Calypso Networks Association
+| HSM  | Hardware Security Module
+| KIF  | Key Identifier
+| KVC  | Key Version Code
+| PKI  | Public Key Infrastructure
+| PSO  | Perform Security Operation (ISO/IEC 7816-8 command class)
+| SAM  | Secure Application Module
+| SPI  | Service Provider Interface
+| SV   | Stored Value
+| UML  | Unified Modelling Language
+|===
+
+// =============================================================================
+[[sec_architecture]]
+== Architectural Overview
+
+=== Functional positioning
+
+[plantuml, target=architecture-overview, format=svg]
+....
+@startuml
+skinparam shadowing false
+skinparam roundCorner 8
+
+component "Terminal Application" as App
+component "Terminal Calypso Card API\n[CNA-TCC-API]" as TCC
+component "Terminal Calypso Crypto\nSymmetric API [CNA-TCCS-API]" as TCCS
+component "Terminal Calypso Crypto\nLegacy SAM API (this spec)" as TCCL
+component "Legacy SAM\n(SAM C1, HSM C1, S1E1, S1Dx)" as SAM
+
+App  --> TCCL : uses
+App  --> TCC  : uses
+TCCL ..> TCCS : implements (factory)
+TCCL --> SAM  : drives
+@enduml
+....
+
+=== Logical packages
+
+[cols="1,1,4", options="header"]
+|===
+| Package                                              | Role     | Summary
+
+| `calypso.crypto.legacysam`                           | Public API
+| Factory, properties and shared enumerations (system key types, counter increment access, GetData tags).
+
+| `calypso.crypto.legacysam.sam`                       | Public API
+| SAM data model: `LegacySam`, `KeyParameter`, `SamParameters`, `LegacySamSelectionExtension`.
+
+| `calypso.crypto.legacysam.spi`                       | SPI
+| Application-implemented SPIs for unlock data computation and SAM revocation.
+
+| `calypso.crypto.legacysam.transaction`               | Public API
+| Transaction managers, signature/key/certificate data carriers, security setting, traceability mode and exceptions.
+|===
+
+[[sec_class_diagram]]
+=== Reference class diagram
+
+* link:api_class_diagram.puml[`api_class_diagram.puml`] -- canonical UML model,
+* link:api_class_diagram.svg[`api_class_diagram.svg`]   -- rendered representation,
+* link:api_class_diagram_diff.puml[`api_class_diagram_diff.puml`] -- delta against the previous version.
+
+image::../api_class_diagram.svg[Terminal Calypso Crypto Legacy SAM API class diagram, align=center]
+
+// =============================================================================
+[[sec_specification]]
+== API Specification
+
+=== Package calypso.crypto.legacysam
+
+[[type_LegacySamApiProperties]]
+==== LegacySamApiProperties
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Final class
+| Package  | `calypso.crypto.legacysam`
+| Since    | 0.1.0
+| Purpose  | Exposes the immutable properties of the {spec-name}.
+|===
+
+===== Constants
+
+[cols="1,1,1,4", options="header"]
+|===
+| Name      | Type     | Since  | Description
+| `VERSION` | `string` | 0.1.0  | String representation of the version of the API (e.g. `"1.0"`).
+|===
+
+[[type_LegacySamApiFactory]]
+==== LegacySamApiFactory
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam`
+| Since    | 0.3.0
+| Purpose  | Factory used by the application to obtain instances of every public type provided by the API.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createLegacySamSelectionExtension() -> LegacySamSelectionExtension`
+| Since       | 0.3.0
+| Description | Returns a new <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
+| Returns     | A non-`null` instance.
+| Throws      | None.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createSymmetricCryptoCardTransactionManagerFactory(samReader: CardReader, sam: LegacySam) -> SymmetricCryptoCardTransactionManagerFactory`
+| Since       | 0.3.0
+| Description | Returns a new factory of [CNA-TCCS-API] `SymmetricCryptoCardTransactionManager` to be used to secure a Calypso card transaction with the supplied legacy SAM.
+| Parameters  | `samReader` -- the reader through which the SAM is reached. +
+                `sam` -- the associated control SAM.
+| Returns     | A non-`null` factory.
+| Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createSecuritySetting() -> SecuritySetting`
+| Since       | 0.3.0
+| Description | Returns a new <<type_SecuritySetting,`SecuritySetting`>>.
+| Returns     | A non-`null` instance.
+| Throws      | None.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createFreeTransactionManager(samReader: CardReader, sam: LegacySam) -> FreeTransactionManager`
+| Since       | 0.3.0
+| Description | Returns a new <<type_FreeTransactionManager,`FreeTransactionManager`>> bound to the supplied SAM and reader.
+| Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createSecureWriteTransactionManager(samReader: CardReader, sam: LegacySam, securitySetting: SecuritySetting) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description | Returns a new <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>> bound to the supplied SAM, reader and security setting.
+| Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createAsyncTransactionCreatorManager(targetSamContext: string, securitySetting: SecuritySetting) -> AsyncTransactionCreatorManager`
+| Since       | 0.3.0
+| Description
+| Returns a new <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>. The target SAM context
+  MUST have been produced by <<op_exportTargetSamContextForAsyncTransaction,`FreeTransactionManager.exportTargetSamContextForAsyncTransaction`>>.
+| Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createAsyncTransactionExecutorManager(samReader: CardReader, sam: LegacySam, samCommands: string) -> AsyncTransactionExecutorManager`
+| Since       | 0.3.0
+| Description | Returns a new <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>. The `samCommands` MUST have been produced by an <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>.
+| Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createKeyPairContainer() -> KeyPairContainer`
+| Since       | 0.5.0
+| Description | Returns a new empty <<type_KeyPairContainer,`KeyPairContainer`>>.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createLegacyCardCertificateComputationData() -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
+| Description | Returns a new empty <<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createBasicSignatureComputationData() -> BasicSignatureComputationData`
+| Since       | 0.3.0
+| Description | Returns a new empty <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>>.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createTraceableSignatureComputationData() -> TraceableSignatureComputationData`
+| Since       | 0.3.0
+| Description | Returns a new empty <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createBasicSignatureVerificationData() -> BasicSignatureVerificationData`
+| Since       | 0.3.0
+| Description | Returns a new empty <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>>.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `createTraceableSignatureVerificationData() -> TraceableSignatureVerificationData`
+| Since       | 0.3.0
+| Description | Returns a new empty <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
+|===
+
+[[type_CounterIncrementAccess]]
+==== CounterIncrementAccess
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Enumeration
+| Package  | `calypso.crypto.legacysam`
+| Since    | 0.3.0
+| Purpose  | Possible access rights for incrementing event counters using the *Increment Counter* command.
+|===
+
+[cols="1,1,4", options="header"]
+|===
+| Value                       | Since | Description
+| `FREE_COUNTING_ENABLED`     | 0.3.0 | Enables the use of *Increment Counter* on the targeted event counter.
+| `FREE_COUNTING_DISABLED`    | 0.3.0 | Forbids the use of *Increment Counter* on the targeted event counter.
+|===
+
+[[type_GetDataTag]]
+==== GetDataTag
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Enumeration
+| Package  | `calypso.crypto.legacysam`
+| Since    | 0.5.0
+| Purpose  | Output data tags retrievable through the *Get Data* command. MAY NOT be applicable to all products.
+|===
+
+[cols="1,1,4", options="header"]
+|===
+| Value              | Since | Description
+| `CA_CERTIFICATE`   | 0.5.0 | CA Certificate (CACert). MAY be unavailable.
+|===
+
+[[type_SystemKeyType]]
+==== SystemKeyType
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Enumeration
+| Package  | `calypso.crypto.legacysam`
+| Since    | 0.2.0
+| Purpose  | System key types of a legacy SAM. Each type corresponds to a specific role.
+|===
+
+[cols="1,1,4", options="header"]
+|===
+| Value              | Since | Description
+| `PERSONALIZATION`  | 0.2.0 | Personalisation key -- deciphers and authorises the writing of parameters and system keys.
+| `KEY_MANAGEMENT`   | 0.2.0 | Work-file key -- deciphers and authorises the writing of work keys.
+| `RELOADING`        | 0.2.0 | Reloading key -- deciphers and authorises the writing of counter ceilings.
+| `AUTHENTICATION`   | 0.2.0 | Authentication key -- generates the signature of data read from the SAM.
+|===
+
+=== Package calypso.crypto.legacysam.sam
+
+[[type_KeyParameter]]
+==== KeyParameter
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.sam`
+| Since    | 0.2.0
+| Purpose  | Carries the parameters of a key managed by the SAM (system or work key).
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getRawData() -> byte array`
+| Since       | 0.2.0
+| Description | Returns the raw key parameter data: 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getKif() -> byte`
+| Since       | 0.2.0
+| Description | Returns the key identifier (KIF).
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getKvc() -> byte`
+| Since       | 0.2.0
+| Description | Returns the key version (KVC).
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getAlgorithm() -> byte`
+| Since       | 0.2.0
+| Description | Returns the key algorithm identifier byte.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getParameterValue(parameterNumber: integer) -> byte`
+| Since       | 0.2.0
+| Description | Returns the value of the parameter whose number is supplied.
+| Parameters  | `parameterNumber` -- the parameter number, in range `[1..10]`.
+| Throws      | `IllegalArgumentException` -- if the argument is out of range.
+|===
+
+[[type_SamParameters]]
+==== SamParameters
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.sam`
+| Since    | 0.7.0
+| Purpose  | Carries the parameters of the SAM as a single immutable record.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getRawData() -> byte array`
+| Since       | 0.7.0
+| Description | Returns the raw data of the SAM parameters as a 29-byte array.
+|===
+
+[[type_LegacySam]]
+==== LegacySam
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.sam`
+| Since    | 0.1.0
+| Extends  | `SmartCard` ([CNA-TR-API])
+| Purpose  | Dynamic view of a legacy SAM, updated from selection to the end of the transaction.
+|===
+
+A `LegacySam` instance is obtained by casting the [CNA-TR-API] `SmartCard` produced by the selection scenario
+when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getProductType() -> ProductType`
+| Since       | 0.1.0
+| Description | Returns the SAM product type. Possible values: `SAM_C1`, `HSM_C1`, `SAM_S1E1`, `SAM_S1DX`, `UNKNOWN`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getProductInfo() -> string`
+| Since       | 0.1.0
+| Description | Returns a textual description of the SAM.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getSerialNumber() -> byte array`
+| Since       | 0.1.0
+| Description | Returns the SAM serial number.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getPlatform() -> byte`
+| Since       | 0.1.0
+| Description | Returns the platform identifier byte.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getApplicationType() -> byte`
+| Since       | 0.1.0
+| Description | Returns the application type byte.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getApplicationSubType() -> byte`
+| Since       | 0.1.0
+| Description | Returns the application subtype byte.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getSoftwareIssuer() -> byte`
+| Since       | 0.1.0
+| Description | Returns the software issuer identifier.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getSoftwareVersion() -> byte`
+| Since       | 0.1.0
+| Description | Returns the software version number.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getSoftwareRevision() -> byte`
+| Since       | 0.1.0
+| Description | Returns the software revision number.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getCounter(counterNumber: integer) -> integer`
+| Since       | 0.1.0
+| Description | Returns the value of the supplied counter (`[0..26]`). `null` if the value is not set.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getCounters() -> sortedMap<integer, integer>`
+| Since       | 0.1.0
+| Description | Returns the values of the known counters, keyed by counter number.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getCounterIncrementAccess(counterNumber: integer) -> CounterIncrementAccess`
+| Since       | 0.2.0
+| Description | Returns the increment-access mode for the supplied counter; `null` if unknown.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getCounterCeiling(counterNumber: integer) -> integer`
+| Since       | 0.1.0
+| Description | Returns the ceiling value of the supplied counter; `null` if not set.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getCounterCeilings() -> sortedMap<integer, integer>`
+| Since       | 0.1.0
+| Description | Returns the known ceiling values, keyed by ceiling number.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getCaCertificate() -> byte array`
+| Since       | 0.5.0
+| Description | Returns the CA certificate retrieved from the SAM (384 bytes); `null` if not available.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getSamParameters() -> SamParameters`
+| Since       | 0.7.0
+| Description | Returns the SAM parameters; `null` if not available.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getSystemKeyParameter(systemKeyType: SystemKeyType) -> KeyParameter`
+| Since       | 0.2.0
+| Description | Returns the parameters of the supplied system key; `null` if not available.
+| Throws      | `IllegalArgumentException` -- if the argument is `null`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getWorkKeyParameter(recordNumber: integer) -> KeyParameter`
+| Since       | 0.7.0
+| Description | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available.
+| Throws      | `IllegalArgumentException` -- if the record number is out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getWorkKeyParameter(kif: byte, kvc: byte) -> KeyParameter`
+| Since       | 0.7.0
+| Description | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available.
+|===
+
+===== Enumeration `ProductType`
+
+Nested inside `LegacySam`.
+
+[cols="1,1,4", options="header"]
+|===
+| Value       | Since | Description
+| `SAM_C1`    | 0.1.0 | SAM C1.
+| `HSM_C1`    | 0.1.0 | SAM C1 HSM.
+| `SAM_S1E1`  | 0.1.0 | SAM S1E1.
+| `SAM_S1DX`  | 0.1.0 | SAM S1Dx.
+| `UNKNOWN`   | 0.1.0 | Unidentified SAM.
+|===
+
+[[type_LegacySamSelectionExtension]]
+==== LegacySamSelectionExtension
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.sam`
+| Since    | 0.3.0
+| Extends  | `CardSelectionExtension` ([CNA-TR-API])
+| Purpose  | Enriches the [CNA-TR-API] selection scenario with SAM-specific commands (Unlock, Read Parameters, etc.).
+|===
+
+If the SAM is *locked*, three mutually exclusive unlocking strategies are offered:
+
+. The application supplies directly the 16-byte unlock value expected by the SAM (static mode) -- see
+  `setUnlockData`.
+. The application supplies a <<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>
+  to compute the unlock value (possibly diversified with the SAM serial number).
+. The application supplies a <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>
+  to obtain the 8-byte value expected by the SAM in dynamic mode (computed by an origin SAM).
+
+When the unlocking data is supplied by a provider, a [CNA-TR-API] `CardReader` is required for additional
+exchanges. The reader MAY be provided either at selection-extension creation time, or later through the relevant
+overload (e.g. dynamic SAM reader allocation).
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setUnlockData(unlockData: string) -> LegacySamSelectionExtension`
+| Since       | 0.1.0
+| Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `string`) used to unlock a SAM C1 and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
+| Throws      | `IllegalArgumentException` -- if the unlock data is `null`, malformed or out of range. + `IllegalStateException` -- if an unlocking setting has already been set.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setUnlockData(unlockData: string, productType: LegacySam.ProductType) -> LegacySamSelectionExtension`
+| Since       | 0.3.0
+| Description | Same as the previous overload, with an explicit target product type.
+| Throws      | `IllegalArgumentException` -- if any argument is `null`, malformed or out of range. + `IllegalStateException` -- if an unlocking setting has already been set.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi) -> LegacySamSelectionExtension`
+| Since       | 0.4.0
+| Description | Sets the static-unlock-data provider. To be used when the SAM reader is supplied later in the workflow. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
+| Throws      | `IllegalArgumentException` -- if the argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
+| Since       | 0.4.0
+| Description | Same as the previous overload, with the target SAM reader supplied at creation time.
+| Throws      | `IllegalArgumentException` -- if any argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi) -> LegacySamSelectionExtension`
+| Since       | 0.4.0
+| Description | Sets the dynamic-unlock-data provider. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
+| Throws      | `IllegalArgumentException` -- if the argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
+| Since       | 0.4.0
+| Description | Same as the previous overload, with the target SAM reader supplied at creation time.
+| Throws      | `IllegalArgumentException` -- if any argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareReadSamParameters() -> LegacySamSelectionExtension`
+| Since       | 0.7.0
+| Description | Schedules the execution of a *Read Parameters* command. The result MUST be available via `LegacySam.getSamParameters`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareReadSystemKeyParameters(systemKeyType: SystemKeyType) -> LegacySamSelectionExtension`
+| Since       | 0.3.0
+| Description | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result MUST be available via `LegacySam.getSystemKeyParameter`.
+| Throws      | `IllegalArgumentException` -- if the argument is `null`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareReadWorkKeyParameters(recordNumber: integer) -> LegacySamSelectionExtension`
+| Since       | 0.7.0
+| Description | Schedules the execution of a *Read Key Parameters* command for the work key at the supplied record number (`[1..126]`).
+| Throws      | `IllegalArgumentException` -- if the record number is out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareReadWorkKeyParameters(kif: byte, kvc: byte) -> LegacySamSelectionExtension`
+| Since       | 0.7.0
+| Description | Schedules the execution of a *Read Key Parameters* command for the work key referenced by its KIF/KVC pair.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareReadCounterStatus(counterNumber: integer) -> LegacySamSelectionExtension`
+| Since       | 0.3.0
+| Description
+| Schedules the execution of *Read Event Counter* and *Read Ceiling* commands to read the status of the supplied
+  counter (`[0..26]`). Implementations MAY optimise the actual number of commands sent to the SAM by reading the
+  whole record at once.
+| Throws      | `IllegalArgumentException` -- if the counter number is out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareReadAllCountersStatus() -> LegacySamSelectionExtension`
+| Since       | 0.3.0
+| Description | Schedules the reading of the status of every counter.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareGetData(tag: GetDataTag) -> LegacySamSelectionExtension`
+| Since       | 0.6.0
+| Description | Schedules the execution of a *Get Data* command for the supplied tag. The result MUST be accessible via a dedicated getter (e.g. `LegacySam.getCaCertificate`).
+| Throws      | `IllegalArgumentException` -- if `tag` is `null`.
+|===
+
+=== Package calypso.crypto.legacysam.spi
+
+[[type_LegacySamDynamicUnlockDataProviderSpi]]
+==== LegacySamDynamicUnlockDataProviderSpi
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface (SPI)
+| Package  | `calypso.crypto.legacysam.spi`
+| Since    | 0.4.0
+| Purpose  | Computes the dynamic unlock data expected by the SAM.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getUnlockData(samSerialNumber: byte array, samChallenge: byte array) -> byte array`
+| Since       | 0.4.0
+| Description
+| Returns the dynamic unlock data computed by an origin SAM. The serial number and the challenge are required to
+  prepare the *SAM Generate Unlock* command.
+| Returns     | An 8-byte `byte array`.
+|===
+
+[[type_LegacySamStaticUnlockDataProviderSpi]]
+==== LegacySamStaticUnlockDataProviderSpi
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface (SPI)
+| Package  | `calypso.crypto.legacysam.spi`
+| Since    | 0.4.0
+| Purpose  | Computes the static unlock data expected by the target SAM.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getUnlockData(samSerialNumber: byte array) -> byte array`
+| Since       | 0.4.0
+| Description | Returns the static unlock data expected by the target SAM. The serial number MAY be used as a diversifier.
+| Returns     | A 16-byte `byte array`.
+|===
+
+[[type_LegacySamRevocationServiceSpi]]
+==== LegacySamRevocationServiceSpi
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface (SPI)
+| Package  | `calypso.crypto.legacysam.spi`
+| Since    | 0.1.0
+| Purpose  | Checks dynamically whether a SAM is revoked.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `isSamRevoked(serialNumber: byte array) -> boolean`
+| Since       | 0.1.0
+| Description | Checks if the SAM with the supplied serial number is revoked. The serial number MAY be complete (4 bytes) or partial (3 LSBytes).
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `isSamRevoked(serialNumber: byte array, counterValue: integer) -> boolean`
+| Since       | 0.1.0
+| Description | Checks if the SAM with the supplied serial number and counter value is revoked.
+|===
+
+=== Package calypso.crypto.legacysam.transaction
+
+[[type_SecuritySetting]]
+==== SecuritySetting
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.2.0
+| Purpose  | Security setting carrier for legacy-SAM transactions secured by a control SAM.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setControlSamResource(samReader: CardReader, controlSam: LegacySam) -> SecuritySetting`
+| Since       | 0.2.0
+| Description | Sets the control SAM and the reader through which it can be accessed.
+| Throws      | `IllegalArgumentException` -- if any argument is `null`, or if the product type of `controlSam` is `UNKNOWN`.
+|===
+
+[[type_SamTraceabilityMode]]
+==== SamTraceabilityMode
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Enumeration
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.3.0
+| Purpose  | SAM traceability mode used with traceable signature operations.
+|===
+
+[cols="1,1,4", options="header"]
+|===
+| Value                       | Since | Description
+| `FULL_SERIAL_NUMBER`        | 0.3.0 | Full SAM serial number (4 bytes).
+| `TRUNCATED_SERIAL_NUMBER`   | 0.3.0 | Truncated SAM serial number (3 LSBytes).
+|===
+
+[[type_TransactionManager]]
+==== TransactionManager<T extends TransactionManager<T>>
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Extends  | `CardTransactionManager<T>` ([CNA-TR-API])
+| Purpose  | Common base of every legacy-SAM transaction manager. Provides command processing for the SAM.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `processCommands() -> T` `[deprecated]`
+| Since       | 0.1.0
+| Description | Processes all previously prepared commands.
+| Throws      | `ReaderIOException`, `SamIOException`, `InvalidSignatureException`, `UnexpectedCommandStatusException`, `InconsistentDataException`.
+| Status      | *Deprecated.* SHALL be replaced by `processCommands(channelControl)`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `processCommands(channelControl: ChannelControl) -> T`
+| Since       | 1.0.0
+| Description | Inherited from [CNA-TR-API]. Additionally throws `InvalidSignatureException` (signature verification failure) and `InconsistentDataException` (data inconsistency).
+|===
+
+[[type_ReadTransactionManager]]
+==== ReadTransactionManager<T extends ReadTransactionManager<T>>
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Extends  | <<type_TransactionManager,`TransactionManager<T>`>>
+| Purpose  | Adds *read*-oriented operations to the common transaction manager: SAM parameters, system/work keys and counter status.
+|===
+
+The operations on this interface mirror their equivalents on
+<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>. `prepareReadSamParameters`,
+`prepareReadSystemKeyParameters`, `prepareReadWorkKeyParameters` (both overloads), `prepareReadCounterStatus` and
+`prepareReadAllCountersStatus` MUST behave identically.
+
+[[type_FreeTransactionManager]]
+==== FreeTransactionManager
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Extends  | <<type_ReadTransactionManager,`ReadTransactionManager<FreeTransactionManager>`>>
+| Purpose  | Transaction manager used when no control SAM is involved.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareGetData(tag: GetDataTag) -> FreeTransactionManager`
+| Since       | 0.5.0
+| Description | Schedules the execution of a *Get Data* command for the supplied tag.
+| Throws      | `IllegalArgumentException` -- if `tag` is `null`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareGenerateCardAsymmetricKeyPair(keyPairContainer: KeyPairContainer) -> FreeTransactionManager`
+| Since       | 0.5.0
+| Description | Schedules the execution of a *Card Generate Asymmetric Key Pair* command. The result MUST be written into the supplied container.
+| Throws      | `IllegalArgumentException` -- if `keyPairContainer` is `null`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareComputeCardCertificate(data: LegacyCardCertificateComputationData) -> FreeTransactionManager`
+| Since       | 0.5.0
+| Description | Schedules the execution of a *PSO Compute Certificate* command. The result MUST be written into the supplied data carrier.
+| Throws      | `IllegalArgumentException` -- if `data` is `null`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> FreeTransactionManager`
+| Since       | 0.7.0
+| Description | Schedules the execution of a *Write Key* command to set the lock file of the SAM. The lock value is transferred in plain text.
+| Throws      | `IllegalArgumentException` -- if `lockValue` is `null` or out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> FreeTransactionManager`
+| Since       | 0.1.0
+| Description
+| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command. The signature MAY be used to
+  certify card-resident data or terminal-emitted data. For the latter, the terminal SAM SHOULD carry a signing
+  work key diversified with its own serial number.
+| Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> FreeTransactionManager`
+| Since       | 0.1.0
+| Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command.
+| Throws
+| `IllegalArgumentException` -- if the input data is inconsistent. +
+  `SamRevokedException` -- if the signature was computed in *SAM traceability* mode, the revocation check was
+  requested and the SAM is revoked (traceable signatures only).
+|===
+
+[[op_exportTargetSamContextForAsyncTransaction]]
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `exportTargetSamContextForAsyncTransaction() -> string`
+| Since       | 0.2.0
+| Description
+| Executes the commands required to obtain the security context of the target SAM. The returned `string` MUST be
+  passed to <<type_LegacySamApiFactory,`LegacySamApiFactory.createAsyncTransactionCreatorManager`>>.
+| Returns     | A non-empty `string`.
+|===
+
+[[type_WriteTransactionManager]]
+==== WriteTransactionManager<T extends WriteTransactionManager<T>>
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.2.0
+| Extends  | <<type_TransactionManager,`TransactionManager<T>`>>
+| Purpose  | Common base of every *write* transaction manager. Writes MAY be performed synchronously or asynchronously.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareWriteCounterCeiling(counterNumber: integer, ceilingValue: integer) -> T`
+| Since       | 0.2.0
+| Description
+| Schedules a *Write Ceilings* command for a single counter. The ceiling value MUST be a positive integer less
+  than or equal to `FFFFFAh`.
+
+  *Warning:* in an asynchronous transaction, the content of the <<type_LegacySam,`LegacySam`>> object MUST NOT be
+  updated.
+| Throws      | `IllegalArgumentException` -- if any argument is out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature
+| `prepareWriteCounterConfiguration(counterNumber: integer, ceilingValue: integer, counterIncrementAccess: CounterIncrementAccess) -> T`
+| Since       | 0.2.0
+| Description
+| Schedules a *Write Ceilings* command for a counter ceiling and its free-incrementation configuration. Because
+  the command writes a full record of nine counters, the application MUST have first read the status of the
+  counters of that record (or have called this method for each of the other eight counters of the same record),
+  otherwise the manager MUST raise an exception when processing the commands.
+| Throws      | `IllegalArgumentException` -- if any argument is out of range.
+|===
+
+[[type_SecureWriteTransactionManager]]
+==== SecureWriteTransactionManager
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.7.0
+| Extends  | <<type_WriteTransactionManager,`WriteTransactionManager<SecureWriteTransactionManager>`>>
+| Purpose  | *Synchronous* write transaction manager that requires a control SAM. Used to write SAM parameters, transfer keys and transfer lock files.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareWriteSamParameters(parameters: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description | Schedules a *Write Parameters* command. The supplied buffer MUST be 29 bytes long.
+| Throws      | `IllegalArgumentException` -- if the argument is `null` or out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareTransferSystemKey(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description | Schedules a *Write Key* command transferring a system key from the control SAM to the target SAM. `systemKeyParameters` MUST be 29 bytes long.
+| Throws      | `IllegalArgumentException` -- if any argument is `null` or out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareTransferSystemKeyDiversified(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description | Same as `prepareTransferSystemKey`, but the key is first diversified with the target SAM serial number.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareTransferWorkKey(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description
+| Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM. `workKeyParameters`
+  MUST be 29 bytes long. `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
+| Throws      | `IllegalArgumentException` -- if any argument is `null` or out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description | Same as `prepareTransferWorkKey`, with diversification by the target SAM serial number.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer, diversifier: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description | Same as `prepareTransferWorkKey`, with diversification by the supplied 8-byte diversifier.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareTransferLock(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description | Schedules a *Write Key* command transferring a lock file from the control SAM to the target SAM.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareTransferLockDiversified(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description | Same as `prepareTransferLock`, with diversification by the target SAM serial number.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
+| Description | Schedules a *Write Key* command to set the lock file with a plain-text 16-byte lock value.
+| Throws      | `IllegalArgumentException` -- if `lockValue` is `null` or out of range.
+|===
+
+[[type_AsyncTransactionCreatorManager]]
+==== AsyncTransactionCreatorManager
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.2.0
+| Extends  | <<type_WriteTransactionManager,`WriteTransactionManager<AsyncTransactionCreatorManager>`>>
+| Purpose  | Prepares write commands using a control SAM and exports them as a serialised stream for later replay by an <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `exportCommands() -> string`
+| Since       | 0.2.0
+| Description | Returns a non-empty `string` carrying the prepared commands.
+|===
+
+[[type_AsyncTransactionExecutorManager]]
+==== AsyncTransactionExecutorManager
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.2.0
+| Extends  | <<type_TransactionManager,`TransactionManager<AsyncTransactionExecutorManager>`>>
+| Purpose  | Executes a command stream prepared by an <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>. Declares no additional operation.
+|===
+
+[[type_SignatureComputationData]]
+==== SignatureComputationData<T extends SignatureComputationData<T>>
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Purpose  | Common base contract for the input/output data of a signature computation.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setData(data: byte array, kif: byte, kvc: byte) -> T`
+| Since       | 0.1.0
+| Description | Sets the data to sign and the KIF/KVC of the key.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setSignatureSize(size: integer) -> T`
+| Since       | 0.1.0
+| Description | Sets the expected signature size in bytes (`[1..8]`). The default size is 8 bytes; the longer the signature, the more secure it is.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
+| Since       | 0.1.0
+| Description | Sets an explicit 1-to-8-byte key diversifier. By default, the diversifier is the full serial number of the target card or SAM.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getSignature() -> byte array`
+| Since       | 0.1.0
+| Description | Returns the computed signature (1 to 8 bytes).
+| Throws      | `IllegalStateException` -- if the command has not yet been processed.
+|===
+
+[[type_BasicSignatureComputationData]]
+==== BasicSignatureComputationData
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Extends  | `SignatureComputationData<BasicSignatureComputationData>`
+| Purpose  | Specialisation for basic signature computation using the *Data Cipher* command.
+|===
+
+`BasicSignatureComputationData` declares no additional operation.
+
+[[type_TraceableSignatureComputationData]]
+==== TraceableSignatureComputationData
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Extends  | `SignatureComputationData<TraceableSignatureComputationData>`
+| Purpose  | Specialisation for traceable signature computation using the *PSO Compute Signature* command.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `withSamTraceabilityMode(offset: integer, samTraceabilityMode: SamTraceabilityMode) -> TraceableSignatureComputationData`
+| Since       | 0.1.0
+| Description
+| Enables the *SAM traceability* mode. The SAM replaces the bits after the supplied offset by its serial number
+  (3 or 4 bytes) followed by the new value (3 bytes) of the counter associated with the signing key. The mode is
+  disabled by default.
+| Throws      | `IllegalArgumentException` -- if `samTraceabilityMode` is `null`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `withoutBusyMode() -> TraceableSignatureComputationData`
+| Since       | 0.1.0
+| Description
+| Disables the *Busy* mode. The Busy mode (enabled by default) rejects repeated *PSO Verify Signature* attempts
+  for a few seconds after a failure. Implementations SHOULD recommend keeping the Busy mode enabled for
+  security-sensitive flows.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getSignedData() -> byte array`
+| Since       | 0.1.0
+| Description | Returns the data that was actually signed. If *SAM traceability* mode was enabled, the returned data MUST embed the SAM traceability information.
+| Throws      | `IllegalStateException` -- if the command has not yet been processed.
+|===
+
+[[type_SignatureVerificationData]]
+==== SignatureVerificationData<T extends SignatureVerificationData<T>>
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Purpose  | Common base contract for the input/output data of a signature verification.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setData(data: byte array, signature: byte array, kif: byte, kvc: byte) -> T`
+| Since       | 0.1.0
+| Description | Sets the signed data, the signature and the KIF/KVC of the verification key.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
+| Since       | 0.1.0
+| Description | Sets an explicit 1-to-8-byte key diversifier. Default: full serial number of the target card or SAM.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `isSignatureValid() -> boolean`
+| Since       | 0.1.0
+| Description | Indicates whether the signature is valid.
+| Throws      | `IllegalStateException` -- if the command has not yet been processed.
+|===
+
+[[type_BasicSignatureVerificationData]]
+==== BasicSignatureVerificationData
+
+Specialisation of <<type_SignatureVerificationData,`SignatureVerificationData`>> for verifications performed with
+the *Data Cipher* command. Declares no additional operation.
+
+[[type_TraceableSignatureVerificationData]]
+==== TraceableSignatureVerificationData
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Extends  | `SignatureVerificationData<TraceableSignatureVerificationData>`
+| Purpose  | Specialisation for verifications performed with the *PSO Verify Signature* command.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature
+| `withSamTraceabilityMode(offset: integer, samTraceabilityMode: SamTraceabilityMode, samRevocationService: LegacySamRevocationServiceSpi) -> TraceableSignatureVerificationData`
+| Since       | 0.1.0
+| Description
+| Indicates that the signature was computed in *SAM traceability* mode. When `samRevocationService` is supplied,
+  the revocation status of the signing SAM MUST be checked through it.
+| Throws      | `IllegalArgumentException` -- if `samTraceabilityMode` is `null`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `withoutBusyMode() -> TraceableSignatureVerificationData`
+| Since       | 0.1.0
+| Description
+| Indicates that the signature was *not* computed in *Busy* mode. By default the signature is assumed to have been
+  computed in Busy mode; in that case, if the verification fails with the *busy* status word, the application
+  SHOULD retry until the busy window expires (a few seconds, never more than ten).
+|===
+
+[[type_KeyPairContainer]]
+==== KeyPairContainer
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.5.0
+| Purpose  | Carries the output data of `prepareGenerateCardAsymmetricKeyPair`.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getKeyPair() -> byte array`
+| Since       | 0.5.0
+| Description | Returns the generated key pair as a 96-byte `byte array`.
+|===
+
+[[type_LegacyCardCertificateComputationData]]
+==== LegacyCardCertificateComputationData
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.5.0
+| Purpose  | Carries the input/output data of `prepareComputeCardCertificate`.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setCardPublicKey(cardPublicKey: byte array) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
+| Description | Sets the card public key (64 bytes, *secp256r1* curve).
+| Throws      | `IllegalArgumentException` -- if the key is `null` or out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setStartDate(startDate: date) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
+| Description | Sets the start of the validity period. Optional.
+| Throws      | `IllegalArgumentException` -- if the date is `null`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setEndDate(endDate: date) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
+| Description | Sets the end of the validity period. Optional.
+| Throws      | `IllegalArgumentException` -- if the date is `null`.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setCardAid(aid: byte array) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
+| Description | Sets the AID of the autonomous PKI application of the target card. The AID MUST be 5 to 16 bytes and MUST NOT contain only zero bytes.
+| Throws      | `IllegalArgumentException` -- if the AID is `null`, out of range, or contains only zero bytes.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setCardSerialNumber(serialNumber: byte array) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
+| Description | Sets the 8-byte card serial number.
+| Throws      | `IllegalArgumentException` -- if the argument is `null` or out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `setCardStartupInfo(startupInfo: byte array) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
+| Description | Sets the 7-byte startup info to embed in the certificate.
+| Throws      | `IllegalArgumentException` -- if the argument is `null` or out of range.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `getCertificate() -> byte array`
+| Since       | 0.5.0
+| Description | Returns the 316-byte certificate generated by the SAM, or `null` if the command has not been processed yet.
+|===
+
+[[type_CardTransactionLegacySamExtension]]
+==== CardTransactionLegacySamExtension
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Interface
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.3.0
+| Extends  | `CardTransactionCryptoExtension` ([CNA-TCC-API])
+| Purpose
+| Card-transaction crypto extension enriching the [CNA-TCC-API] command set with SAM-backed signature computation
+  and verification. Instances are obtained through `SecureRegularModeTransactionManager.getCryptoExtension` or
+  `SecureExtendedModeTransactionManager.getCryptoExtension`.
+|===
+
+===== Operations
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> CardTransactionLegacySamExtension`
+| Since       | 0.3.0
+| Description | Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command in the context of a Calypso card transaction.
+| Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
+|===
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> CardTransactionLegacySamExtension`
+| Since       | 0.3.0
+| Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command in the context of a Calypso card transaction.
+| Throws
+| `IllegalArgumentException` -- if the input data is inconsistent. +
+  `SamRevokedException` -- if a revoked traceable signature was detected.
+|===
+
+// =============================================================================
+[[sec_exceptions]]
+== Exceptions
+
+[[type_InconsistentDataException]]
+=== InconsistentDataException
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Runtime exception (final)
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Purpose
+| Indicates that inconsistent data have been detected -- for example a de-synchronisation between APDU requests
+  and responses, or a discrepancy between data read inside and outside a session.
+|===
+
+===== Constructors
+
+* `InconsistentDataException(message: string)` -- _since 0.1.0_.
+
+[[type_InvalidSignatureException]]
+=== InvalidSignatureException
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Runtime exception (final)
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Purpose  | Indicates that a signature is invalid.
+|===
+
+===== Constructors
+
+* `InvalidSignatureException(message: string)` -- _since 0.1.0_.
+* `InvalidSignatureException(message: string, cause: throwable)` -- _since 0.1.0_.
+
+[[type_SamRevokedException]]
+=== SamRevokedException
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Runtime exception (final)
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Purpose  | Indicates that the SAM is revoked.
+|===
+
+===== Constructors
+
+* `SamRevokedException(message: string)` -- _since 0.1.0_.
+
+[[type_ReaderIOException]]
+=== ReaderIOException `[deprecated]`
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Runtime exception (final, deprecated)
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Purpose  | Indicates a communication error with the reader of the card or SAM.
+|===
+
+*Deprecated.* SHALL be replaced by [CNA-TR-API] `ReaderCommunicationException`.
+
+===== Constructors
+
+* `ReaderIOException(message: string)` -- _since 0.1.0_.
+* `ReaderIOException(message: string, cause: throwable)` -- _since 0.1.0_.
+
+[[type_SamIOException]]
+=== SamIOException `[deprecated]`
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Runtime exception (final, deprecated)
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Purpose  | Indicates a communication error with the SAM (timeout, network error, ...).
+|===
+
+*Deprecated.* SHALL be replaced by [CNA-TR-API] `CardCommunicationException`.
+
+===== Constructors
+
+* `SamIOException(message: string)` -- _since 0.1.0_.
+* `SamIOException(message: string, cause: throwable)` -- _since 0.1.0_.
+
+[[type_UnexpectedCommandStatusException]]
+=== UnexpectedCommandStatusException `[deprecated]`
+
+[cols="1h,4", grid=rows, frame=ends]
+|===
+| Kind     | Runtime exception (final, deprecated)
+| Package  | `calypso.crypto.legacysam.transaction`
+| Since    | 0.1.0
+| Purpose  | Indicates that an unexpected command status was returned by the card or SAM (e.g. SAM rejection of the secure-session closing, non-Calypso compliance).
+|===
+
+*Deprecated.* SHALL be replaced by [CNA-TR-API] `InvalidCardResponseException`.
+
+===== Constructors
+
+* `UnexpectedCommandStatusException(message: string, cause: throwable)` -- _since 0.1.0_.
+
+// =============================================================================
+[[sec_behaviours]]
+== Behavioural Requirements
+
+. A `LegacySam` instance MUST be a *dynamic view* of the SAM image: every successful command processed by a
+  synchronous transaction manager MUST update the relevant fields. Asynchronous write managers MUST NOT update
+  the local `LegacySam`.
+. The three unlocking strategies offered by `LegacySamSelectionExtension` MUST be mutually exclusive; an
+  `IllegalStateException` MUST be raised if more than one is configured.
+. Within a `SecureWriteTransactionManager`, every operation that targets a *target SAM* MUST involve a *control
+  SAM* configured through <<type_SecuritySetting,`SecuritySetting`>>.
+. The two-step asynchronous workflow (`AsyncTransactionCreatorManager` then `AsyncTransactionExecutorManager`)
+  MUST preserve the order of the commands and MUST reject the execution if the exported context does not match
+  the actual SAM image.
+. The signature/verification managers MUST defer reading the signature or the validity flag until the commands
+  have been processed; calling the corresponding getters before `processCommands(...)` MUST raise
+  `IllegalStateException`.
+. The deprecated `ReaderIOException`, `SamIOException` and `UnexpectedCommandStatusException` MUST NOT be raised
+  by new implementations; their replacements in [CNA-TR-API] MUST be used instead.
+
+// =============================================================================
+[appendix]
+== Copyright and License
+
+Copyright (c) {organization}, https://calypsonet.org.
+
+This specification is distributed under the terms of the *Eclipse Public License -- v 2.0* (EPL-2.0). A copy of the
+license is available in the link:LICENSE[`LICENSE`] file alongside this document and at
+https://www.eclipse.org/legal/epl-2.0/.
