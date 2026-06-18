@@ -257,8 +257,6 @@ TCCL --> SAM  : drives
 
 The following UML class diagram provides a visual representation of the types and relationships defined by this specification:
 
-
-
 [plantuml, target="api_class_diagram", format="svg"]
 ----
 include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class diagram, align=center]
@@ -1574,10 +1572,6 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
   and responses, or a discrepancy between data read inside and outside a session.
 |===
 
-===== Constructors
-
-* `InconsistentDataException(message: string)`.
-
 [[type_InvalidSignatureException]]
 === InvalidSignatureException
 
@@ -1589,11 +1583,6 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Purpose  | Indicates that a signature is invalid.
 |===
 
-===== Constructors
-
-* `InvalidSignatureException(message: string)`.
-* `InvalidSignatureException(message: string, cause: throwable)`.
-
 [[type_SamRevokedException]]
 === SamRevokedException
 
@@ -1604,10 +1593,6 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Since    | 0.1.0
 | Purpose  | Indicates that the SAM is revoked.
 |===
-
-===== Constructors
-
-* `SamRevokedException(message: string)`.
 
 // =============================================================================
 [[sec_behaviours]]
@@ -1636,6 +1621,4 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 
 Copyright (c) {organization}, https://calypsonet.org.
 
-This specification is distributed under the terms of the *Eclipse Public License -- v 2.0* (EPL-2.0). A copy of the
-license is available in the link:LICENSE[`LICENSE`] file alongside this document and at
-https://www.eclipse.org/legal/epl-2.0/.
+This specification is distributed under the terms of the *Eclipse Public License -- v 2.0* (EPL-2.0). See https://www.eclipse.org/legal/epl-2.0/ for the license text.
