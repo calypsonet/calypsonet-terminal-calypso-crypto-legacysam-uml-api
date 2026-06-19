@@ -547,7 +547,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `getParameterValue(parameterNumber: integer) -> byte`
 | Since       | 0.2.0
 | Description | Returns the value of the parameter whose number is supplied.
-| Parameters  | `parameterNumber` -- the parameter number, in range `[1..10]`.
+| Parameters  | `parameterNumber` -- the number of the parameter to get (in range `[1..10]`).
 | Returns     | A `byte` value.
 | Throws      | `IllegalArgumentException` -- if the argument is out of range.
 |===
