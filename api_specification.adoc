@@ -747,7 +747,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 | Throws      | None.
 |===
 
-===== Enumeration `ProductType`
+===== Enumeration ProductType
 
 Nested inside `LegacySam`.
 
