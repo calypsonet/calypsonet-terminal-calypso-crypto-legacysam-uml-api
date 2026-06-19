@@ -1707,6 +1707,8 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 == Exceptions
 
+All exception types defined by this specification are *unchecked* (runtime) and MAY be propagated to the application.
+
 [[type_InconsistentDataException]]
 === InconsistentDataException
 
