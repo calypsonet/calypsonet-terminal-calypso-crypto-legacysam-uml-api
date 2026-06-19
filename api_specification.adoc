@@ -303,6 +303,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createLegacySamSelectionExtension() -> LegacySamSelectionExtension`
+| Since       | 0.3.0
 | Description | Returns a new <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 | Returns     | A non-`null` instance.
 | Throws      | None.
@@ -311,6 +312,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createSymmetricCryptoCardTransactionManagerFactory(samReader: CardReader, sam: LegacySam) -> SymmetricCryptoCardTransactionManagerFactory`
+| Since       | 0.3.0
 | Description | Returns a new factory of [CNA-TCCS-API] `SymmetricCryptoCardTransactionManager` to be used to secure a Calypso card transaction with the supplied legacy SAM.
 | Parameters  | `samReader` -- the reader through which the SAM is reached. +
                 `sam` -- the associated control SAM.
@@ -321,6 +323,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createSecuritySetting() -> SecuritySetting`
+| Since       | 0.3.0
 | Description | Returns a new <<type_SecuritySetting,`SecuritySetting`>>.
 | Returns     | A non-`null` instance.
 | Throws      | None.
@@ -329,6 +332,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createFreeTransactionManager(samReader: CardReader, sam: LegacySam) -> FreeTransactionManager`
+| Since       | 0.3.0
 | Description | Returns a new <<type_FreeTransactionManager,`FreeTransactionManager`>> bound to the supplied SAM and reader.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
@@ -337,6 +341,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createSecureWriteTransactionManager(samReader: CardReader, sam: LegacySam, securitySetting: SecuritySetting) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description | Returns a new <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>> bound to the supplied SAM, reader and security setting.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
@@ -345,6 +350,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createAsyncTransactionCreatorManager(targetSamContext: string, securitySetting: SecuritySetting) -> AsyncTransactionCreatorManager`
+| Since       | 0.3.0
 | Description
 | Returns a new <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>. The target SAM context
   MUST have been produced by <<op_exportTargetSamContextForAsyncTransaction,`FreeTransactionManager.exportTargetSamContextForAsyncTransaction`>>.
@@ -354,6 +360,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createAsyncTransactionExecutorManager(samReader: CardReader, sam: LegacySam, samCommands: string) -> AsyncTransactionExecutorManager`
+| Since       | 0.3.0
 | Description | Returns a new <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>. The `samCommands` MUST have been produced by an <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>.
 | Returns     | A `AsyncTransactionExecutorManager`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
@@ -362,6 +369,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createKeyPairContainer() -> KeyPairContainer`
+| Since       | 0.5.0
 | Description | Returns a new empty <<type_KeyPairContainer,`KeyPairContainer`>>.
 | Returns     | A `KeyPairContainer`.
 | Throws      | None.
@@ -370,6 +378,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createLegacyCardCertificateComputationData() -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
 | Description | Returns a new empty <<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>.
 | Returns     | A `LegacyCardCertificateComputationData`.
 | Throws      | None.
@@ -378,6 +387,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createBasicSignatureComputationData() -> BasicSignatureComputationData`
+| Since       | 0.3.0
 | Description | Returns a new empty <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>>.
 | Returns     | A `BasicSignatureComputationData`.
 | Throws      | None.
@@ -386,6 +396,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createTraceableSignatureComputationData() -> TraceableSignatureComputationData`
+| Since       | 0.3.0
 | Description | Returns a new empty <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
 | Returns     | A `TraceableSignatureComputationData`.
 | Throws      | None.
@@ -402,6 +413,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createTraceableSignatureVerificationData() -> TraceableSignatureVerificationData`
+| Since       | 0.3.0
 | Description | Returns a new empty <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
 | Returns     | A `TraceableSignatureVerificationData`.
 | Throws      | None.
@@ -559,6 +571,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getProductType() -> ProductType`
+| Since       | 0.1.0
 | Description | Returns the SAM product type. Possible values: `SAM_C1`, `HSM_C1`, `SAM_S1E1`, `SAM_S1DX`, `UNKNOWN`.
 | Returns     | A `ProductType`.
 | Throws      | None.
@@ -567,6 +580,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getProductInfo() -> string`
+| Since       | 0.1.0
 | Description | Returns a textual description of the SAM.
 | Returns     | A `string`.
 | Throws      | None.
@@ -575,6 +589,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getSerialNumber() -> byte array`
+| Since       | 0.1.0
 | Description | Returns the SAM serial number.
 | Returns     | A `byte array`.
 | Throws      | None.
@@ -583,6 +598,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getPlatform() -> byte`
+| Since       | 0.1.0
 | Description | Returns the platform identifier byte.
 | Returns     | A `byte` value.
 | Throws      | None.
@@ -591,6 +607,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getApplicationType() -> byte`
+| Since       | 0.1.0
 | Description | Returns the application type byte.
 | Returns     | A `byte` value.
 | Throws      | None.
@@ -599,6 +616,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getApplicationSubType() -> byte`
+| Since       | 0.1.0
 | Description | Returns the application subtype byte.
 | Returns     | A `byte` value.
 | Throws      | None.
@@ -607,6 +625,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getSoftwareIssuer() -> byte`
+| Since       | 0.1.0
 | Description | Returns the software issuer identifier.
 | Returns     | A `byte` value.
 | Throws      | None.
@@ -615,6 +634,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getSoftwareVersion() -> byte`
+| Since       | 0.1.0
 | Description | Returns the software version number.
 | Returns     | A `byte` value.
 | Throws      | None.
@@ -623,6 +643,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getSoftwareRevision() -> byte`
+| Since       | 0.1.0
 | Description | Returns the software revision number.
 | Returns     | A `byte` value.
 | Throws      | None.
@@ -631,6 +652,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getCounter(counterNumber: integer) -> integer`
+| Since       | 0.1.0
 | Description | Returns the value of the supplied counter (`[0..26]`). `null` if the value is not set.
 | Returns     | An `integer` value.
 | Throws      | None.
@@ -639,6 +661,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getCounters() -> sortedMap<integer, integer>`
+| Since       | 0.1.0
 | Description | Returns the values of the known counters, keyed by counter number.
 | Returns     | A `sortedMap<integer, integer>`.
 | Throws      | None.
@@ -647,6 +670,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getCounterIncrementAccess(counterNumber: integer) -> CounterIncrementAccess`
+| Since       | 0.2.0
 | Description | Returns the increment-access mode for the supplied counter; `null` if unknown.
 | Returns     | A `CounterIncrementAccess`.
 | Throws      | None.
@@ -655,6 +679,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getCounterCeiling(counterNumber: integer) -> integer`
+| Since       | 0.1.0
 | Description | Returns the ceiling value of the supplied counter; `null` if not set.
 | Returns     | An `integer` value.
 | Throws      | None.
@@ -663,6 +688,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getCounterCeilings() -> sortedMap<integer, integer>`
+| Since       | 0.1.0
 | Description | Returns the known ceiling values, keyed by ceiling number.
 | Returns     | A `sortedMap<integer, integer>`.
 | Throws      | None.
@@ -671,6 +697,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getCaCertificate() -> byte array`
+| Since       | 0.5.0
 | Description | Returns the CA certificate retrieved from the SAM (384 bytes); `null` if not available.
 | Returns     | A `byte array`.
 | Throws      | None.
@@ -679,6 +706,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getSamParameters() -> SamParameters`
+| Since       | 0.7.0
 | Description | Returns the SAM parameters; `null` if not available.
 | Returns     | A `SamParameters`.
 | Throws      | None.
@@ -687,6 +715,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getSystemKeyParameter(systemKeyType: SystemKeyType) -> KeyParameter`
+| Since       | 0.2.0
 | Description | Returns the parameters of the supplied system key; `null` if not available.
 | Returns     | A `KeyParameter`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null`.
@@ -695,6 +724,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getWorkKeyParameter(recordNumber: integer) -> KeyParameter`
+| Since       | 0.7.0
 | Description | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available.
 | Returns     | A `KeyParameter`.
 | Throws      | `IllegalArgumentException` -- if the record number is out of range.
@@ -703,6 +733,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getWorkKeyParameter(kif: byte, kvc: byte) -> KeyParameter`
+| Since       | 0.7.0
 | Description | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available.
 | Returns     | A `KeyParameter`.
 | Throws      | None.
@@ -752,6 +783,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setUnlockData(unlockData: string) -> LegacySamSelectionExtension`
+| Since       | 0.3.0
 | Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `string`) used to unlock a SAM C1 and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the unlock data is `null`, malformed or out of range. + `IllegalStateException` -- if an unlocking setting has already been set.
@@ -760,6 +792,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setUnlockData(unlockData: string, productType: LegacySam.ProductType) -> LegacySamSelectionExtension`
+| Since       | 0.3.0
 | Description | Same as the previous overload, with an explicit target product type.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null`, malformed or out of range. + `IllegalStateException` -- if an unlocking setting has already been set.
@@ -768,6 +801,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi) -> LegacySamSelectionExtension`
+| Since       | 0.4.0
 | Description | Sets the static-unlock-data provider. To be used when the SAM reader is supplied later in the workflow. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
@@ -776,6 +810,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
+| Since       | 0.4.0
 | Description | Same as the previous overload, with the target SAM reader supplied at creation time.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
@@ -784,6 +819,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi) -> LegacySamSelectionExtension`
+| Since       | 0.4.0
 | Description | Sets the dynamic-unlock-data provider. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
@@ -792,6 +828,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
+| Since       | 0.4.0
 | Description | Same as the previous overload, with the target SAM reader supplied at creation time.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
@@ -800,6 +837,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadSamParameters() -> LegacySamSelectionExtension`
+| Since       | 0.7.0
 | Description | Schedules the execution of a *Read Parameters* command. The result MUST be available via `LegacySam.getSamParameters`.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | None.
@@ -808,6 +846,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadSystemKeyParameters(systemKeyType: SystemKeyType) -> LegacySamSelectionExtension`
+| Since       | 0.3.0
 | Description | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result MUST be available via `LegacySam.getSystemKeyParameter`.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null`.
@@ -816,6 +855,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadWorkKeyParameters(recordNumber: integer) -> LegacySamSelectionExtension`
+| Since       | 0.7.0
 | Description | Schedules the execution of a *Read Key Parameters* command for the work key at the supplied record number (`[1..126]`).
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the record number is out of range.
@@ -824,6 +864,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadWorkKeyParameters(kif: byte, kvc: byte) -> LegacySamSelectionExtension`
+| Since       | 0.7.0
 | Description | Schedules the execution of a *Read Key Parameters* command for the work key referenced by its KIF/KVC pair.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | None.
@@ -832,6 +873,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadCounterStatus(counterNumber: integer) -> LegacySamSelectionExtension`
+| Since       | 0.3.0
 | Description
 | Schedules the execution of *Read Event Counter* and *Read Ceiling* commands to read the status of the supplied
   counter (`[0..26]`). Implementations MAY optimise the actual number of commands sent to the SAM by reading the
@@ -843,6 +885,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadAllCountersStatus() -> LegacySamSelectionExtension`
+| Since       | 0.3.0
 | Description | Schedules the reading of the status of every counter.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | None.
@@ -851,6 +894,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareGetData(tag: GetDataTag) -> LegacySamSelectionExtension`
+| Since       | 0.6.0
 | Description | Schedules the execution of a *Get Data* command for the supplied tag. The result MUST be accessible via a dedicated getter (e.g. `LegacySam.getCaCertificate`).
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if `tag` is `null`.
@@ -1024,6 +1068,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareGetData(tag: GetDataTag) -> FreeTransactionManager`
+| Since       | 0.5.0
 | Description | Schedules the execution of a *Get Data* command for the supplied tag.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if `tag` is `null`.
@@ -1032,6 +1077,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareGenerateCardAsymmetricKeyPair(keyPairContainer: KeyPairContainer) -> FreeTransactionManager`
+| Since       | 0.5.0
 | Description | Schedules the execution of a *Card Generate Asymmetric Key Pair* command. The result MUST be written into the supplied container.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if `keyPairContainer` is `null`.
@@ -1040,6 +1086,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareComputeCardCertificate(data: LegacyCardCertificateComputationData) -> FreeTransactionManager`
+| Since       | 0.5.0
 | Description | Schedules the execution of a *PSO Compute Certificate* command. The result MUST be written into the supplied data carrier.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if `data` is `null`.
@@ -1048,6 +1095,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> FreeTransactionManager`
+| Since       | 0.7.0
 | Description | Schedules the execution of a *Write Key* command to set the lock file of the SAM. The lock value is transferred in plain text.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if `lockValue` is `null` or out of range.
@@ -1079,6 +1127,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `exportTargetSamContextForAsyncTransaction() -> string`
+| Since       | 0.2.0
 | Description
 | Executes the commands required to obtain the security context of the target SAM. The returned `string` MUST be
   passed to <<type_LegacySamApiFactory,`LegacySamApiFactory.createAsyncTransactionCreatorManager`>>.
