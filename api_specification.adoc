@@ -1712,7 +1712,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
-| Kind     | Runtime exception (final)
+| Kind     | Runtime exception
 | Package  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.1.0
 | Purpose
@@ -1725,7 +1725,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
-| Kind     | Runtime exception (final)
+| Kind     | Runtime exception
 | Package  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.1.0
 | Purpose  | Indicates that a signature is invalid.
@@ -1736,7 +1736,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
-| Kind     | Runtime exception (final)
+| Kind     | Runtime exception
 | Package  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.1.0
 | Purpose  | Indicates that the SAM is revoked.
