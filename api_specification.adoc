@@ -1111,11 +1111,11 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Since       | 0.3.0
 | Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command in the context of a Calypso card transaction.
 | Parameters  | `data` -- the input/output data containing the parameters of the command.
+| Returns     | A `CardTransactionLegacySamExtension`.
 | Throws
 | `IllegalArgumentException` -- if the input data is inconsistent. +
   `SamRevokedException` -- if the signature was computed in *SAM traceability* mode, the revocation check was
   requested and the SAM is revoked (traceable signatures only).
-| Returns     | A `CardTransactionLegacySamExtension`.
 |===
 
 // =============================================================================
@@ -1196,11 +1196,11 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Since       | 0.1.0
 | Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command.
 | Parameters  | `data` -- the input/output data containing the parameters of the command.
+| Returns     | A `FreeTransactionManager`.
 | Throws
 | `IllegalArgumentException` -- if the input data is inconsistent. +
   `SamRevokedException` -- if the signature was computed in *SAM traceability* mode, the revocation check was
   requested and the SAM is revoked (traceable signatures only).
-| Returns     | A `FreeTransactionManager`.
 |===
 
 [[op_exportTargetSamContextForAsyncTransaction]]
