@@ -405,6 +405,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `createBasicSignatureVerificationData() -> BasicSignatureVerificationData`
+| Since       | 0.3.0
 | Description | Returns a new empty <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>>.
 | Returns     | A `BasicSignatureVerificationData`.
 | Throws      | None.
@@ -492,6 +493,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getRawData() -> byte array`
+| Since       | 0.2.0
 | Description | Returns the raw key parameter data: 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10.
 | Returns     | A `byte array`.
 | Throws      | None.
@@ -500,6 +502,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getKif() -> byte`
+| Since       | 0.2.0
 | Description | Returns the key identifier (KIF).
 | Returns     | A `byte` value.
 | Throws      | None.
@@ -508,6 +511,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getKvc() -> byte`
+| Since       | 0.2.0
 | Description | Returns the key version (KVC).
 | Returns     | A `byte` value.
 | Throws      | None.
@@ -516,6 +520,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getAlgorithm() -> byte`
+| Since       | 0.2.0
 | Description | Returns the key algorithm identifier byte.
 | Returns     | A `byte` value.
 | Throws      | None.
@@ -524,6 +529,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getParameterValue(parameterNumber: integer) -> byte`
+| Since       | 0.2.0
 | Description | Returns the value of the parameter whose number is supplied.
 | Parameters  | `parameterNumber` -- the parameter number, in range `[1..10]`.
 | Returns     | A `byte` value.
@@ -546,6 +552,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getRawData() -> byte array`
+| Since       | 0.7.0
 | Description | Returns the raw data of the SAM parameters as a 29-byte array.
 | Returns     | A `byte array`.
 | Throws      | None.
@@ -918,6 +925,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getUnlockData(samSerialNumber: byte array, samChallenge: byte array) -> byte array`
+| Since       | 0.4.0
 | Description
 | Returns the dynamic unlock data computed by an origin SAM. The serial number and the challenge are required to
   prepare the *SAM Generate Unlock* command.
@@ -941,6 +949,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getUnlockData(samSerialNumber: byte array) -> byte array`
+| Since       | 0.4.0
 | Description | Returns the static unlock data expected by the target SAM. The serial number MAY be used as a diversifier.
 | Returns     | A 16-byte `byte array`.
 | Throws      | None.
@@ -962,6 +971,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `isSamRevoked(serialNumber: byte array) -> boolean`
+| Since       | 0.1.0
 | Description | Checks if the SAM with the supplied serial number is revoked. The serial number MAY be complete (4 bytes) or partial (3 LSBytes).
 | Returns     | A `boolean` value.
 | Throws      | None.
@@ -970,6 +980,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `isSamRevoked(serialNumber: byte array, counterValue: integer) -> boolean`
+| Since       | 0.1.0
 | Description | Checks if the SAM with the supplied serial number and counter value is revoked.
 | Returns     | A `boolean` value.
 | Throws      | None.
@@ -993,6 +1004,7 @@ overload (e.g. dynamic SAM reader allocation).
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setControlSamResource(samReader: CardReader, controlSam: LegacySam) -> SecuritySetting`
+| Since       | 0.2.0
 | Description | Sets the control SAM and the reader through which it can be accessed.
 | Returns     | A `SecuritySetting`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null`, or if the product type of `controlSam` is `UNKNOWN`.
@@ -1104,6 +1116,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> FreeTransactionManager`
+| Since       | 0.1.0
 | Description
 | Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command. The signature MAY be used to
   certify card-resident data or terminal-emitted data. For the latter, the terminal SAM SHOULD carry a signing
@@ -1115,6 +1128,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> FreeTransactionManager`
+| Since       | 0.1.0
 | Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command.
 | Throws
 | `IllegalArgumentException` -- if the input data is inconsistent. +
@@ -1152,6 +1166,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareWriteCounterCeiling(counterNumber: integer, ceilingValue: integer) -> T`
+| Since       | 0.2.0
 | Description
 | Schedules a *Write Ceilings* command for a single counter. The ceiling value MUST be a positive integer less
   than or equal to `FFFFFAh`.
@@ -1166,6 +1181,7 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareWriteCounterConfiguration(counterNumber: integer, ceilingValue: integer, counterIncrementAccess: CounterIncrementAccess) -> T`
+| Since       | 0.2.0
 | Description
 | Schedules a *Write Ceilings* command for a counter ceiling and its free-incrementation configuration. Because
   the command writes a full record of nine counters, the application MUST have first read the status of the
@@ -1192,6 +1208,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareWriteSamParameters(parameters: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description | Schedules a *Write Parameters* command. The supplied buffer MUST be 29 bytes long.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null` or out of range.
@@ -1200,6 +1217,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferSystemKey(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description | Schedules a *Write Key* command transferring a system key from the control SAM to the target SAM. `systemKeyParameters` MUST be 29 bytes long.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null` or out of range.
@@ -1208,6 +1226,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferSystemKeyDiversified(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description | Same as `prepareTransferSystemKey`, but the key is first diversified with the target SAM serial number.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | None.
@@ -1216,6 +1235,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferWorkKey(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description
 | Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM. `workKeyParameters`
   MUST be 29 bytes long. `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
@@ -1226,6 +1246,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description | Same as `prepareTransferWorkKey`, with diversification by the target SAM serial number.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | None.
@@ -1234,6 +1255,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer, diversifier: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description | Same as `prepareTransferWorkKey`, with diversification by the supplied 8-byte diversifier.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | None.
@@ -1242,6 +1264,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferLock(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description | Schedules a *Write Key* command transferring a lock file from the control SAM to the target SAM.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | None.
@@ -1250,6 +1273,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferLockDiversified(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description | Same as `prepareTransferLock`, with diversification by the target SAM serial number.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | None.
@@ -1258,6 +1282,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> SecureWriteTransactionManager`
+| Since       | 0.7.0
 | Description | Schedules a *Write Key* command to set the lock file with a plain-text 16-byte lock value.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if `lockValue` is `null` or out of range.
@@ -1280,6 +1305,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `exportCommands() -> string`
+| Since       | 0.2.0
 | Description | Returns a non-empty `string` carrying the prepared commands.
 | Returns     | A `string`.
 | Throws      | None.
@@ -1313,6 +1339,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setData(data: byte array, kif: byte, kvc: byte) -> T`
+| Since       | 0.1.0
 | Description | Sets the data to sign and the KIF/KVC of the key.
 | Returns     | A `T`.
 | Throws      | None.
@@ -1321,6 +1348,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setSignatureSize(size: integer) -> T`
+| Since       | 0.1.0
 | Description | Sets the expected signature size in bytes (`[1..8]`). The default size is 8 bytes; the longer the signature, the more secure it is.
 | Returns     | A `T`.
 | Throws      | None.
@@ -1329,6 +1357,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
+| Since       | 0.1.0
 | Description | Sets an explicit 1-to-8-byte key diversifier. By default, the diversifier is the full serial number of the target card or SAM.
 | Returns     | A `T`.
 | Throws      | None.
@@ -1337,6 +1366,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getSignature() -> byte array`
+| Since       | 0.1.0
 | Description | Returns the computed signature (1 to 8 bytes).
 | Returns     | A `byte array`.
 | Throws      | `IllegalStateException` -- if the command has not yet been processed.
@@ -1373,6 +1403,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `withSamTraceabilityMode(offset: integer, samTraceabilityMode: SamTraceabilityMode) -> TraceableSignatureComputationData`
+| Since       | 0.1.0
 | Description
 | Enables the *SAM traceability* mode. The SAM replaces the bits after the supplied offset by its serial number
   (3 or 4 bytes) followed by the new value (3 bytes) of the counter associated with the signing key. The mode is
@@ -1384,6 +1415,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `withoutBusyMode() -> TraceableSignatureComputationData`
+| Since       | 0.1.0
 | Description
 | Disables the *Busy* mode. The Busy mode (enabled by default) rejects repeated *PSO Verify Signature* attempts
   for a few seconds after a failure. Implementations SHOULD recommend keeping the Busy mode enabled for
@@ -1395,6 +1427,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getSignedData() -> byte array`
+| Since       | 0.1.0
 | Description | Returns the data that was actually signed. If *SAM traceability* mode was enabled, the returned data MUST embed the SAM traceability information.
 | Returns     | A `byte array`.
 | Throws      | `IllegalStateException` -- if the command has not yet been processed.
@@ -1416,6 +1449,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setData(data: byte array, signature: byte array, kif: byte, kvc: byte) -> T`
+| Since       | 0.1.0
 | Description | Sets the signed data, the signature and the KIF/KVC of the verification key.
 | Returns     | A `T`.
 | Throws      | None.
@@ -1424,6 +1458,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
+| Since       | 0.1.0
 | Description | Sets an explicit 1-to-8-byte key diversifier. Default: full serial number of the target card or SAM.
 | Returns     | A `T`.
 | Throws      | None.
@@ -1432,6 +1467,7 @@ The operations on this interface mirror their equivalents on
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `isSignatureValid() -> boolean`
+| Since       | 0.1.0
 | Description | Indicates whether the signature is valid.
 | Returns     | A `boolean` value.
 | Throws      | `IllegalStateException` -- if the command has not yet been processed.
@@ -1461,6 +1497,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 |===
 | Signature
 | `withSamTraceabilityMode(offset: integer, samTraceabilityMode: SamTraceabilityMode, samRevocationService: LegacySamRevocationServiceSpi) -> TraceableSignatureVerificationData`
+| Since       | 0.1.0
 | Description
 | Indicates that the signature was computed in *SAM traceability* mode. When `samRevocationService` is supplied,
   the revocation status of the signing SAM MUST be checked through it.
@@ -1471,6 +1508,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `withoutBusyMode() -> TraceableSignatureVerificationData`
+| Since       | 0.1.0
 | Description
 | Indicates that the signature was *not* computed in *Busy* mode. By default the signature is assumed to have been
   computed in Busy mode; in that case, if the verification fails with the *busy* status word, the application
@@ -1495,6 +1533,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getKeyPair() -> byte array`
+| Since       | 0.5.0
 | Description | Returns the generated key pair as a 96-byte `byte array`.
 | Returns     | A `byte array`.
 | Throws      | None.
@@ -1516,6 +1555,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setCardPublicKey(cardPublicKey: byte array) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
 | Description | Sets the card public key (64 bytes, *secp256r1* curve).
 | Returns     | A `LegacyCardCertificateComputationData`.
 | Throws      | `IllegalArgumentException` -- if the key is `null` or out of range.
@@ -1524,6 +1564,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setStartDate(startDate: date) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
 | Description | Sets the start of the validity period. Optional.
 | Returns     | A `LegacyCardCertificateComputationData`.
 | Throws      | `IllegalArgumentException` -- if the date is `null`.
@@ -1532,6 +1573,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setEndDate(endDate: date) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
 | Description | Sets the end of the validity period. Optional.
 | Returns     | A `LegacyCardCertificateComputationData`.
 | Throws      | `IllegalArgumentException` -- if the date is `null`.
@@ -1540,6 +1582,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setCardAid(aid: byte array) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
 | Description | Sets the AID of the autonomous PKI application of the target card. The AID MUST be 5 to 16 bytes and MUST NOT contain only zero bytes.
 | Returns     | A `LegacyCardCertificateComputationData`.
 | Throws      | `IllegalArgumentException` -- if the AID is `null`, out of range, or contains only zero bytes.
@@ -1548,6 +1591,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setCardSerialNumber(serialNumber: byte array) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
 | Description | Sets the 8-byte card serial number.
 | Returns     | A `LegacyCardCertificateComputationData`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null` or out of range.
@@ -1556,6 +1600,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `setCardStartupInfo(startupInfo: byte array) -> LegacyCardCertificateComputationData`
+| Since       | 0.5.0
 | Description | Sets the 7-byte startup info to embed in the certificate.
 | Returns     | A `LegacyCardCertificateComputationData`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null` or out of range.
@@ -1564,6 +1609,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `getCertificate() -> byte array`
+| Since       | 0.5.0
 | Description | Returns the 316-byte certificate generated by the SAM, or `null` if the command has not been processed yet.
 | Returns     | A `byte array`.
 | Throws      | None.
@@ -1589,6 +1635,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> CardTransactionLegacySamExtension`
+| Since       | 0.3.0
 | Description | Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command in the context of a Calypso card transaction.
 | Returns     | A `CardTransactionLegacySamExtension`.
 | Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
@@ -1597,6 +1644,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> CardTransactionLegacySamExtension`
+| Since       | 0.3.0
 | Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command in the context of a Calypso card transaction.
 | Throws
 | `IllegalArgumentException` -- if the input data is inconsistent. +
