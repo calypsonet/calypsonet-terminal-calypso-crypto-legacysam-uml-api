@@ -1077,7 +1077,8 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command in the context of a Calypso card transaction.
 | Throws
 | `IllegalArgumentException` -- if the input data is inconsistent. +
-  `SamRevokedException` -- if a revoked traceable signature was detected.
+  `SamRevokedException` -- if the signature was computed in *SAM traceability* mode, the revocation check was
+  requested and the SAM is revoked (traceable signatures only).
 | Returns     | A `CardTransactionLegacySamExtension`.
 |===
 
