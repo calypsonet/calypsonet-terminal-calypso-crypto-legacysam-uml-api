@@ -331,8 +331,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `createSymmetricCryptoCardTransactionManagerFactory(samReader: CardReader, sam: LegacySam) -> SymmetricCryptoCardTransactionManagerFactory`
 | Since       | 0.3.0
 | Description | Returns a new factory of [CNA-TCCS-API] `SymmetricCryptoCardTransactionManager` to be used to secure a Calypso card transaction with the supplied legacy SAM.
-| Parameters  | `samReader` -- the reader through which the SAM is reached. +
-                `sam` -- the associated control SAM.
+| Parameters
+| `samReader` -- the reader to use to communicate with the SAM. +
+  `sam`       -- the associated control SAM to be used with the card transaction.
 | Returns     | A non-`null` factory.
 | Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
 |===
@@ -351,6 +352,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `createFreeTransactionManager(samReader: CardReader, sam: LegacySam) -> FreeTransactionManager`
 | Since       | 0.3.0
 | Description | Returns a new <<type_FreeTransactionManager,`FreeTransactionManager`>> bound to the supplied SAM and reader.
+| Parameters
+| `samReader` -- the reader to use to communicate with the SAM. +
+  `sam`       -- the SAM image.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
 |===
@@ -360,6 +364,10 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `createSecureWriteTransactionManager(samReader: CardReader, sam: LegacySam, securitySetting: SecuritySetting) -> SecureWriteTransactionManager`
 | Since       | 0.7.0
 | Description | Returns a new <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>> bound to the supplied SAM, reader and security setting.
+| Parameters
+| `samReader`       -- the reader to use to communicate with the SAM. +
+  `sam`             -- the SAM image. +
+  `securitySetting` -- the security settings.
 | Returns     | A `SecureWriteTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
 |===
@@ -371,6 +379,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Description
 | Returns a new <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>. The target SAM context
   MUST have been produced by <<op_exportTargetSamContextForAsyncTransaction,`FreeTransactionManager.exportTargetSamContextForAsyncTransaction`>>.
+| Parameters
+| `targetSamContext` -- the target SAM context. +
+  `securitySetting`  -- the security settings.
 | Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
 |===
 
@@ -379,6 +390,10 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `createAsyncTransactionExecutorManager(samReader: CardReader, sam: LegacySam, samCommands: string) -> AsyncTransactionExecutorManager`
 | Since       | 0.3.0
 | Description | Returns a new <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>. The `samCommands` MUST have been produced by an <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>.
+| Parameters
+| `samReader`   -- the reader to use to communicate with the SAM. +
+  `sam`         -- the SAM image. +
+  `samCommands` -- a `string` containing the prepared commands.
 | Returns     | A `AsyncTransactionExecutorManager`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null` or invalid.
 |===
@@ -771,6 +786,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `setUnlockData(unlockData: string) -> LegacySamSelectionExtension`
 | Since       | 0.3.0
 | Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `string`) used to unlock a SAM C1 and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
+| Parameters  | `unlockData` -- the unlock data as a 32-character hexadecimal `string`.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the unlock data is `null`, malformed or out of range. + `IllegalStateException` -- if an unlocking setting has already been set.
 |===
@@ -780,6 +796,9 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `setUnlockData(unlockData: string, productType: LegacySam.ProductType) -> LegacySamSelectionExtension`
 | Since       | 0.3.0
 | Description | Same as the previous overload, with an explicit target product type.
+| Parameters
+| `unlockData`  -- the unlock data as a 32-character hexadecimal `string`. +
+  `productType` -- the targeted product type.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null`, malformed or out of range. + `IllegalStateException` -- if an unlocking setting has already been set.
 |===
@@ -789,6 +808,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi) -> LegacySamSelectionExtension`
 | Since       | 0.4.0
 | Description | Sets the static-unlock-data provider. To be used when the SAM reader is supplied later in the workflow. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
+| Parameters  | `staticUnlockDataProvider` -- an implementation of <<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
 |===
@@ -798,6 +818,9 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
 | Since       | 0.4.0
 | Description | Same as the previous overload, with the target SAM reader supplied at creation time.
+| Parameters
+| `staticUnlockDataProvider` -- an implementation of <<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>. +
+  `targetSamReader`          -- the card reader used to communicate with the target SAM.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
 |===
@@ -807,6 +830,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi) -> LegacySamSelectionExtension`
 | Since       | 0.4.0
 | Description | Sets the dynamic-unlock-data provider. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
+| Parameters  | `dynamicUnlockDataProvider` -- an implementation of <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
 |===
@@ -816,6 +840,9 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
 | Since       | 0.4.0
 | Description | Same as the previous overload, with the target SAM reader supplied at creation time.
+| Parameters
+| `dynamicUnlockDataProvider` -- an implementation of <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>. +
+  `targetSamReader`           -- the card reader used to communicate with the target SAM.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if any argument is `null`. + `IllegalStateException` -- if an unlocking setting has already been set.
 |===
@@ -834,6 +861,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `prepareReadSystemKeyParameters(systemKeyType: SystemKeyType) -> LegacySamSelectionExtension`
 | Since       | 0.3.0
 | Description | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result MUST be available via `LegacySam.getSystemKeyParameter`.
+| Parameters  | `systemKeyType` -- the type of system key.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the argument is `null`.
 |===
@@ -843,6 +871,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `prepareReadWorkKeyParameters(recordNumber: integer) -> LegacySamSelectionExtension`
 | Since       | 0.7.0
 | Description | Schedules the execution of a *Read Key Parameters* command for the work key at the supplied record number (`[1..126]`).
+| Parameters  | `recordNumber` -- the key record number (in range `[1..126]`).
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the record number is out of range.
 |===
@@ -852,6 +881,9 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `prepareReadWorkKeyParameters(kif: byte, kvc: byte) -> LegacySamSelectionExtension`
 | Since       | 0.7.0
 | Description | Schedules the execution of a *Read Key Parameters* command for the work key referenced by its KIF/KVC pair.
+| Parameters
+| `kif` -- the key KIF. +
+  `kvc` -- the key KVC.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | None.
 |===
@@ -864,6 +896,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Schedules the execution of *Read Event Counter* and *Read Ceiling* commands to read the status of the supplied
   counter (`[0..26]`). Implementations MAY optimise the actual number of commands sent to the SAM by reading the
   whole record at once.
+| Parameters  | `counterNumber` -- the number of the counter whose status is to be read (in range `[0..26]`).
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if the counter number is out of range.
 |===
@@ -882,6 +915,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Signature   | `prepareGetData(tag: GetDataTag) -> LegacySamSelectionExtension`
 | Since       | 0.6.0
 | Description | Schedules the execution of a *Get Data* command for the supplied tag. The result MUST be accessible via a dedicated getter (e.g. `LegacySam.getCaCertificate`).
+| Parameters  | `tag` -- the tag to retrieve the data for.
 | Returns     | A `LegacySamSelectionExtension`.
 | Throws      | `IllegalArgumentException` -- if `tag` is `null`.
 |===
@@ -1066,6 +1100,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> CardTransactionLegacySamExtension`
 | Since       | 0.3.0
 | Description | Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command in the context of a Calypso card transaction.
+| Parameters  | `data` -- the input/output data containing the parameters of the command.
 | Returns     | A `CardTransactionLegacySamExtension`.
 | Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
 |===
@@ -1075,6 +1110,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> CardTransactionLegacySamExtension`
 | Since       | 0.3.0
 | Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command in the context of a Calypso card transaction.
+| Parameters  | `data` -- the input/output data containing the parameters of the command.
 | Throws
 | `IllegalArgumentException` -- if the input data is inconsistent. +
   `SamRevokedException` -- if the signature was computed in *SAM traceability* mode, the revocation check was
@@ -1103,6 +1139,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Signature   | `prepareGetData(tag: GetDataTag) -> FreeTransactionManager`
 | Since       | 0.5.0
 | Description | Schedules the execution of a *Get Data* command for the supplied tag.
+| Parameters  | `tag` -- the tag to retrieve the data for.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if `tag` is `null`.
 |===
@@ -1112,6 +1149,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Signature   | `prepareGenerateCardAsymmetricKeyPair(keyPairContainer: KeyPairContainer) -> FreeTransactionManager`
 | Since       | 0.5.0
 | Description | Schedules the execution of a *Card Generate Asymmetric Key Pair* command. The result MUST be written into the supplied container.
+| Parameters  | `keyPairContainer` -- the container for the output data.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if `keyPairContainer` is `null`.
 |===
@@ -1121,6 +1159,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Signature   | `prepareComputeCardCertificate(data: LegacyCardCertificateComputationData) -> FreeTransactionManager`
 | Since       | 0.5.0
 | Description | Schedules the execution of a *PSO Compute Certificate* command. The result MUST be written into the supplied data carrier.
+| Parameters  | `data` -- the input/output data containing the parameters of the command.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if `data` is `null`.
 |===
@@ -1130,6 +1169,10 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Signature   | `preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> FreeTransactionManager`
 | Since       | 0.7.0
 | Description | Schedules the execution of a *Write Key* command to set the lock file of the SAM. The lock value is transferred in plain text.
+| Parameters
+| `lockIndex`      -- the index of the lock file. +
+  `lockParameters` -- the lock permissions parameters. +
+  `lockValue`      -- a 16-byte `byte array` representing the lock's value.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if `lockValue` is `null` or out of range.
 |===
@@ -1142,6 +1185,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command. The signature MAY be used to
   certify card-resident data or terminal-emitted data. For the latter, the terminal SAM SHOULD carry a signing
   work key diversified with its own serial number.
+| Parameters  | `data` -- the input/output data containing the parameters of the command.
 | Returns     | A `FreeTransactionManager`.
 | Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
 |===
@@ -1151,6 +1195,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1.0._
 | Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> FreeTransactionManager`
 | Since       | 0.1.0
 | Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command.
+| Parameters  | `data` -- the input/output data containing the parameters of the command.
 | Throws
 | `IllegalArgumentException` -- if the input data is inconsistent. +
   `SamRevokedException` -- if the signature was computed in *SAM traceability* mode, the revocation check was
