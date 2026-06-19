@@ -1441,7 +1441,7 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setData(data: byte array, kif: byte, kvc: byte) -> T`
 | Since       | 0.1.0
 | Description | Sets the data to sign and the KIF/KVC of the key.
-| Returns     | A `T`.
+| Returns     | The current instance (`T`), to allow fluent composition.
 | Throws      | None.
 |===
 
@@ -1450,7 +1450,7 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setSignatureSize(size: integer) -> T`
 | Since       | 0.1.0
 | Description | Sets the expected signature size in bytes (`[1..8]`). The default size is 8 bytes; the longer the signature, the more secure it is.
-| Returns     | A `T`.
+| Returns     | The current instance (`T`), to allow fluent composition.
 | Throws      | None.
 |===
 
@@ -1459,7 +1459,7 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
 | Since       | 0.1.0
 | Description | Sets an explicit 1-to-8-byte key diversifier. By default, the diversifier is the full serial number of the target card or SAM.
-| Returns     | A `T`.
+| Returns     | The current instance (`T`), to allow fluent composition.
 | Throws      | None.
 |===
 
@@ -1491,7 +1491,7 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setData(data: byte array, signature: byte array, kif: byte, kvc: byte) -> T`
 | Since       | 0.1.0
 | Description | Sets the signed data, the signature and the KIF/KVC of the verification key.
-| Returns     | A `T`.
+| Returns     | The current instance (`T`), to allow fluent composition.
 | Throws      | None.
 |===
 
@@ -1500,7 +1500,7 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
 | Since       | 0.1.0
 | Description | Sets an explicit 1-to-8-byte key diversifier. Default: full serial number of the target card or SAM.
-| Returns     | A `T`.
+| Returns     | The current instance (`T`), to allow fluent composition.
 | Throws      | None.
 |===
 
@@ -1641,7 +1641,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
   *Warning:* in an asynchronous transaction, the content of the <<type_LegacySam,`LegacySam`>> object MUST NOT be
   updated.
-| Returns     | A `T`.
+| Returns     | The current instance (`T`), to allow fluent composition.
 | Throws      | `IllegalArgumentException` -- if any argument is out of range.
 |===
 
@@ -1655,7 +1655,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
   the command writes a full record of nine counters, the application MUST have first read the status of the
   counters of that record (or have called this method for each of the other eight counters of the same record),
   otherwise the manager MUST raise an exception when processing the commands.
-| Returns     | A `T`.
+| Returns     | The current instance (`T`), to allow fluent composition.
 | Throws      | `IllegalArgumentException` -- if any argument is out of range.
 |===
 
