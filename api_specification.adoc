@@ -1048,12 +1048,13 @@ failure modes specific to the SAM dialogue MAY be reported through `InvalidSigna
 verification failure) and `InconsistentDataException` (data inconsistency).
 
 [[type_ReadTransactionManager]]
-==== ReadTransactionManager<T extends ReadTransactionManager<T>>
+==== ReadTransactionManager
 
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Kind     | Interface
 | Package  | `calypso.crypto.legacysam.transaction`
+| Generics | `<T extends ReadTransactionManager<T>>`
 | Extends  | <<type_TransactionManager,`TransactionManager<T>`>>
 | Since    | 0.1.0
 | Purpose  | Adds *read*-oriented operations to the common transaction manager: SAM parameters, system/work keys and counter status.
@@ -1151,12 +1152,13 @@ The operations on this interface mirror their equivalents on
 |===
 
 [[type_WriteTransactionManager]]
-==== WriteTransactionManager<T extends WriteTransactionManager<T>>
+==== WriteTransactionManager
 
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Kind     | Interface
 | Package  | `calypso.crypto.legacysam.transaction`
+| Generics | `<T extends WriteTransactionManager<T>>`
 | Extends  | <<type_TransactionManager,`TransactionManager<T>`>>
 | Since    | 0.2.0
 | Purpose  | Common base of every *write* transaction manager. Writes MAY be performed synchronously or asynchronously.
@@ -1325,12 +1327,13 @@ The operations on this interface mirror their equivalents on
 |===
 
 [[type_SignatureComputationData]]
-==== SignatureComputationData<T extends SignatureComputationData<T>>
+==== SignatureComputationData
 
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Kind     | Interface
 | Package  | `calypso.crypto.legacysam.transaction`
+| Generics | `<T extends SignatureComputationData<T>>`
 | Since    | 0.1.0
 | Purpose  | Common base contract for the input/output data of a signature computation.
 |===
@@ -1435,12 +1438,13 @@ The operations on this interface mirror their equivalents on
 |===
 
 [[type_SignatureVerificationData]]
-==== SignatureVerificationData<T extends SignatureVerificationData<T>>
+==== SignatureVerificationData
 
 [cols="1h,4", grid=rows, frame=all]
 |===
 | Kind     | Interface
 | Package  | `calypso.crypto.legacysam.transaction`
+| Generics | `<T extends SignatureVerificationData<T>>`
 | Since    | 0.1.0
 | Purpose  | Common base contract for the input/output data of a signature verification.
 |===
