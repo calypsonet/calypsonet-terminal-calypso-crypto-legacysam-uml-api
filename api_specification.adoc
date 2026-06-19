@@ -138,6 +138,7 @@ order to avoid ambiguity.
 | `byte array`    | Ordered sequence of octets.                                      | `byte[]`, `[u8]`, `bytes`.
 | `date`          | Calendar date without a time-of-day or timezone.                 | `LocalDate`, `Date`.
 | `sortedMap<K,V>`| Associative array sorted by key.                                 | `SortedMap<K,V>`, `BTreeMap<K,V>`.
+| `T?`            | Nullable value: either a `T` value or the absence of value (`null`). | `Integer`/`Byte` (boxed), `Optional<T>`, `T?`.
 | `void`          | Indicates that an operation returns no value.                    | `void`, `Unit`, `None`.
 |===
 
@@ -658,10 +659,10 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 
 [cols="1h,4", grid=rows, frame=all]
 |===
-| Signature   | `getCounter(counterNumber: integer) -> integer`
+| Signature   | `getCounter(counterNumber: integer) -> integer?`
 | Since       | 0.1.0
 | Description | Returns the value of the supplied counter (`[0..26]`). `null` if the value is not set.
-| Returns     | An `integer` value.
+| Returns     | An `integer` value, or `null` if the value is not set.
 | Throws      | None.
 |===
 
@@ -685,10 +686,10 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 
 [cols="1h,4", grid=rows, frame=all]
 |===
-| Signature   | `getCounterCeiling(counterNumber: integer) -> integer`
+| Signature   | `getCounterCeiling(counterNumber: integer) -> integer?`
 | Since       | 0.1.0
 | Description | Returns the ceiling value of the supplied counter; `null` if not set.
-| Returns     | An `integer` value.
+| Returns     | An `integer` value, or `null` if not set.
 | Throws      | None.
 |===
 
