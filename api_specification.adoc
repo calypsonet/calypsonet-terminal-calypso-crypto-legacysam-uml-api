@@ -139,8 +139,8 @@ as-is in the UML class diagram (<<sec_class_diagram>>).
 | Symbolic type   | Description                                                     | Typical bindings
 | `string`        | Sequence of characters, UTF-8 encoded by default.                | `String`, `string`, `str`.
 | `boolean`       | Two-state truth value.                                           | `boolean`, `bool`.
-| `integer`       | Signed 32-bit integer.                                           | `int`, `Int32`.
 | `byte`          | Signed 8-bit value.                                              | `byte`, `i8`.
+| `integer`       | Signed 32-bit integer.                                           | `int`, `Int32`.
 | `byte array`    | Ordered sequence of octets.                                      | `byte[]`, `[u8]`, `bytes`.
 | `date`          | Calendar date without a time-of-day or timezone.                 | `LocalDate`, `Date`.
 | `sortedMap<K,V>`| Associative array sorted by key.                                 | `SortedMap<K,V>`, `BTreeMap<K,V>`.
