@@ -229,8 +229,8 @@ not restated for each operation:
 |===
 | Abbreviation | Expansion
 
-| APDU | Application Protocol Data Unit
 | AID  | Application IDentifier
+| APDU | Application Protocol Data Unit
 | CA   | Certification Authority
 | CNA  | Calypso Networks Association
 | HSM  | Hardware Security Module
