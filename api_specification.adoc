@@ -39,7 +39,7 @@ It defines, in a language-agnostic way, the interfaces, classes, enumerations, e
 relationships and behavioural requirements that any conforming implementation of the {spec-name} MUST satisfy.
 
 The {spec-name} exposes the abstractions required to operate Calypso *Legacy SAM* products (SAM C1, HSM C1, S1E1,
-S1Dx). It is the symmetric counterpart of the *Terminal Calypso Crypto Symmetric API* ([CNA-TCCS-API]) for the
+S1Dx). It is the symmetric counterpart of the *Terminal Calypso Crypto Symmetric API* (<<ref_cna_tccs,CNA-TCCS-API>>) for the
 specific case where the crypto module is a legacy Calypso SAM.
 
 [discrete]
@@ -407,10 +407,10 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 |===
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | `CardTransactionCryptoExtension` ([CNA-TCC-API])
+| Extends  | `CardTransactionCryptoExtension` (<<ref_cna_tcc,CNA-TCC-API>>)
 | Since    | 0.3
 | Purpose
-| Card-transaction crypto extension enriching the [CNA-TCC-API] command set with SAM-backed signature computation
+| Card-transaction crypto extension enriching the <<ref_cna_tcc,CNA-TCC-API>> command set with SAM-backed signature computation
   and verification. Instances are obtained through `SecureRegularModeTransactionManager.getCryptoExtension` or
   `SecureExtendedModeTransactionManager.getCryptoExtension`.
 |===
@@ -743,12 +743,12 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 |===
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
-| Extends  | `SmartCard` ([CNA-TR-API])
+| Extends  | `SmartCard` (<<ref_cna_tr,CNA-TR-API>>)
 | Since    | 0.1
 | Purpose  | Dynamic view of a legacy SAM, updated from selection to the end of the transaction.
 |===
 
-A `LegacySam` instance is obtained by casting the [CNA-TR-API] `SmartCard` produced by the selection scenario
+A `LegacySam` instance is obtained by casting the <<ref_cna_tr,CNA-TR-API>> `SmartCard` produced by the selection scenario
 when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 
 ===== Get Application Sub Type
@@ -1112,7 +1112,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 |===
 | Signature   | `createSymmetricCryptoCardTransactionManagerFactory(samReader: CardReader, sam: LegacySam) -> SymmetricCryptoCardTransactionManagerFactory`
 | Since       | 0.3
-| Description | Returns a new factory of [CNA-TCCS-API] `SymmetricCryptoCardTransactionManager` to be used to secure a Calypso card transaction with the supplied legacy SAM.
+| Description | Returns a new factory of <<ref_cna_tccs,CNA-TCCS-API>> `SymmetricCryptoCardTransactionManager` to be used to secure a Calypso card transaction with the supplied legacy SAM.
 | Parameters
 | `samReader` -- the reader to use to communicate with the SAM. +
   `sam`       -- the associated control SAM to be used with the card transaction.
@@ -1149,9 +1149,9 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 |===
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
-| Extends  | `CardSelectionExtension` ([CNA-TR-API])
+| Extends  | `CardSelectionExtension` (<<ref_cna_tr,CNA-TR-API>>)
 | Since    | 0.3
-| Purpose  | Enriches the [CNA-TR-API] selection scenario with SAM-specific commands (Unlock, Read Parameters, etc.).
+| Purpose  | Enriches the <<ref_cna_tr,CNA-TR-API>> selection scenario with SAM-specific commands (Unlock, Read Parameters, etc.).
 |===
 
 If the SAM is *locked*, three mutually exclusive unlocking strategies are offered:
@@ -1163,7 +1163,7 @@ If the SAM is *locked*, three mutually exclusive unlocking strategies are offere
 . The application supplies a <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>
   to obtain the 8-byte value expected by the SAM in dynamic mode (computed by an origin SAM).
 
-When the unlocking data is supplied by a provider, a [CNA-TR-API] `CardReader` is required for additional
+When the unlocking data is supplied by a provider, a <<ref_cna_tr,CNA-TR-API>> `CardReader` is required for additional
 exchanges. The reader MAY be provided either at selection-extension creation time, or later through the relevant
 overload (e.g. dynamic SAM reader allocation).
 
@@ -1730,13 +1730,13 @@ The operations on this interface mirror their equivalents on
 |===
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | `CardTransactionManager` ([CNA-TR-API])
+| Extends  | `CardTransactionManager` (<<ref_cna_tr,CNA-TR-API>>)
 | Since    | 0.1
 | Purpose  | Common base of every legacy-SAM transaction manager. Provides command processing for the SAM.
 |===
 
 The Legacy SAM `TransactionManager` is not generic; processing of prepared commands is inherited from
-`CardTransactionManager` ([CNA-TR-API]) via the `processCommands()` operation. The Legacy SAM
+`CardTransactionManager` (<<ref_cna_tr,CNA-TR-API>>) via the `processCommands()` operation. The Legacy SAM
 `TransactionManager` does *not* redefine `processCommands()`; it relies on the inherited contract. Additional
 failure modes specific to the SAM dialogue MAY be reported through `InvalidSignatureException` (signature
 verification failure) and `InconsistentDataException` (data inconsistency).
@@ -2016,7 +2016,7 @@ Nested inside `LegacySam`.
 . The signature/verification managers MUST defer reading the signature or the validity flag until the commands
   have been processed; calling the corresponding getters before `processCommands()` MUST raise
   `IllegalStateException`.
-. Communication errors at the reader, card or APDU level MUST be reported through the [CNA-TR-API] exceptions
+. Communication errors at the reader, card or APDU level MUST be reported through the <<ref_cna_tr,CNA-TR-API>> exceptions
   (`ReaderCommunicationException`, `CardCommunicationException`, `InvalidCardResponseException`); this
   specification does not duplicate them.
 
