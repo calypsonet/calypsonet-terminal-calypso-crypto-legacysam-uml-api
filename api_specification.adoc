@@ -106,7 +106,7 @@ This specification covers:
 
 The following topics are *out of scope*:
 
-* the on-the-wire APDU dialogue with the SAM (handled internally by implementations),
+* the on-the-wire APDU dialog with the SAM (handled internally by implementations),
 * the algorithms used by the SAM to derive keys or sign data,
 * the storage of certificates and key parameters outside the SAM.
 
@@ -1755,7 +1755,7 @@ The operations on this interface mirror their equivalents on
 The Legacy SAM `TransactionManager` is not generic; processing of prepared commands is inherited from
 `CardTransactionManager` (<<ref_cna_tr,CNA-TR-API>>) via the `processCommands()` operation. The Legacy SAM
 `TransactionManager` does *not* redefine `processCommands()`; it relies on the inherited contract. Additional
-failure modes specific to the SAM dialogue MAY be reported through `InvalidSignatureException` (signature
+failure modes specific to the SAM dialog MAY be reported through `InvalidSignatureException` (signature
 verification failure) and `InconsistentDataException` (data inconsistency).
 
 [[type_WriteTransactionManager]]
