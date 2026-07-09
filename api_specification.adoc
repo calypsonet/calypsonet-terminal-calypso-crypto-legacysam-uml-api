@@ -969,6 +969,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 | Signature   | `getSystemKeyParameter(systemKeyType: SystemKeyType) -> KeyParameter?`
 | Since       | 0.2
 | Description | Returns the parameters of the supplied system key; `null` if not available.
+| Parameters  | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the system key whose parameters are requested.
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>.
 |===
 
@@ -1468,6 +1469,10 @@ The operations on this interface mirror their equivalents on
 | Signature   | `prepareTransferSystemKey(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a system key from the control SAM to the target SAM. `systemKeyParameters` MUST be 29 bytes long.
+| Parameters
+| `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the system key to transfer. +
+  `kvc` -- the KVC of the key. +
+  `systemKeyParameters` -- the 29-byte key parameters.
 | Returns     | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
 | Throws      | `IllegalArgumentException` -- if any argument is out of range.
 |===
@@ -1480,6 +1485,10 @@ The operations on this interface mirror their equivalents on
 | Signature   | `prepareTransferSystemKeyDiversified(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Same as `prepareTransferSystemKey`, but the key is first diversified with the target SAM serial number.
+| Parameters
+| `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the system key to transfer. +
+  `kvc` -- the KVC of the key. +
+  `systemKeyParameters` -- the 29-byte key parameters.
 | Returns     | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
 | Throws      | None.
 |===
@@ -1700,6 +1709,9 @@ The operations on this interface mirror their equivalents on
 | Enables the *SAM traceability* mode. The SAM replaces the bits after the supplied offset by its serial number
   (3 or 4 bytes) followed by the new value (3 bytes) of the counter associated with the signing key. The mode is
   disabled by default.
+| Parameters
+| `offset` -- the bit offset after which the traceability data is written. +
+  `samTraceabilityMode` (<<type_SamTraceabilityMode,`SamTraceabilityMode`>>) -- the traceability mode to apply.
 | Returns     | A <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
 |===
 
@@ -1740,6 +1752,10 @@ The operations on this interface mirror their equivalents on
 | Description
 | Indicates that the signature was computed in *SAM traceability* mode. When `samRevocationService` is supplied,
   the revocation status of the signing SAM MUST be checked through it.
+| Parameters
+| `offset` -- the bit offset after which the traceability data was written. +
+  `samTraceabilityMode` (<<type_SamTraceabilityMode,`SamTraceabilityMode`>>) -- the traceability mode used. +
+  `samRevocationService` (<<type_LegacySamRevocationServiceSpi,`LegacySamRevocationServiceSpi`>>) -- the optional service used to check the signing SAM's revocation status.
 | Returns     | A <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
 |===
 
@@ -1818,6 +1834,10 @@ verification failure) and `InconsistentDataException` (data inconsistency).
   the command writes a full record of nine counters, the application MUST have first read the status of the
   counters of that record (or have called this method for each of the other eight counters of the same record),
   otherwise the manager MUST raise an exception when processing the commands.
+| Parameters
+| `counterNumber` -- the number of the counter to configure. +
+  `ceilingValue` -- the ceiling value to set for the counter. +
+  `counterIncrementAccess` (<<type_CounterIncrementAccess,`CounterIncrementAccess`>>) -- the free-incrementation access configuration.
 | Returns     | The current instance (`T`).
 | Throws      | `IllegalArgumentException` -- if any argument is out of range.
 |===
