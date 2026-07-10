@@ -1036,7 +1036,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 | `samReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>))   -- the reader to use to communicate with the SAM. +
   `sam` (<<type_LegacySam,`LegacySam`>>)         -- the SAM image. +
   `samCommands` -- a `string` containing the prepared commands.
-| Returns     | A <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>.
+| Returns     | An <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>.
 | Throws      | `IllegalArgumentException` -- if any argument is invalid.
 |===
 
@@ -1106,7 +1106,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 | Signature   | `createLegacySamSelectionExtension() -> LegacySamSelectionExtension`
 | Since       | 0.3
 | Description | Returns a new <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
-| Returns     | An instance.
+| Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 | Throws      | None.
 |===
 
@@ -1133,7 +1133,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 | Signature   | `createSecuritySetting() -> SecuritySetting`
 | Since       | 0.3
 | Description | Returns a new <<type_SecuritySetting,`SecuritySetting`>>.
-| Returns     | An instance.
+| Returns     | A <<type_SecuritySetting,`SecuritySetting`>>.
 | Throws      | None.
 |===
 
