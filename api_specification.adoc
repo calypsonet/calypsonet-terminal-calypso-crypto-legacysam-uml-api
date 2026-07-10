@@ -298,7 +298,7 @@ skinparam roundCorner 8
 component "Terminal Application" as App
 component "Terminal Calypso Card API\n[CNA-TCC-API]" as TCC
 component "Terminal Calypso Crypto\nSymmetric API [CNA-TCCS-API]" as TCCS
-component "Terminal Calypso Crypto\nLegacy SAM API (this spec)" as TCCL
+component "Terminal Calypso Crypto\nLegacy SAM API (this spec)" as TCCL #LightYellow
 component "Legacy SAM\n(SAM C1, HSM C1, S1E1, S1Dx)" as SAM
 
 App  --> TCCL : uses
