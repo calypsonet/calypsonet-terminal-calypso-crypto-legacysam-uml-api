@@ -2050,8 +2050,6 @@ Nested inside `LegacySam`.
 . A `LegacySam` instance MUST be a *dynamic view* of the SAM image: every successful command processed by a
   synchronous transaction manager MUST update the relevant fields. Asynchronous write managers MUST NOT update
   the local `LegacySam`.
-. The three unlocking strategies offered by `LegacySamSelectionExtension` MUST be mutually exclusive; an
-  `IllegalStateException` MUST be raised if more than one is configured.
 . Within a `SecureWriteTransactionManager`, every operation that targets a *target SAM* MUST involve a *control
   SAM* configured through <<type_SecuritySetting,`SecuritySetting`>>.
 . The two-step asynchronous workflow (`AsyncTransactionCreatorManager` then `AsyncTransactionExecutorManager`)
