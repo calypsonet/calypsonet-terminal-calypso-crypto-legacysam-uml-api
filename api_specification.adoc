@@ -483,7 +483,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 | Signature   | `exportTargetSamContextForAsyncTransaction() -> string`
 | Since       | 0.2
 | Description
-| Executes the commands required to obtain the security context of the target SAM. The returned `string` MUST be
+| Executes the commands required to obtain the security context of the target SAM. The returned `string` is
   passed to <<type_LegacySamApiFactory,`LegacySamApiFactory.createAsyncTransactionCreatorManager`>>.
 | Returns     | A non-empty `string`.
 | Throws      | None.
@@ -496,7 +496,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 |===
 | Signature   | `prepareComputeCardCertificate(data: LegacyCardCertificateComputationData) -> FreeTransactionManager`
 | Since       | 0.5
-| Description | Schedules the execution of a *PSO Compute Certificate* command. The result MUST be written into the supplied data carrier.
+| Description | Schedules the execution of a *PSO Compute Certificate* command. The result is written into the supplied data carrier.
 | Parameters  | `data` (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | A <<type_FreeTransactionManager,`FreeTransactionManager`>>.
 |===
@@ -524,7 +524,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 |===
 | Signature   | `prepareGenerateCardAsymmetricKeyPair(keyPairContainer: KeyPairContainer) -> FreeTransactionManager`
 | Since       | 0.5
-| Description | Schedules the execution of a *Card Generate Asymmetric Key Pair* command. The result MUST be written into the supplied container.
+| Description | Schedules the execution of a *Card Generate Asymmetric Key Pair* command. The result is written into the supplied container.
 | Parameters  | `keyPairContainer` (<<type_KeyPairContainer,`KeyPairContainer`>>) -- the container for the output data.
 | Returns     | A <<type_FreeTransactionManager,`FreeTransactionManager`>>.
 |===
@@ -770,8 +770,8 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 A `LegacySam` instance is obtained by casting the <<ref_cna_tr,CNA-TR-API>> `SmartCard` produced by the selection scenario
 when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 
-As a *dynamic view* of the SAM image, a `LegacySam` MUST be updated after every successful command processed by a
-*synchronous* transaction manager; *asynchronous* write managers MUST NOT update the local `LegacySam`.
+As a *dynamic view* of the SAM image, a `LegacySam` is updated after every successful command processed by a
+*synchronous* transaction manager; *asynchronous* write managers do not update the local `LegacySam`.
 
 ===== Get Application Sub Type
 
@@ -1197,7 +1197,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature   | `prepareGetData(tag: GetDataTag) -> LegacySamSelectionExtension`
 | Since       | 0.6
-| Description | Schedules the execution of a *Get Data* command for the supplied tag. The result MUST be accessible via a dedicated getter (e.g. `LegacySam.getCaCertificate`).
+| Description | Schedules the execution of a *Get Data* command for the supplied tag. The result is accessible via a dedicated getter (e.g. `LegacySam.getCaCertificate`).
 | Parameters  | `tag` (<<type_GetDataTag,`GetDataTag`>>) -- the tag to retrieve the data for.
 | Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 |===
@@ -1235,7 +1235,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature   | `prepareReadSamParameters() -> LegacySamSelectionExtension`
 | Since       | 0.7
-| Description | Schedules the execution of a *Read Parameters* command. The result MUST be available via `LegacySam.getSamParameters`.
+| Description | Schedules the execution of a *Read Parameters* command. The result is available via `LegacySam.getSamParameters`.
 | Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 | Throws      | None.
 |===
@@ -1247,7 +1247,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature   | `prepareReadSystemKeyParameters(systemKeyType: SystemKeyType) -> LegacySamSelectionExtension`
 | Since       | 0.3
-| Description | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result MUST be available via `LegacySam.getSystemKeyParameter`.
+| Description | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result is available via `LegacySam.getSystemKeyParameter`.
 | Parameters  | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the type of system key.
 | Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 |===
@@ -1380,7 +1380,7 @@ overload (e.g. dynamic SAM reader allocation).
 The operations on this interface mirror their equivalents on
 <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>. `prepareReadSamParameters`,
 `prepareReadSystemKeyParameters`, `prepareReadWorkKeyParameters` (both overloads), `prepareReadCounterStatus` and
-`prepareReadAllCountersStatus` MUST behave identically.
+`prepareReadAllCountersStatus` behaves identically.
 
 [[type_SamParameters]]
 ==== SAM Parameters
@@ -1684,7 +1684,7 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature   | `getSignedData() -> byte array`
 | Since       | 0.1
-| Description | Returns the data that was actually signed. If *SAM traceability* mode was enabled, the returned data MUST embed the SAM traceability information.
+| Description | Returns the data that was actually signed. If *SAM traceability* mode was enabled, the returned data embeds the SAM traceability information.
 | Returns     | A `byte array`.
 | Throws      | `IllegalStateException` -- if the command has not yet been processed.
 |===
@@ -1742,7 +1742,7 @@ The operations on this interface mirror their equivalents on
 | Since       | 0.1
 | Description
 | Indicates that the signature was computed in *SAM traceability* mode. When `samRevocationService` is supplied,
-  the revocation status of the signing SAM MUST be checked through it.
+  the revocation status of the signing SAM is checked through it.
 | Parameters
 | `offset` -- the bit offset after which the traceability data was written. +
   `samTraceabilityMode` (<<type_SamTraceabilityMode,`SamTraceabilityMode`>>) -- the traceability mode used. +
@@ -1824,7 +1824,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Schedules a *Write Ceilings* command for a counter ceiling and its free-incrementation configuration. Because
   the command writes a full record of nine counters, the application MUST have first read the status of the
   counters of that record (or have called this method for each of the other eight counters of the same record),
-  otherwise the manager MUST raise an exception when processing the commands.
+  otherwise an exception is raised when processing the commands.
 | Parameters
 | `counterNumber` -- the number of the counter to configure. +
   `ceilingValue` -- the ceiling value to set for the counter. +
