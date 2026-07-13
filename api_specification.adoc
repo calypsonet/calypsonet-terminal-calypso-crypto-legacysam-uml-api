@@ -1222,7 +1222,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Since       | 0.3
 | Description
 | Schedules the execution of *Read Event Counter* and *Read Ceiling* commands to read the status of the supplied
-  counter (`[0..26]`). Implementations MAY optimise the actual number of commands sent to the SAM by reading the
+  counter (`[0..26]`). The actual number of commands sent to the SAM will be reduced by reading the
   whole record at once.
 | Parameters  | `counterNumber` -- the number of the counter whose status is to be read (in range `[0..26]`).
 | Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
@@ -1714,8 +1714,8 @@ The operations on this interface mirror their equivalents on
 | Since       | 0.1
 | Description
 | Disables the *Busy* mode. The Busy mode (enabled by default) rejects repeated *PSO Verify Signature* attempts
-  for a few seconds after a failure. Implementations SHOULD recommend keeping the Busy mode enabled for
-  security-sensitive flows.
+  for a few seconds after a failure. Keeping the Busy mode enabled is RECOMMENDED for security-sensitive
+  flows.
 | Returns     | A <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
 | Throws      | None.
 |===
