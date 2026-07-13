@@ -1843,7 +1843,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Kind     | Interface (SPI)
 | Namespace  | `calypso.crypto.legacysam.spi`
 | Since    | 0.4
-| Purpose  | Computes the dynamic unlock data expected by the SAM.
+| Purpose  | Interface that the application MUST implement to compute the dynamic unlock data expected by the SAM.
 |===
 
 [[op_LegacySamStaticUnlockDataProviderSpi_getUnlockData]]
@@ -1868,7 +1868,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Kind     | Interface (SPI)
 | Namespace  | `calypso.crypto.legacysam.spi`
 | Since    | 0.1
-| Purpose  | Checks dynamically whether a SAM is revoked.
+| Purpose  | Interface that the application MUST implement to check dynamically whether a SAM is revoked.
 |===
 
 [[op_LegacySamRevocationServiceSpi_isSamRevoked_withCounter]]
@@ -1903,7 +1903,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Kind     | Interface (SPI)
 | Namespace  | `calypso.crypto.legacysam.spi`
 | Since    | 0.4
-| Purpose  | Computes the static unlock data expected by the target SAM.
+| Purpose  | Interface that the application MUST implement to compute the static unlock data expected by the target SAM.
 |===
 
 [[op_LegacySamDynamicUnlockDataProviderSpi_getUnlockData]]
