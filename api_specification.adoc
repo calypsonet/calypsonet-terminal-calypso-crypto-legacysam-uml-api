@@ -1957,16 +1957,22 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 ==== Legacy SAM Product Type
 
-Nested inside `LegacySam`.
-
-[cols="1,4", options="header"]
+[cols="1h,4", grid=rows, frame=all]
 |===
-| Value       | Description
-| `SAM_C1`    | SAM C1.
-| `HSM_C1`    | SAM C1 HSM.
-| `SAM_S1E1`  | SAM S1E1.
-| `SAM_S1DX`  | SAM S1Dx.
-| `UNKNOWN`   | Unidentified SAM.
+| Kind     | Enumeration
+| Namespace  | `calypso.crypto.legacysam.sam`.<<type_LegacySam,`LegacySam`>>
+| Since    | 0.1
+| Purpose  | Product type of a legacy SAM.
+|===
+
+[cols="1,1,4", options="header"]
+|===
+| Value       | Since | Description
+| `SAM_C1`    | 0.1 | SAM C1.
+| `HSM_C1`    | 0.1 | SAM C1 HSM.
+| `SAM_S1E1`  | 0.1 | SAM S1E1.
+| `SAM_S1DX`  | 0.1 | SAM S1Dx.
+| `UNKNOWN`   | 0.1 | Unidentified SAM.
 |===
 
 [[type_SamTraceabilityMode]]
