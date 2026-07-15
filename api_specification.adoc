@@ -1505,7 +1505,10 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer, diversifier: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
-| Description | Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with diversification by the supplied 8-byte diversifier. `workKeyParameters` MUST be 29 bytes long. `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
+| Description
+| Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with
+  diversification by the supplied 8-byte diversifier. `workKeyParameters` MUST be 29 bytes long.
+  `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
 | Returns     | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
 | Throws      | None.
 |===
@@ -1517,7 +1520,10 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager`
 | Since       | 0.7
-| Description | Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with diversification by the target SAM serial number. `workKeyParameters` MUST be 29 bytes long. `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
+| Description
+| Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with
+  diversification by the target SAM serial number. `workKeyParameters` MUST be 29 bytes long.
+  `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
 | Returns     | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
 | Throws      | None.
 |===
