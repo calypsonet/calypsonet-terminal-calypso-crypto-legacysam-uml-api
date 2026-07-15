@@ -1399,7 +1399,8 @@ overload (e.g. dynamic SAM reader allocation).
 | Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `string`) used to unlock a SAM C1 and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
 | Parameters  | `unlockData` -- the unlock data as a 32-character hexadecimal `string`.
 | Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
-| Throws      | `IllegalArgumentException` -- if the unlock data is malformed or out of range. + `IllegalStateException` -- if an unlocking setting has already been set.
+| Throws      | `IllegalArgumentException` -- if the unlock data is malformed or out of range. +
+  `IllegalStateException` -- if an unlocking setting has already been set.
 |===
 
 [[op_LegacySamSelectionExtension_setUnlockData_withProductType]]
