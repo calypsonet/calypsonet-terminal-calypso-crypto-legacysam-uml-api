@@ -1998,6 +1998,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | `CA_CERTIFICATE`   | 0.5 | CA Certificate (CACert). MAY be unavailable.
 |===
 
+[[type_ProductType]]
 ==== Legacy SAM Product Type
 
 [cols="1h,4", grid=rows, frame=all]
