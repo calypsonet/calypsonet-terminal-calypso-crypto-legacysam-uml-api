@@ -156,6 +156,7 @@ Each interface, class, enumeration and exception defined in this document is des
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name       | The type's normalized name.
 | Kind       | The category of the type (interface, class, enumeration, exception, etc.).
 | Namespace  | The namespace in which the type is defined.
 | Extends    | The type extended by this type, when applicable.
@@ -348,6 +349,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `LegacySamApiProperties`
 | Kind     | Final class
 | Namespace  | `calypso.crypto.legacysam`
 | Since    | 0.1
@@ -369,6 +371,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `AsyncTransactionCreatorManager`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Extends  | <<type_WriteTransactionManager,`WriteTransactionManager<AsyncTransactionCreatorManager>`>>
@@ -392,6 +395,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `AsyncTransactionExecutorManager`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Extends  | <<type_TransactionManager,`TransactionManager<AsyncTransactionExecutorManager>`>>
@@ -404,6 +408,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `BasicSignatureComputationData`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Extends  | `SignatureComputationData<BasicSignatureComputationData>`
@@ -416,14 +421,24 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [[type_BasicSignatureVerificationData]]
 ==== Basic Signature Verification Data
 
-Specialisation of <<type_SignatureVerificationData,`SignatureVerificationData`>> for verifications performed with
-the *Data Cipher* command. Declares no additional operation. _Since 0.1._
+[cols="1h,4", grid=rows, frame=all]
+|===
+| Name     | `BasicSignatureVerificationData`
+| Kind     | Interface
+| Namespace  | `calypso.crypto.legacysam.transaction`
+| Extends  | `SignatureVerificationData<BasicSignatureVerificationData>`
+| Since    | 0.1
+| Purpose  | Specialisation for basic signature verification using the *Data Cipher* command.
+|===
+
+`BasicSignatureVerificationData` declares no additional operation.
 
 [[type_CardTransactionLegacySamExtension]]
 ==== Card Transaction Legacy SAM Extension
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `CardTransactionLegacySamExtension`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Extends  | `CardTransactionCryptoExtension` (<<ref_cna_tcc,CNA-TCC-API>>)
@@ -468,6 +483,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `FreeTransactionManager`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Extends  | <<type_ReadTransactionManager,`ReadTransactionManager<FreeTransactionManager>`>>
@@ -578,6 +594,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `KeyPairContainer`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.5
@@ -600,6 +617,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `KeyParameter`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
 | Since    | 0.2
@@ -668,6 +686,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `LegacyCardCertificateComputationData`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.5
@@ -760,6 +779,7 @@ the *Data Cipher* command. Declares no additional operation. _Since 0.1._
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `LegacySam`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
 | Extends  | `SmartCard` (<<ref_cna_tr,CNA-TR-API>>)
@@ -993,6 +1013,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `LegacySamApiFactory`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam`
 | Since    | 0.3
@@ -1170,6 +1191,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `LegacySamSelectionExtension`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
 | Extends  | `CardSelectionExtension` (<<ref_cna_tr,CNA-TR-API>>)
@@ -1369,6 +1391,7 @@ overload (e.g. dynamic SAM reader allocation).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `ReadTransactionManager`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Generics | `<T extends ReadTransactionManager<T>>`
@@ -1387,6 +1410,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `SamParameters`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
 | Since    | 0.7
@@ -1409,6 +1433,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `SecureWriteTransactionManager`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Extends  | <<type_WriteTransactionManager,`WriteTransactionManager<SecureWriteTransactionManager>`>>
@@ -1545,6 +1570,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `SecuritySetting`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.2
@@ -1571,6 +1597,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `SignatureComputationData`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Generics | `<T extends SignatureComputationData<T>>`
@@ -1630,6 +1657,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `SignatureVerificationData`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Generics | `<T extends SignatureVerificationData<T>>`
@@ -1677,6 +1705,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `TraceableSignatureComputationData`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Extends  | `SignatureComputationData<TraceableSignatureComputationData>`
@@ -1731,6 +1760,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `TraceableSignatureVerificationData`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Extends  | `SignatureVerificationData<TraceableSignatureVerificationData>`
@@ -1775,6 +1805,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `TransactionManager`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Extends  | `CardTransactionManager` (<<ref_cna_tr,CNA-TR-API>>)
@@ -1793,6 +1824,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `WriteTransactionManager`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Generics | `<T extends WriteTransactionManager<T>>`
@@ -1846,6 +1878,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `LegacySamDynamicUnlockDataProviderSpi`
 | Kind     | Interface (SPI)
 | Namespace  | `calypso.crypto.legacysam.spi`
 | Since    | 0.4
@@ -1871,6 +1904,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `LegacySamRevocationServiceSpi`
 | Kind     | Interface (SPI)
 | Namespace  | `calypso.crypto.legacysam.spi`
 | Since    | 0.1
@@ -1906,6 +1940,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `LegacySamStaticUnlockDataProviderSpi`
 | Kind     | Interface (SPI)
 | Namespace  | `calypso.crypto.legacysam.spi`
 | Since    | 0.4
@@ -1931,6 +1966,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `CounterIncrementAccess`
 | Kind     | Enumeration
 | Namespace  | `calypso.crypto.legacysam`
 | Since    | 0.3
@@ -1949,6 +1985,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `GetDataTag`
 | Kind     | Enumeration
 | Namespace  | `calypso.crypto.legacysam`
 | Since    | 0.5
@@ -1965,6 +2002,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `ProductType`
 | Kind     | Enumeration
 | Namespace  | `calypso.crypto.legacysam.sam`.<<type_LegacySam,`LegacySam`>>
 | Since    | 0.1
@@ -1986,6 +2024,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `SamTraceabilityMode`
 | Kind     | Enumeration
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.3
@@ -2004,6 +2043,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `SystemKeyType`
 | Kind     | Enumeration
 | Namespace  | `calypso.crypto.legacysam`
 | Since    | 0.2
@@ -2027,6 +2067,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `InconsistentDataException`
 | Kind     | Runtime exception
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.1
@@ -2040,6 +2081,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `InvalidSignatureException`
 | Kind     | Runtime exception
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.1
@@ -2051,6 +2093,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="1h,4", grid=rows, frame=all]
 |===
+| Name     | `SamRevokedException`
 | Kind     | Runtime exception
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.1
