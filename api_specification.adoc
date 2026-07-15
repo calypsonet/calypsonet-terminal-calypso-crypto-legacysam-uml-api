@@ -379,6 +379,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Purpose  | Prepares write commands using a control SAM and exports them as a serialised stream for later replay by an <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>.
 |===
 
+[[op_AsyncTransactionCreatorManager_exportCommands]]
 ===== Export Commands
 
 [cols="1h,4", grid=rows, frame=all]
@@ -491,7 +492,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Purpose  | Transaction manager used when no control SAM is involved.
 |===
 
-[[op_exportTargetSamContextForAsyncTransaction]]
+[[op_FreeTransactionManager_exportTargetSamContextForAsyncTransaction]]
 ===== Export Target SAM Context For Async Transaction
 
 [cols="1h,4", grid=rows, frame=all]
@@ -601,6 +602,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Purpose  | Carries the output data of `prepareGenerateCardAsymmetricKeyPair`.
 |===
 
+[[op_KeyPairContainer_getKeyPair]]
 ===== Get Key Pair
 
 [cols="1h,4", grid=rows, frame=all]
@@ -624,6 +626,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Purpose  | Carries the parameters of a key managed by the SAM (system or work key).
 |===
 
+[[op_KeyParameter_getAlgorithm]]
 ===== Get Algorithm
 
 [cols="1h,4", grid=rows, frame=all]
@@ -635,6 +638,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Throws      | None.
 |===
 
+[[op_KeyParameter_getKif]]
 ===== Get KIF
 
 [cols="1h,4", grid=rows, frame=all]
@@ -646,6 +650,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Throws      | None.
 |===
 
+[[op_KeyParameter_getKvc]]
 ===== Get KVC
 
 [cols="1h,4", grid=rows, frame=all]
@@ -670,6 +675,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Throws      | `IllegalArgumentException` -- if the argument is out of range.
 |===
 
+[[op_KeyParameter_getRawData]]
 ===== Get Raw Data
 
 [cols="1h,4", grid=rows, frame=all]
@@ -693,6 +699,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Purpose  | Carries the input/output data of `prepareComputeCardCertificate`.
 |===
 
+[[op_LegacyCardCertificateComputationData_getCertificate]]
 ===== Get Certificate
 
 [cols="1h,4", grid=rows, frame=all]
@@ -793,6 +800,7 @@ when the selection extension was a <<type_LegacySamSelectionExtension,`LegacySam
 As a *dynamic view* of the SAM image, a `LegacySam` is updated after every successful command processed by a
 *synchronous* transaction manager; *asynchronous* write managers do not update the local `LegacySam`.
 
+[[op_LegacySam_getApplicationSubType]]
 ===== Get Application Sub Type
 
 [cols="1h,4", grid=rows, frame=all]
@@ -804,6 +812,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getApplicationType]]
 ===== Get Application Type
 
 [cols="1h,4", grid=rows, frame=all]
@@ -815,6 +824,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getCaCertificate]]
 ===== Get CA Certificate
 
 [cols="1h,4", grid=rows, frame=all]
@@ -850,6 +860,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getCounterCeilings]]
 ===== Get Counter Ceilings
 
 [cols="1h,4", grid=rows, frame=all]
@@ -873,6 +884,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getCounters]]
 ===== Get Counters
 
 [cols="1h,4", grid=rows, frame=all]
@@ -884,6 +896,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getPlatform]]
 ===== Get Platform
 
 [cols="1h,4", grid=rows, frame=all]
@@ -895,6 +908,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getProductInfo]]
 ===== Get Product Info
 
 [cols="1h,4", grid=rows, frame=all]
@@ -906,6 +920,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getProductType]]
 ===== Get Product Type
 
 [cols="1h,4", grid=rows, frame=all]
@@ -917,6 +932,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getSamParameters]]
 ===== Get SAM Parameters
 
 [cols="1h,4", grid=rows, frame=all]
@@ -928,6 +944,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getSerialNumber]]
 ===== Get Serial Number
 
 [cols="1h,4", grid=rows, frame=all]
@@ -939,6 +956,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getSoftwareIssuer]]
 ===== Get Software Issuer
 
 [cols="1h,4", grid=rows, frame=all]
@@ -950,6 +968,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getSoftwareRevision]]
 ===== Get Software Revision
 
 [cols="1h,4", grid=rows, frame=all]
@@ -961,6 +980,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySam_getSoftwareVersion]]
 ===== Get Software Version
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1029,7 +1049,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Since       | 0.3
 | Description
 | Returns a new <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>. The target SAM context
-  MUST have been produced by <<op_exportTargetSamContextForAsyncTransaction,`FreeTransactionManager.exportTargetSamContextForAsyncTransaction`>>.
+  MUST have been produced by <<op_FreeTransactionManager_exportTargetSamContextForAsyncTransaction,`FreeTransactionManager.exportTargetSamContextForAsyncTransaction`>>.
 | Parameters
 | `targetSamContext` -- the target SAM context. +
   `securitySetting` (<<type_SecuritySetting,`SecuritySetting`>>)  -- the security settings.
@@ -1052,6 +1072,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | `IllegalArgumentException` -- if any argument is invalid.
 |===
 
+[[op_LegacySamApiFactory_createBasicSignatureComputationData]]
 ===== Create Basic Signature Computation Data
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1063,6 +1084,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySamApiFactory_createBasicSignatureVerificationData]]
 ===== Create Basic Signature Verification Data
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1089,6 +1111,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | `IllegalArgumentException` -- if any argument is invalid.
 |===
 
+[[op_LegacySamApiFactory_createKeyPairContainer]]
 ===== Create Key Pair Container
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1100,6 +1123,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySamApiFactory_createLegacyCardCertificateComputationData]]
 ===== Create Legacy Card Certificate Computation Data
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1111,6 +1135,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySamApiFactory_createLegacySamSelectionExtension]]
 ===== Create Legacy SAM Selection Extension
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1138,6 +1163,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | `IllegalArgumentException` -- if any argument is invalid.
 |===
 
+[[op_LegacySamApiFactory_createSecuritySetting]]
 ===== Create Security Setting
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1164,6 +1190,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | `IllegalArgumentException` -- if any argument is invalid.
 |===
 
+[[op_LegacySamApiFactory_createTraceableSignatureComputationData]]
 ===== Create Traceable Signature Computation Data
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1175,6 +1202,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Throws      | None.
 |===
 
+[[op_LegacySamApiFactory_createTraceableSignatureVerificationData]]
 ===== Create Traceable Signature Verification Data
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1224,6 +1252,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 |===
 
+[[op_LegacySamSelectionExtension_prepareReadAllCountersStatus]]
 ===== Prepare Read All Counters Status
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1251,6 +1280,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Throws      | `IllegalArgumentException` -- if the counter number is out of range.
 |===
 
+[[op_LegacySamSelectionExtension_prepareReadSamParameters]]
 ===== Prepare Read SAM Parameters
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1417,6 +1447,7 @@ The operations on this interface mirror their equivalents on
 | Purpose  | Carries the parameters of the SAM as a single immutable record.
 |===
 
+[[op_SamParameters_getRawData]]
 ===== Get Raw Data
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1605,6 +1636,7 @@ The operations on this interface mirror their equivalents on
 | Purpose  | Common base contract for the input/output data of a signature computation.
 |===
 
+[[op_SignatureComputationData_getSignature]]
 ===== Get Signature
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1665,6 +1697,7 @@ The operations on this interface mirror their equivalents on
 | Purpose  | Common base contract for the input/output data of a signature verification.
 |===
 
+[[op_SignatureVerificationData_isSignatureValid]]
 ===== Is Signature Valid
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1713,6 +1746,7 @@ The operations on this interface mirror their equivalents on
 | Purpose  | Specialisation for traceable signature computation using the *PSO Compute Signature* command.
 |===
 
+[[op_TraceableSignatureComputationData_getSignedData]]
 ===== Get Signed Data
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1741,6 +1775,7 @@ The operations on this interface mirror their equivalents on
 | Returns     | A <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
 |===
 
+[[op_TraceableSignatureComputationData_withoutBusyMode]]
 ===== Without Busy Mode
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1786,6 +1821,7 @@ The operations on this interface mirror their equivalents on
 | Returns     | A <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
 |===
 
+[[op_TraceableSignatureVerificationData_withoutBusyMode]]
 ===== Without Busy Mode
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1885,7 +1921,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Purpose  | Interface that the application MUST implement to compute the dynamic unlock data expected by the SAM.
 |===
 
-[[op_LegacySamStaticUnlockDataProviderSpi_getUnlockData]]
+[[op_LegacySamDynamicUnlockDataProviderSpi_getUnlockData]]
 ===== Get Unlock Data
 
 [cols="1h,4", grid=rows, frame=all]
@@ -1947,7 +1983,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Purpose  | Interface that the application MUST implement to compute the static unlock data expected by the target SAM.
 |===
 
-[[op_LegacySamDynamicUnlockDataProviderSpi_getUnlockData]]
+[[op_LegacySamStaticUnlockDataProviderSpi_getUnlockData]]
 ===== Get Unlock Data
 
 [cols="1h,4", grid=rows, frame=all]
