@@ -299,11 +299,12 @@ skinparam roundCorner 8
 component "Terminal Application" as App
 component "Terminal Calypso Card API\n[CNA-TCC-API]" as TCC
 component "Terminal Calypso Crypto\nSymmetric API [CNA-TCCS-API]" as TCCS
-component "Terminal Calypso Crypto\nLegacy SAM API (this spec)" as TCCL #LightYellow
+component "Terminal Calypso Crypto\nLegacy SAM API (this specification)" as TCCL #LightYellow
 component "Legacy SAM\n(SAM C1, HSM C1, S1E1, S1Dx)" as SAM
 
 App  --> TCCL : uses
 App  --> TCC  : uses
+TCC  --> TCCS  : delegates crypto operations
 TCCL ..> TCCS : implements (factory)
 TCCL --> SAM  : drives
 @enduml
@@ -832,7 +833,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Signature   | `getCaCertificate() -> byte array?`
 | Since       | 0.5
 | Description | Returns the CA certificate retrieved from the SAM (384 bytes); `null` if not available.
-| Returns     | A `byte array`.
+| Returns     | A `byte array`, or `null` if not available.
 | Throws      | None.
 |===
 
@@ -1413,7 +1414,8 @@ overload (e.g. dynamic SAM reader allocation).
 | `unlockData`  -- the unlock data as a 32-character hexadecimal `string`. +
   `productType` -- the targeted product type.
 | Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
-| Throws      | `IllegalArgumentException` -- if any argument is malformed or out of range. + `IllegalStateException` -- if an unlocking setting has already been set.
+| Throws      | `IllegalArgumentException` -- if any argument is malformed or out of range. +
+  `IllegalStateException` -- if an unlocking setting has already been set.
 |===
 
 [[type_ReadTransactionManager]]
