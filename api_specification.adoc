@@ -1300,7 +1300,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
 | Since       | 0.4
-| Description | Same as the previous overload, with the target SAM reader supplied at creation time.
+| Description | Sets the dynamic-unlock-data provider, with the target SAM reader supplied at creation time. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
 | Parameters
 | `dynamicUnlockDataProvider` (<<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>. +
   `targetSamReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>))           -- the card reader used to communicate with the target SAM.
@@ -1328,7 +1328,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature   | `setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
 | Since       | 0.4
-| Description | Same as the previous overload, with the target SAM reader supplied at creation time.
+| Description | Sets the static-unlock-data provider, with the target SAM reader supplied at creation time. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
 | Parameters
 | `staticUnlockDataProvider` (<<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>. +
   `targetSamReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>))          -- the card reader used to communicate with the target SAM.
@@ -1356,7 +1356,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature   | `setUnlockData(unlockData: string, productType: LegacySam.ProductType) -> LegacySamSelectionExtension`
 | Since       | 0.3
-| Description | Same as the previous overload, with an explicit target product type.
+| Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `string`) used to unlock a SAM C1, with an explicit target product type, and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
 | Parameters
 | `unlockData`  -- the unlock data as a 32-character hexadecimal `string`. +
   `productType` -- the targeted product type.
@@ -1447,7 +1447,7 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature   | `prepareTransferLockDiversified(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager`
 | Since       | 0.7
-| Description | Same as `prepareTransferLock`, with diversification by the target SAM serial number.
+| Description | Schedules a *Write Key* command transferring a lock file from the control SAM to the target SAM, with diversification by the target SAM serial number.
 | Returns     | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
 | Throws      | None.
 |===
@@ -1475,7 +1475,7 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature   | `prepareTransferSystemKeyDiversified(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
-| Description | Same as `prepareTransferSystemKey`, but the key is first diversified with the target SAM serial number.
+| Description | Schedules a *Write Key* command transferring a system key from the control SAM to the target SAM, with the key first diversified with the target SAM serial number. `systemKeyParameters` MUST be 29 bytes long.
 | Parameters
 | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the system key to transfer. +
   `kvc` -- the KVC of the key. +
@@ -1505,7 +1505,7 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer, diversifier: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
-| Description | Same as `prepareTransferWorkKey`, with diversification by the supplied 8-byte diversifier.
+| Description | Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with diversification by the supplied 8-byte diversifier. `workKeyParameters` MUST be 29 bytes long. `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
 | Returns     | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
 | Throws      | None.
 |===
@@ -1517,7 +1517,7 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager`
 | Since       | 0.7
-| Description | Same as `prepareTransferWorkKey`, with diversification by the target SAM serial number.
+| Description | Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with diversification by the target SAM serial number. `workKeyParameters` MUST be 29 bytes long. `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
 | Returns     | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
 | Throws      | None.
 |===
