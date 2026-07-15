@@ -1281,7 +1281,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 
 [[op_LegacySamSelectionExtension_setDynamicUnlockDataProvider]]
-===== Set Dynamic Unlock Data Provider (No Args)
+===== Set Dynamic Unlock Data Provider (No Target SAM Reader)
 
 [cols="1h,4", grid=rows, frame=all]
 |===
@@ -1309,7 +1309,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 
 [[op_LegacySamSelectionExtension_setStaticUnlockDataProvider]]
-===== Set Static Unlock Data Provider (No Args)
+===== Set Static Unlock Data Provider (No Target SAM Reader)
 
 [cols="1h,4", grid=rows, frame=all]
 |===
@@ -1337,7 +1337,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 
 [[op_LegacySamSelectionExtension_setUnlockData]]
-===== Set Unlock Data (No Args)
+===== Set Unlock Data (No Product Type)
 
 [cols="1h,4", grid=rows, frame=all]
 |===
@@ -1511,7 +1511,7 @@ The operations on this interface mirror their equivalents on
 |===
 
 [[op_SecureWriteTransactionManager_prepareTransferWorkKeyDiversified]]
-===== Prepare Transfer Work Key Diversified (No Args)
+===== Prepare Transfer Work Key Diversified (No Diversifier)
 
 [cols="1h,4", grid=rows, frame=all]
 |===
@@ -1884,7 +1884,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 
 [[op_LegacySamRevocationServiceSpi_isSamRevoked]]
-===== Is SAM Revoked (No Args)
+===== Is SAM Revoked (No Counter Value)
 
 [cols="1h,4", grid=rows, frame=all]
 |===
