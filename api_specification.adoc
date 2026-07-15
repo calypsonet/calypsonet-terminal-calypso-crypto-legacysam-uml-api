@@ -929,7 +929,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Signature   | `getProductType() -> ProductType`
 | Since       | 0.1
 | Description | Returns the SAM product type. Possible values: `SAM_C1`, `HSM_C1`, `SAM_S1E1`, `SAM_S1DX`, `UNKNOWN`.
-| Returns     | A `ProductType`.
+| Returns     | A <<type_ProductType,`ProductType`>>.
 | Throws      | None.
 |===
 
@@ -1413,7 +1413,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `string`) used to unlock a SAM C1, with an explicit target product type, and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
 | Parameters
 | `unlockData`  -- the unlock data as a 32-character hexadecimal `string`. +
-  `productType` -- the targeted product type.
+  `productType` (<<type_ProductType,`LegacySam.ProductType`>>) -- the targeted product type.
 | Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 | Throws      | `IllegalArgumentException` -- if any argument is malformed or out of range. +
   `IllegalStateException` -- if an unlocking setting has already been set.
