@@ -163,6 +163,7 @@ Each interface, class, enumeration and exception defined in this document is des
 | Implements | The interface implemented by this type, when applicable.
 | Since      | The version of the API in which the type was introduced.
 | Purpose    | A normative description of the type's responsibility.
+| See also   | Cross-references to related operations or types, each a hyperlink to the corresponding table. Present only when applicable.
 |===
 
 ==== Operation tables
@@ -177,6 +178,7 @@ Each operation defined in this document is described by a table of the form:
 | Parameters  | A description of each input parameter.
 | Returns     | A description of the returned value, if any.
 | Throws      | A list of exceptional conditions, each mapped to a specific exception type.
+| See also    | Cross-references to related operations or types, each a hyperlink to the corresponding table. Present only when applicable.
 |===
 
 ==== Operation contracts
@@ -378,6 +380,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Extends  | <<type_WriteTransactionManager,`WriteTransactionManager<AsyncTransactionCreatorManager>`>>
 | Since    | 0.2
 | Purpose  | Prepares write commands using a control SAM and exports them as a serialised stream for later replay by an <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>. An instance is obtained via <<op_LegacySamApiFactory_createAsyncTransactionCreatorManager,`LegacySamApiFactory.createAsyncTransactionCreatorManager`>>.
+| See also    | <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>
 |===
 
 [[op_AsyncTransactionCreatorManager_exportCommands]]
@@ -403,6 +406,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Extends  | <<type_TransactionManager,`TransactionManager<AsyncTransactionExecutorManager>`>>
 | Since    | 0.2
 | Purpose  | Executes a command stream prepared by an <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>. Declares no additional operation. An instance is obtained via <<op_LegacySamApiFactory_createAsyncTransactionExecutorManager,`LegacySamApiFactory.createAsyncTransactionExecutorManager`>>.
+| See also    | <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>
 |===
 
 [[type_BasicSignatureComputationData]]
@@ -462,6 +466,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Parameters  | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_CardTransactionLegacySamExtension,`CardTransactionLegacySamExtension`>>).
 | Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
+| See also    | <<type_SignatureComputationData,`SignatureComputationData`>> +
+                <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> +
+                <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>
 |===
 
 [[op_CardTransactionLegacySamExtension_prepareVerifySignature]]
@@ -478,6 +485,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | `IllegalArgumentException` -- if the input data is inconsistent. +
   <<type_SamRevokedException,`SamRevokedException`>> -- if the signature was computed in *SAM traceability* mode, the revocation check was
   requested and the SAM is revoked (traceable signatures only).
+| See also    | <<type_SignatureVerificationData,`SignatureVerificationData`>> +
+                <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>> +
+                <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>
 |===
 
 [[type_FreeTransactionManager]]
@@ -517,6 +527,8 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Description | Schedules the execution of a *PSO Compute Certificate* command. The result is written into the supplied data carrier.
 | Parameters  | `data` (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
+| See also    | <<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>> +
+                <<op_LegacySamApiFactory_createLegacyCardCertificateComputationData,`LegacySamApiFactory.createLegacyCardCertificateComputationData`>>
 |===
 
 [[op_FreeTransactionManager_prepareComputeSignature]]
@@ -533,6 +545,10 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Parameters  | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
 | Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
+| See also    | <<type_SignatureComputationData,`SignatureComputationData`>> +
+                <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> +
+                <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>> +
+                <<op_LegacySamApiFactory_createBasicSignatureComputationData,`LegacySamApiFactory.createBasicSignatureComputationData`>>
 |===
 
 [[op_FreeTransactionManager_prepareGenerateCardAsymmetricKeyPair]]
@@ -545,6 +561,8 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Description | Schedules the execution of a *Card Generate Asymmetric Key Pair* command. The result is written into the supplied container.
 | Parameters  | `keyPairContainer` (<<type_KeyPairContainer,`KeyPairContainer`>>) -- the container for the output data.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
+| See also    | <<type_KeyPairContainer,`KeyPairContainer`>> +
+                <<op_LegacySamApiFactory_createKeyPairContainer,`LegacySamApiFactory.createKeyPairContainer`>>
 |===
 
 [[op_FreeTransactionManager_prepareGetData]]
@@ -589,6 +607,10 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | `IllegalArgumentException` -- if the input data is inconsistent. +
   <<type_SamRevokedException,`SamRevokedException`>> -- if the signature was computed in *SAM traceability* mode, the revocation check was
   requested and the SAM is revoked (traceable signatures only).
+| See also    | <<type_SignatureVerificationData,`SignatureVerificationData`>> +
+                <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>> +
+                <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>> +
+                <<op_LegacySamApiFactory_createBasicSignatureVerificationData,`LegacySamApiFactory.createBasicSignatureVerificationData`>>
 |===
 
 [[type_KeyPairContainer]]
@@ -835,6 +857,8 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the CA certificate retrieved from the SAM (384 bytes); `null` if not available.
 | Returns     | A non-empty `byte array`, or `null` if not available.
 | Throws      | None.
+| See also    | <<op_LegacySamSelectionExtension_prepareGetData,`LegacySamSelectionExtension.prepareGetData`>> +
+                <<op_FreeTransactionManager_prepareGetData,`FreeTransactionManager.prepareGetData`>>
 |===
 
 [[op_LegacySam_getCounter]]
@@ -847,6 +871,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the value of the supplied counter (`[0..26]`). `null` if the value is not set.
 | Returns     | An `integer` value, or `null` if the value is not set.
 | Throws      | None.
+| See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
 |===
 
 [[op_LegacySam_getCounterCeiling]]
@@ -859,6 +884,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the ceiling value of the supplied counter; `null` if not set.
 | Returns     | An `integer` value, or `null` if not set.
 | Throws      | None.
+| See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
 |===
 
 [[op_LegacySam_getCounterCeilings]]
@@ -871,6 +897,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the known ceiling values, keyed by ceiling number.
 | Returns     | A `sortedMap<integer, integer>`; empty if no ceiling is known.
 | Throws      | None.
+| See also    | <<op_LegacySamSelectionExtension_prepareReadAllCountersStatus,`LegacySamSelectionExtension.prepareReadAllCountersStatus`>>
 |===
 
 [[op_LegacySam_getCounterIncrementAccess]]
@@ -883,6 +910,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the increment-access mode for the supplied counter; `null` if unknown.
 | Returns     | A <<type_CounterIncrementAccess,`CounterIncrementAccess`>>, or `null` if unknown.
 | Throws      | None.
+| See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
 |===
 
 [[op_LegacySam_getCounters]]
@@ -895,6 +923,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the values of the known counters, keyed by counter number.
 | Returns     | A `sortedMap<integer, integer>`; empty if no counter is known.
 | Throws      | None.
+| See also    | <<op_LegacySamSelectionExtension_prepareReadAllCountersStatus,`LegacySamSelectionExtension.prepareReadAllCountersStatus`>>
 |===
 
 [[op_LegacySam_getPlatform]]
@@ -943,6 +972,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the SAM parameters; `null` if not available.
 | Returns     | A <<type_SamParameters,`SamParameters`>>, or `null` if not available.
 | Throws      | None.
+| See also    | <<op_LegacySamSelectionExtension_prepareReadSamParameters,`LegacySamSelectionExtension.prepareReadSamParameters`>>
 |===
 
 [[op_LegacySam_getSerialNumber]]
@@ -1003,6 +1033,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the parameters of the supplied system key; `null` if not available.
 | Parameters  | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the system key whose parameters are requested.
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
+| See also    | <<op_LegacySamSelectionExtension_prepareReadSystemKeyParameters,`LegacySamSelectionExtension.prepareReadSystemKeyParameters`>>
 |===
 
 [[op_LegacySam_getWorkKeyParameter_byKifKvc]]
@@ -1015,6 +1046,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available.
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
 | Throws      | None.
+| See also    | <<op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byKifKvc,`LegacySamSelectionExtension.prepareReadWorkKeyParameters(byte, byte)`>>
 |===
 
 [[op_LegacySam_getWorkKeyParameter_byRecord]]
@@ -1027,6 +1059,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available.
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
 | Throws      | `IllegalArgumentException` -- if the record number is out of range.
+| See also    | <<op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byRecord,`LegacySamSelectionExtension.prepareReadWorkKeyParameters(int)`>>
 |===
 
 [[type_LegacySamApiFactory]]
@@ -1822,6 +1855,7 @@ The operations on this interface mirror their equivalents on
   `samTraceabilityMode` (<<type_SamTraceabilityMode,`SamTraceabilityMode`>>) -- the traceability mode used. +
   `samRevocationService` (<<type_LegacySamRevocationServiceSpi,`LegacySamRevocationServiceSpi`>>) -- the optional service used to check the signing SAM's revocation status.
 | Returns     | The current instance (<<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>).
+| See also    | <<op_TraceableSignatureComputationData_withSamTraceabilityMode,`TraceableSignatureComputationData.withSamTraceabilityMode`>>
 |===
 
 [[op_TraceableSignatureVerificationData_withoutBusyMode]]
@@ -1837,6 +1871,7 @@ The operations on this interface mirror their equivalents on
   SHOULD retry until the busy window expires (a few seconds, never more than ten).
 | Returns     | The current instance (<<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>).
 | Throws      | None.
+| See also    | <<op_TraceableSignatureComputationData_withoutBusyMode,`TraceableSignatureComputationData.withoutBusyMode`>>
 |===
 
 [[type_TransactionManager]]
