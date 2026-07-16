@@ -1113,7 +1113,11 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature   | `createBasicSignatureComputationData() -> BasicSignatureComputationData`
 | Since       | 0.3
-| Description | Returns a new empty <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>>.
+| Description
+| Creates an empty <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> that carries the input and
+output data of a *basic* signature computation performed with the SAM's *Data Cipher* command. For the traceable
+variant, use
+<<op_LegacySamApiFactory_createTraceableSignatureComputationData,`createTraceableSignatureComputationData`>>.
 | Returns     | A <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>>.
 | Throws      | None.
 |===
@@ -1125,7 +1129,11 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature   | `createBasicSignatureVerificationData() -> BasicSignatureVerificationData`
 | Since       | 0.3
-| Description | Returns a new empty <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>>.
+| Description
+| Creates an empty <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>> that carries the input
+and output data of a *basic* signature verification performed with the SAM's *Data Cipher* command. For the
+traceable variant, use
+<<op_LegacySamApiFactory_createTraceableSignatureVerificationData,`createTraceableSignatureVerificationData`>>.
 | Returns     | A <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>>.
 | Throws      | None.
 |===
@@ -1152,7 +1160,9 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature   | `createKeyPairContainer() -> KeyPairContainer`
 | Since       | 0.5
-| Description | Returns a new empty <<type_KeyPairContainer,`KeyPairContainer`>>.
+| Description
+| Creates an empty <<type_KeyPairContainer,`KeyPairContainer`>> used to collect the output of
+`prepareGenerateCardAsymmetricKeyPair`.
 | Returns     | A <<type_KeyPairContainer,`KeyPairContainer`>>.
 | Throws      | None.
 |===
@@ -1164,7 +1174,9 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature   | `createLegacyCardCertificateComputationData() -> LegacyCardCertificateComputationData`
 | Since       | 0.5
-| Description | Returns a new empty <<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>.
+| Description
+| Creates an empty <<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>> that carries
+the input and output data of `prepareComputeCardCertificate`.
 | Returns     | A <<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>.
 | Throws      | None.
 |===
@@ -1176,7 +1188,9 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature   | `createLegacySamSelectionExtension() -> LegacySamSelectionExtension`
 | Since       | 0.3
-| Description | Returns a new <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
+| Description
+| Creates a <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>> that enriches a
+<<ref_cna_tr,CNA-TR-API>> selection scenario with SAM-specific commands (Unlock, Read Parameters, etc.).
 | Returns     | A <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>.
 | Throws      | None.
 |===
@@ -1204,7 +1218,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature   | `createSecuritySetting() -> SecuritySetting`
 | Since       | 0.3
-| Description | Returns a new <<type_SecuritySetting,`SecuritySetting`>>.
+| Description
+| Creates a <<type_SecuritySetting,`SecuritySetting`>> carrying the configuration for legacy-SAM transactions secured
+by a control SAM, as consumed by
+<<op_LegacySamApiFactory_createSecureWriteTransactionManager,`createSecureWriteTransactionManager`>>.
 | Returns     | A <<type_SecuritySetting,`SecuritySetting`>>.
 | Throws      | None.
 |===
@@ -1231,7 +1248,11 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature   | `createTraceableSignatureComputationData() -> TraceableSignatureComputationData`
 | Since       | 0.3
-| Description | Returns a new empty <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
+| Description
+| Creates an empty <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>> that carries the
+input and output data of a *traceable* signature computation performed with the SAM's *PSO Compute Signature*
+command. For the basic variant, use
+<<op_LegacySamApiFactory_createBasicSignatureComputationData,`createBasicSignatureComputationData`>>.
 | Returns     | A <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
 | Throws      | None.
 |===
@@ -1243,7 +1264,11 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature   | `createTraceableSignatureVerificationData() -> TraceableSignatureVerificationData`
 | Since       | 0.3
-| Description | Returns a new empty <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
+| Description
+| Creates an empty <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>> that carries the
+input and output data of a *traceable* signature verification performed with the SAM's *PSO Verify Signature*
+command. For the basic variant, use
+<<op_LegacySamApiFactory_createBasicSignatureVerificationData,`createBasicSignatureVerificationData`>>.
 | Returns     | A <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
 | Throws      | None.
 |===
