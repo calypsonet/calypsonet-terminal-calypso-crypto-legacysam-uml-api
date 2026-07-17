@@ -541,6 +541,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Description | Schedules the execution of a *PSO Compute Certificate* command. The result is written into the supplied data carrier.
 | Parameters  | `data` (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
+| Throws      | None.
 | See also    | <<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>> +
                 <<op_LegacySamApiFactory_createLegacyCardCertificateComputationData,`LegacySamApiFactory.createLegacyCardCertificateComputationData`>>
 |===
@@ -580,6 +581,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Description | Schedules the execution of a *Card Generate Asymmetric Key Pair* command. The result is written into the supplied container.
 | Parameters  | `keyPairContainer` (<<type_KeyPairContainer,`KeyPairContainer`>>) -- the container for the output data.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
+| Throws      | None.
 | See also    | <<type_KeyPairContainer,`KeyPairContainer`>> +
                 <<op_LegacySamApiFactory_createKeyPairContainer,`LegacySamApiFactory.createKeyPairContainer`>>
 |===
@@ -597,6 +599,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
   <<op_LegacySam_getCaCertificate,`getCaCertificate`>>.
 | Parameters  | `tag` (<<type_GetDataTag,`GetDataTag`>>) -- the tag to retrieve the data for.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
+| Throws      | None.
 |===
 
 [[op_FreeTransactionManager_preparePlainWriteLock]]
@@ -768,6 +771,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `setCardAid(aid: byte array) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
 | Description | Sets the AID of the autonomous PKI application of the target card. The AID MUST be 5 to 16 bytes and MUST NOT contain only zero bytes.
+| Parameters  | `aid` -- the AID value as a 5 to 16 bytes byte array. Must not contain only zero bytes.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
 | Throws      | `IllegalArgumentException` -- if the AID is out of range, or contains only zero bytes.
 |===
@@ -781,6 +785,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Since       | 0.5
 | Description
 | Sets the card public key (64 bytes, secp256r1 curve). This key is used for the verification of card signatures.
+| Parameters  | `cardPublicKey` -- the 64-byte array representing the public key on the secp256r1 curve.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
 | Throws      | `IllegalArgumentException` -- if the key is out of range.
 |===
@@ -793,6 +798,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `setCardSerialNumber(serialNumber: byte array) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
 | Description | Sets the 8-byte card serial number.
+| Parameters  | `serialNumber` -- the serial number of the card as an 8-byte byte array.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
 | Throws      | `IllegalArgumentException` -- if the argument is out of range.
 |===
@@ -805,6 +811,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `setCardStartupInfo(startupInfo: byte array) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
 | Description | Sets the 7-byte startup info to embed in the certificate.
+| Parameters  | `startupInfo` -- the 7-byte byte array representing the startup info for the card certificate.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
 | Throws      | `IllegalArgumentException` -- if the argument is out of range.
 |===
@@ -819,7 +826,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Description
 | Sets the end of the validity period. The end date is optional: when it is not defined, the certificate is not
   subject to an end date constraint.
+| Parameters  | `endDate` -- the end date.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
+| Throws      | None.
 |===
 
 [[op_LegacyCardCertificateComputationData_setStartDate]]
@@ -832,7 +841,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Description
 | Sets the start of the validity period. The start date is optional: when it is not defined, the certificate is
   not subject to a start date constraint.
+| Parameters  | `startDate` -- the start date.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
+| Throws      | None.
 |===
 
 [[type_LegacySam]]
@@ -900,6 +911,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Signature   | `getCounter(counterNumber: integer) -> integer?`
 | Since       | 0.1
 | Description | Returns the value of the supplied counter (`[0..26]`). `null` if the value is not set.
+| Parameters  | `counterNumber` -- the number of the counter (in range [0..26]).
 | Returns     | An `integer` value, or `null` if the value is not set.
 | Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
@@ -913,6 +925,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Signature   | `getCounterCeiling(counterNumber: integer) -> integer?`
 | Since       | 0.1
 | Description | Returns the ceiling value of the supplied counter; `null` if not set.
+| Parameters  | `counterNumber` -- the number of the counter ceiling (in range [0..26]).
 | Returns     | An `integer` value, or `null` if not set.
 | Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
@@ -939,6 +952,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Signature   | `getCounterIncrementAccess(counterNumber: integer) -> CounterIncrementAccess?`
 | Since       | 0.2
 | Description | Returns the increment-access mode for the supplied counter; `null` if unknown.
+| Parameters  | `counterNumber` -- the number of the counter being checked.
 | Returns     | A <<type_CounterIncrementAccess,`CounterIncrementAccess`>>, or `null` if unknown.
 | Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
@@ -1064,6 +1078,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the parameters of the supplied system key; `null` if not available.
 | Parameters  | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the system key whose parameters are requested.
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
+| Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadSystemKeyParameters,`LegacySamSelectionExtension.prepareReadSystemKeyParameters`>>
 |===
 
@@ -1075,6 +1090,9 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Signature   | `getWorkKeyParameter(kif: byte, kvc: byte) -> KeyParameter?`
 | Since       | 0.7
 | Description | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available.
+| Parameters
+| `kif` -- the key KIF. +
+  `kvc` -- the key KVC.
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
 | Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byKifKvc,`LegacySamSelectionExtension.prepareReadWorkKeyParameters(byte, byte)`>>
@@ -1088,6 +1106,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Signature   | `getWorkKeyParameter(recordNumber: integer) -> KeyParameter?`
 | Since       | 0.7
 | Description | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available.
+| Parameters  | `recordNumber` -- the key record number (in range [1..126]).
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
 | Throws      | `IllegalArgumentException` -- if the record number is out of range.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byRecord,`LegacySamSelectionExtension.prepareReadWorkKeyParameters(int)`>>
@@ -1118,6 +1137,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Parameters
 | `targetSamContext` -- the target SAM context. +
   `securitySetting` (<<type_SecuritySetting,`SecuritySetting`>>)  -- the security settings.
+| Returns     | An <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>.
 | Throws      | `IllegalArgumentException` -- if any argument is invalid.
 |===
 
@@ -1340,6 +1360,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Description | Schedules the execution of a *Get Data* command for the supplied tag. The result is accessible via a dedicated getter (e.g. `LegacySam.getCaCertificate`).
 | Parameters  | `tag` (<<type_GetDataTag,`GetDataTag`>>) -- the tag to retrieve the data for.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
+| Throws      | None.
 |===
 
 [[op_LegacySamSelectionExtension_prepareReadAllCountersStatus]]
@@ -1392,6 +1413,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Description | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result is available via `LegacySam.getSystemKeyParameter`.
 | Parameters  | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the type of system key.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
+| Throws      | None.
 |===
 
 [[op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byKifKvc]]
@@ -1581,6 +1603,10 @@ The operations on this interface mirror their equivalents on
 | Signature   | `preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command to set the lock file with a plain-text 16-byte lock value.
+| Parameters
+| `lockIndex` -- the index of the lock file. +
+  `lockParameters` -- the lock permissions parameters. +
+  `lockValue` -- a 16-byte byte array representing the lock's value.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
 | Throws      | `IllegalArgumentException` -- if `lockValue` is out of range.
 |===
@@ -1593,6 +1619,9 @@ The operations on this interface mirror their equivalents on
 | Signature   | `prepareTransferLock(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a lock file from the control SAM to the target SAM.
+| Parameters
+| `lockIndex` -- the index of the lock file. +
+  `lockParameters` -- the lock permissions parameters.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
 | Throws      | None.
 |===
@@ -1605,6 +1634,9 @@ The operations on this interface mirror their equivalents on
 | Signature   | `prepareTransferLockDiversified(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a lock file from the control SAM to the target SAM, with diversification by the target SAM serial number.
+| Parameters
+| `lockIndex` -- the index of the lock file. +
+  `lockParameters` -- the lock permissions parameters.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
 | Throws      | None.
 |===
@@ -1651,6 +1683,11 @@ The operations on this interface mirror their equivalents on
 | Description
 | Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM. `workKeyParameters`
   MUST be 29 bytes long. `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
+| Parameters
+| `kif` -- the KIF of the key. +
+  `kvc` -- the KVC of the key. +
+  `workKeyParameters` -- a 29-byte byte array containing the key parameter data. +
+  `targetRecordNumber` -- the number of the record where to store the key (in range [0..126]).
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
 | Throws      | `IllegalArgumentException` -- if any argument is out of range.
 |===
@@ -1666,6 +1703,12 @@ The operations on this interface mirror their equivalents on
 | Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with
   diversification by the supplied 8-byte diversifier. `workKeyParameters` MUST be 29 bytes long.
   `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
+| Parameters
+| `kif` -- the KIF of the key. +
+  `kvc` -- the KVC of the key. +
+  `workKeyParameters` -- a 29-byte byte array containing the key parameter data. +
+  `targetRecordNumber` -- the number of the record where to store the key (in range [0..126]). +
+  `diversifier` -- a 8-byte byte array to use as key diversifier.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
 | Throws      | None.
 |===
@@ -1681,6 +1724,11 @@ The operations on this interface mirror their equivalents on
 | Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with
   diversification by the target SAM serial number. `workKeyParameters` MUST be 29 bytes long.
   `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
+| Parameters
+| `kif` -- the KIF of the key. +
+  `kvc` -- the KVC of the key. +
+  `workKeyParameters` -- a 29-byte byte array containing the key parameter data. +
+  `targetRecordNumber` -- the number of the record where to store the key (in range [0..126]).
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
 | Throws      | None.
 |===
@@ -1693,6 +1741,7 @@ The operations on this interface mirror their equivalents on
 | Signature   | `prepareWriteSamParameters(parameters: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Parameters* command. The supplied buffer MUST be 29 bytes long.
+| Parameters  | `parameters` -- a 29-byte byte array representing the content of the SAM parameters file.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
 | Throws      | `IllegalArgumentException` -- if the argument is out of range.
 |===
@@ -1757,6 +1806,10 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setData(data: byte array, kif: byte, kvc: byte) -> T`
 | Since       | 0.1
 | Description | Sets the data to sign and the KIF/KVC of the key.
+| Parameters
+| `data` -- the data to be signed. +
+  `kif` -- the KIF of the key to be used for the signature computation. +
+  `kvc` -- the KVC of the key to be used for the signature computation.
 | Returns     | The current instance (`T`).
 | Throws      | None.
 |===
@@ -1769,6 +1822,7 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
 | Since       | 0.1
 | Description | Sets an explicit 1-to-8-byte key diversifier. By default, the diversifier is the full serial number of the target card or SAM.
+| Parameters  | `diversifier` -- the diversifier to be used (from 1 to 8 bytes long).
 | Returns     | The current instance (`T`).
 | Throws      | None.
 |===
@@ -1781,6 +1835,7 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setSignatureSize(size: integer) -> T`
 | Since       | 0.1
 | Description | Sets the expected signature size in bytes (`[1..8]`). The default size is 8 bytes; the longer the signature, the more secure it is.
+| Parameters  | `size` -- the expected size [1..8].
 | Returns     | The current instance (`T`).
 | Throws      | None.
 |===
@@ -1818,6 +1873,11 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setData(data: byte array, signature: byte array, kif: byte, kvc: byte) -> T`
 | Since       | 0.1
 | Description | Sets the signed data, the signature and the KIF/KVC of the verification key.
+| Parameters
+| `data` -- the signed data. +
+  `signature` -- the associated signature. +
+  `kif` -- the KIF of the key to be used for the signature verification. +
+  `kvc` -- the KVC of the key to be used for the signature verification.
 | Returns     | The current instance (`T`).
 | Throws      | None.
 |===
@@ -1830,6 +1890,7 @@ The operations on this interface mirror their equivalents on
 | Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
 | Since       | 0.1
 | Description | Sets an explicit 1-to-8-byte key diversifier. Default: full serial number of the target card or SAM.
+| Parameters  | `diversifier` -- the diversifier to be used (from 1 to 8 bytes long).
 | Returns     | The current instance (`T`).
 | Throws      | None.
 |===
@@ -1874,6 +1935,7 @@ The operations on this interface mirror their equivalents on
 | `offset` -- the bit offset after which the traceability data is written. +
   `samTraceabilityMode` (<<type_SamTraceabilityMode,`SamTraceabilityMode`>>) -- the traceability mode to apply.
 | Returns     | The current instance (<<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>).
+| Throws      | None.
 |===
 
 [[op_TraceableSignatureComputationData_withoutBusyMode]]
@@ -1920,6 +1982,7 @@ The operations on this interface mirror their equivalents on
   `samTraceabilityMode` (<<type_SamTraceabilityMode,`SamTraceabilityMode`>>) -- the traceability mode used. +
   `samRevocationService` (<<type_LegacySamRevocationServiceSpi,`LegacySamRevocationServiceSpi`>>) -- the optional service used to check the signing SAM's revocation status.
 | Returns     | The current instance (<<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>).
+| Throws      | None.
 | See also    | <<op_TraceableSignatureComputationData_withSamTraceabilityMode,`TraceableSignatureComputationData.withSamTraceabilityMode`>>
 |===
 
@@ -1992,6 +2055,9 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
   *Warning:* in an asynchronous transaction, the content of the <<type_LegacySam,`LegacySam`>> object MUST NOT be
   updated.
+| Parameters
+| `counterNumber` -- the number of the counter whose ceiling is to be written (in range [0..26]). +
+  `ceilingValue` -- the desired value for the ceiling. The ceiling value is defined as a positive integer less than or equal to 16777210 (in hexadecimal: FFFFFAh).
 | Returns     | The current instance (`T`).
 | Throws      | `IllegalArgumentException` -- if any argument is out of range.
 |===
@@ -2044,6 +2110,9 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Description
 | Returns the dynamic unlock data computed by an origin SAM. The serial number and the challenge are required to
   prepare the *SAM Generate Unlock* command.
+| Parameters
+| `samSerialNumber` -- the target SAM serial number. +
+  `samChallenge` -- the challenge provided by the target SAM.
 | Returns     | An 8-byte `byte array`.
 | Throws      | None.
 |===
@@ -2070,6 +2139,9 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Description
 | Checks if the SAM with the supplied serial number and counter value is revoked. The supplied serial number MAY
   be complete (4 bytes) or partial (the 3 least significant bytes).
+| Parameters
+| `serialNumber` -- the complete or partial SAM serial number to check. +
+  `counterValue` -- the SAM counter value.
 | Returns     | `true` if the SAM is revoked, `false` otherwise.
 | Throws      | None.
 |===
@@ -2082,6 +2154,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Signature   | `isSamRevoked(serialNumber: byte array) -> boolean`
 | Since       | 0.1
 | Description | Checks if the SAM with the supplied serial number is revoked. The serial number MAY be complete (4 bytes) or partial (3 LSBytes).
+| Parameters  | `serialNumber` -- the complete or partial SAM serial number to check.
 | Returns     | `true` if the SAM is revoked, `false` otherwise.
 | Throws      | None.
 |===
@@ -2106,6 +2179,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Signature   | `getUnlockData(samSerialNumber: byte array) -> byte array`
 | Since       | 0.4
 | Description | Returns the static unlock data expected by the target SAM. The serial number MAY be used as a diversifier.
+| Parameters  | `samSerialNumber` -- the target SAM serial number.
 | Returns     | A 16-byte `byte array`.
 | Throws      | None.
 |===
