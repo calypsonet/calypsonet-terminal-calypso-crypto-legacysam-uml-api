@@ -469,14 +469,20 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> CardTransactionLegacySamExtension`
 | Since       | 0.3
 | Description
-| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command in the context of a Calypso card
-  transaction. Once the command is processed, the result is available in the supplied input/output
-  <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> or
-  <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
+a| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command in the context of a Calypso card
+transaction. Once the command is processed, the result is available in the supplied input/output
+<<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> or
+<<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
 
-  The signature serves many purposes, for example: +
-  - *To sign data recorded in a contactless card or ticket.* To speed up processing, it is RECOMMENDED to use a constant signing key (not diversified before ciphering) and to insert the serial number of the card or ticket at the beginning of the data to sign. +
-  - *To sign data reported from a terminal to a central system.* The terminal SAM carries a signing work key diversified with its own serial number, which guarantees that the data was indeed signed by this SAM. The central system SAM uses the master signing key, diversified before signing with the diversifier set previously by the *Select Diversifier* command.
+The signature serves many purposes, for example:
+
+* *To sign data recorded in a contactless card or ticket.* To speed up processing, it is RECOMMENDED to use a
+  constant signing key (not diversified before ciphering) and to insert the serial number of the card or ticket
+  at the beginning of the data to sign.
+* *To sign data reported from a terminal to a central system.* The terminal SAM carries a signing work key
+  diversified with its own serial number, which guarantees that the data was indeed signed by this SAM. The
+  central system SAM uses the master signing key, diversified before signing with the diversifier set previously
+  by the *Select Diversifier* command.
 | Parameters  | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_CardTransactionLegacySamExtension,`CardTransactionLegacySamExtension`>>).
 | Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
@@ -558,14 +564,20 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> FreeTransactionManager`
 | Since       | 0.1
 | Description
-| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command. Once the command is processed,
-  the result is available in the supplied input/output
-  <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> or
-  <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
+a| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command. Once the command is processed,
+the result is available in the supplied input/output
+<<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> or
+<<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
 
-  The signature serves many purposes, for example: +
-  - *To sign data recorded in a contactless card or ticket.* To speed up processing, it is RECOMMENDED to use a constant signing key (not diversified before ciphering) and to insert the serial number of the card or ticket at the beginning of the data to sign. +
-  - *To sign data reported from a terminal to a central system.* The terminal SAM carries a signing work key diversified with its own serial number, which guarantees that the data was indeed signed by this SAM. The central system SAM uses the master signing key, diversified before signing with the diversifier set previously by the *Select Diversifier* command.
+The signature serves many purposes, for example:
+
+* *To sign data recorded in a contactless card or ticket.* To speed up processing, it is RECOMMENDED to use a
+  constant signing key (not diversified before ciphering) and to insert the serial number of the card or ticket
+  at the beginning of the data to sign.
+* *To sign data reported from a terminal to a central system.* The terminal SAM carries a signing work key
+  diversified with its own serial number, which guarantees that the data was indeed signed by this SAM. The
+  central system SAM uses the master signing key, diversified before signing with the diversifier set previously
+  by the *Select Diversifier* command.
 | Parameters  | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
 | Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
