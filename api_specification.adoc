@@ -390,7 +390,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 |===
 | Signature   | `exportCommands() -> string`
 | Since       | 0.2
-| Description | Returns a non-empty `string` carrying the prepared commands.
+| Description
+| Returns a non-empty `string` carrying the prepared commands. These commands can later be imported and processed
+  by an <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>.
 | Returns     | A non-empty `string`.
 | Throws      | None.
 |===
@@ -462,7 +464,15 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 |===
 | Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> CardTransactionLegacySamExtension`
 | Since       | 0.3
-| Description | Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command in the context of a Calypso card transaction.
+| Description
+| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command in the context of a Calypso card
+  transaction. Once the command is processed, the result is available in the supplied input/output
+  <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> or
+  <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
+
+  The signature serves many purposes, for example: +
+  - *To sign data recorded in a contactless card or ticket.* To speed up processing, it is RECOMMENDED to use a constant signing key (not diversified before ciphering) and to insert the serial number of the card or ticket at the beginning of the data to sign. +
+  - *To sign data reported from a terminal to a central system.* The terminal SAM carries a signing work key diversified with its own serial number, which guarantees that the data was indeed signed by this SAM. The central system SAM uses the master signing key, diversified before signing with the diversifier set previously by the *Select Diversifier* command.
 | Parameters  | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_CardTransactionLegacySamExtension,`CardTransactionLegacySamExtension`>>).
 | Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
@@ -478,7 +488,11 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 |===
 | Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> CardTransactionLegacySamExtension`
 | Since       | 0.3
-| Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command in the context of a Calypso card transaction.
+| Description
+| Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command in the context of a Calypso card
+  transaction. Once processed, the result is available in the supplied input/output
+  <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>> or
+  <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
 | Parameters  | `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_CardTransactionLegacySamExtension,`CardTransactionLegacySamExtension`>>).
 | Throws
@@ -539,9 +553,14 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> FreeTransactionManager`
 | Since       | 0.1
 | Description
-| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command. The signature MAY be used to
-  certify card-resident data or terminal-emitted data. For the latter, the terminal SAM SHOULD carry a signing
-  work key diversified with its own serial number.
+| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command. Once the command is processed,
+  the result is available in the supplied input/output
+  <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> or
+  <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>.
+
+  The signature serves many purposes, for example: +
+  - *To sign data recorded in a contactless card or ticket.* To speed up processing, it is RECOMMENDED to use a constant signing key (not diversified before ciphering) and to insert the serial number of the card or ticket at the beginning of the data to sign. +
+  - *To sign data reported from a terminal to a central system.* The terminal SAM carries a signing work key diversified with its own serial number, which guarantees that the data was indeed signed by this SAM. The central system SAM uses the master signing key, diversified before signing with the diversifier set previously by the *Select Diversifier* command.
 | Parameters  | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
 | Throws      | `IllegalArgumentException` -- if the input data is inconsistent.
@@ -572,7 +591,10 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 |===
 | Signature   | `prepareGetData(tag: GetDataTag) -> FreeTransactionManager`
 | Since       | 0.5
-| Description | Schedules the execution of a *Get Data* command for the supplied tag.
+| Description
+| Schedules the execution of a *Get Data* command for the supplied tag. Once processed, the data is accessible
+  through the dedicated getters of the <<type_LegacySam,`LegacySam`>>, such as
+  <<op_LegacySam_getCaCertificate,`getCaCertificate`>>.
 | Parameters  | `tag` (<<type_GetDataTag,`GetDataTag`>>) -- the tag to retrieve the data for.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
 |===
@@ -600,7 +622,11 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 |===
 | Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> FreeTransactionManager`
 | Since       | 0.1
-| Description | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command.
+| Description
+| Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command. Once processed, the result is
+  available in the supplied input/output
+  <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>> or
+  <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
 | Parameters  | `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
 | Throws
@@ -753,7 +779,8 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 |===
 | Signature   | `setCardPublicKey(cardPublicKey: byte array) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
-| Description | Sets the card public key (64 bytes, *secp256r1* curve).
+| Description
+| Sets the card public key (64 bytes, secp256r1 curve). This key is used for the verification of card signatures.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
 | Throws      | `IllegalArgumentException` -- if the key is out of range.
 |===
@@ -789,7 +816,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 |===
 | Signature   | `setEndDate(endDate: date) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
-| Description | Sets the end of the validity period. Optional.
+| Description
+| Sets the end of the validity period. The end date is optional: when it is not defined, the certificate is not
+  subject to an end date constraint.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
 |===
 
@@ -800,7 +829,9 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 |===
 | Signature   | `setStartDate(startDate: date) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
-| Description | Sets the start of the validity period. Optional.
+| Description
+| Sets the start of the validity period. The start date is optional: when it is not defined, the certificate is
+  not subject to a start date constraint.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
 |===
 
@@ -1370,7 +1401,10 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature   | `prepareReadWorkKeyParameters(kif: byte, kvc: byte) -> LegacySamSelectionExtension`
 | Since       | 0.7
-| Description | Schedules the execution of a *Read Key Parameters* command for the work key referenced by its KIF/KVC pair.
+| Description
+| Schedules the execution of a *Read Key Parameters* command for the work key referenced by its KIF/KVC pair.
+  Once processed, the result is accessible through
+  <<op_LegacySam_getWorkKeyParameter_byKifKvc,`LegacySam.getWorkKeyParameter`>>.
 | Parameters
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
@@ -1385,7 +1419,10 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature   | `prepareReadWorkKeyParameters(recordNumber: integer) -> LegacySamSelectionExtension`
 | Since       | 0.7
-| Description | Schedules the execution of a *Read Key Parameters* command for the work key at the supplied record number (`[1..126]`).
+| Description
+| Schedules the execution of a *Read Key Parameters* command for the work key at the supplied record number
+  (`[1..126]`). Once processed, the result is accessible through
+  <<op_LegacySam_getWorkKeyParameter_byRecord,`LegacySam.getWorkKeyParameter`>>.
 | Parameters  | `recordNumber` -- the key record number (in range `[1..126]`).
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
 | Throws      | `IllegalArgumentException` -- if the record number is out of range.
@@ -1398,7 +1435,10 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi) -> LegacySamSelectionExtension`
 | Since       | 0.4
-| Description | Sets the dynamic-unlock-data provider. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
+| Description
+| Sets the dynamic-unlock-data provider. This overload is used when the card reader needed to communicate with
+  the target SAM is supplied later in the workflow. The *Unlock* command is initiated after a successful
+  filtering, followed by a request to the provider.
 | Parameters  | `dynamicUnlockDataProvider` (<<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
 | Throws      | `IllegalStateException` -- if an unlocking setting has already been set.
@@ -1892,8 +1932,15 @@ The operations on this interface mirror their equivalents on
 | Since       | 0.1
 | Description
 | Indicates that the signature was *not* computed in *Busy* mode. By default the signature is assumed to have been
-  computed in Busy mode; in that case, if the verification fails with the *busy* status word, the application
-  SHOULD retry until the busy window expires (a few seconds, never more than ten).
+  computed in Busy mode.
+
+  When Busy mode is enabled, after a *PSO Verify Signature* fails because of an incorrect signature, the SAM
+  rejects any further *PSO Verify Signature* command issued in Busy mode for a few seconds, answering with the
+  *busy* status word. In that case the application SHOULD repeat the command until the SAM is no longer busy --
+  the busy window lasts a few seconds and never more than ten.
+
+  Note that after a reset of the SAM, *PSO Verify Signature* commands issued in Busy mode keep failing with the
+  busy status until the end of the busy period.
 | Returns     | The current instance (<<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>).
 | Throws      | None.
 | See also    | <<op_TraceableSignatureComputationData_withoutBusyMode,`TraceableSignatureComputationData.withoutBusyMode`>>
@@ -1962,6 +2009,9 @@ verification failure) and `InconsistentDataException` (data inconsistency).
   the command writes a full record of nine counters, the application MUST have first read the status of the
   counters of that record (or have called this method for each of the other eight counters of the same record),
   otherwise an exception is raised when processing the commands.
+
+  *Warning:* in the case of an asynchronous transaction, the content of the <<type_LegacySam,`LegacySam`>> is not
+  updated.
 | Parameters
 | `counterNumber` -- the number of the counter to configure. +
   `ceilingValue` -- the ceiling value to set for the counter. +
@@ -2017,8 +2067,10 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 | Signature   | `isSamRevoked(serialNumber: byte array, counterValue: integer) -> boolean`
 | Since       | 0.1
-| Description | Checks if the SAM with the supplied serial number and counter value is revoked.
-| Returns     | A `boolean` value.
+| Description
+| Checks if the SAM with the supplied serial number and counter value is revoked. The supplied serial number MAY
+  be complete (4 bytes) or partial (the 3 least significant bytes).
+| Returns     | `true` if the SAM is revoked, `false` otherwise.
 | Throws      | None.
 |===
 
@@ -2030,7 +2082,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Signature   | `isSamRevoked(serialNumber: byte array) -> boolean`
 | Since       | 0.1
 | Description | Checks if the SAM with the supplied serial number is revoked. The serial number MAY be complete (4 bytes) or partial (3 LSBytes).
-| Returns     | A `boolean` value.
+| Returns     | `true` if the SAM is revoked, `false` otherwise.
 | Throws      | None.
 |===
 
