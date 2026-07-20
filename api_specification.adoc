@@ -66,6 +66,7 @@ specific case where the crypto module is a legacy Calypso SAM.
 | Reference           | {spec-ref}
 | Short name          | {spec-id}
 | Version             | {revnumber}
+| Revision date       | {revdate}
 | Editor              | {organization}
 | Reference license   | Eclipse Public License -- v 2.0 (EPL-2.0)
 |===
