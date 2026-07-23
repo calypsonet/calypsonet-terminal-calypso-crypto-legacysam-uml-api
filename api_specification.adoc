@@ -2250,7 +2250,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Purpose  | Possible access rights for incrementing event counters using the *Increment Counter* command.
 |===
 
-[cols=".^3,^.^1,.^5", options="header"]
+[cols="^.^3,^.^1,.^5", options="header"]
 |===
 | Value                       | Since | Description
 | `FREE_COUNTING_ENABLED`     | 0.3 | Enables the use of *Increment Counter* on the targeted event counter.
@@ -2269,7 +2269,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Purpose  | Output data tags retrievable through the *Get Data* command. MAY NOT be applicable to all products.
 |===
 
-[cols=".^3,^.^1,.^5", options="header"]
+[cols="^.^3,^.^1,.^5", options="header"]
 |===
 | Value              | Since | Description
 | `CA_CERTIFICATE`   | 0.5 | CA Certificate (CACert). MAY be unavailable.
@@ -2287,7 +2287,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Purpose  | Product type of a legacy SAM.
 |===
 
-[cols=".^3,^.^1,.^5", options="header"]
+[cols="^.^3,^.^1,.^5", options="header"]
 |===
 | Value       | Since | Description
 | `SAM_C1`    | 0.1 | SAM C1.
@@ -2309,7 +2309,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Purpose  | SAM traceability mode used with traceable signature operations.
 |===
 
-[cols=".^3,^.^1,.^5", options="header"]
+[cols="^.^3,^.^1,.^5", options="header"]
 |===
 | Value                       | Since | Description
 | `FULL_SERIAL_NUMBER`        | 0.3 | Full SAM serial number (4 bytes).
@@ -2328,7 +2328,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Purpose  | System key types of a legacy SAM. Each type corresponds to a specific role.
 |===
 
-[cols=".^3,^.^1,.^5", options="header"]
+[cols="^.^3,^.^1,.^5", options="header"]
 |===
 | Value              | Since | Description
 | `PERSONALIZATION`  | 0.2 | Personalisation key -- deciphers and authorises the writing of parameters and system keys.
