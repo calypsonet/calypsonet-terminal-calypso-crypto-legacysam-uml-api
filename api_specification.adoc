@@ -106,7 +106,7 @@ The {spec-name} defines the public surface used by terminal applications and car
 
 The API spans three categories of transaction managers:
 
-[cols="^.^1,.^4", options="header"]
+[cols="^.^1,.^2", options="header"]
 |===
 | Manager family
 | Purpose
