@@ -182,7 +182,7 @@ as-is in the UML class diagram (<<sec_class_diagram>>).
 
 Each interface, class, enumeration and exception defined in this document is described by a table of the form:
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name       | The type's normalized name.
 | Kind       | The category of the type (interface, class, enumeration, exception, etc.).
@@ -203,7 +203,7 @@ notes, value tables or examples -- is placed as prose below the table.
 
 Each operation defined in this document is described by a table of the form:
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | The operation's language-agnostic signature.
 | Since       | The version of the API in which the operation was introduced.
@@ -390,7 +390,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [[type_LegacySamApiProperties]]
 ==== Legacy SAM API Properties
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `LegacySamApiProperties`
 | Kind     | Final class
@@ -412,7 +412,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [[type_AsyncTransactionCreatorManager]]
 ==== Async Transaction Creator Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `AsyncTransactionCreatorManager`
 | Kind     | Interface
@@ -426,7 +426,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [[op_AsyncTransactionCreatorManager_exportCommands]]
 ===== Export Commands
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `exportCommands() -> string`
 | Since       | 0.2
@@ -440,7 +440,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [[type_AsyncTransactionExecutorManager]]
 ==== Async Transaction Executor Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `AsyncTransactionExecutorManager`
 | Kind     | Interface
@@ -454,7 +454,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [[type_BasicSignatureComputationData]]
 ==== Basic Signature Computation Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `BasicSignatureComputationData`
 | Kind     | Interface
@@ -469,7 +469,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [[type_BasicSignatureVerificationData]]
 ==== Basic Signature Verification Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `BasicSignatureVerificationData`
 | Kind     | Interface
@@ -484,7 +484,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [[type_CardTransactionLegacySamExtension]]
 ==== Card Transaction Legacy SAM Extension
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `CardTransactionLegacySamExtension`
 | Kind     | Interface
@@ -500,7 +500,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [[op_CardTransactionLegacySamExtension_prepareComputeSignature]]
 ===== Prepare Compute Signature
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> CardTransactionLegacySamExtension`
 | Since       | 0.3
@@ -530,7 +530,7 @@ The signature serves many purposes, for example:
 [[op_CardTransactionLegacySamExtension_prepareVerifySignature]]
 ===== Prepare Verify Signature
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> CardTransactionLegacySamExtension`
 | Since       | 0.3
@@ -553,7 +553,7 @@ The signature serves many purposes, for example:
 [[type_FreeTransactionManager]]
 ==== Free Transaction Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `FreeTransactionManager`
 | Kind     | Interface
@@ -566,7 +566,7 @@ The signature serves many purposes, for example:
 [[op_FreeTransactionManager_exportTargetSamContextForAsyncTransaction]]
 ===== Export Target SAM Context For Async Transaction
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `exportTargetSamContextForAsyncTransaction() -> string`
 | Since       | 0.2
@@ -580,7 +580,7 @@ The signature serves many purposes, for example:
 [[op_FreeTransactionManager_prepareComputeCardCertificate]]
 ===== Prepare Compute Card Certificate
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareComputeCardCertificate(data: LegacyCardCertificateComputationData) -> FreeTransactionManager`
 | Since       | 0.5
@@ -595,7 +595,7 @@ The signature serves many purposes, for example:
 [[op_FreeTransactionManager_prepareComputeSignature]]
 ===== Prepare Compute Signature
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareComputeSignature(data: SignatureComputationData<?>) -> FreeTransactionManager`
 | Since       | 0.1
@@ -626,7 +626,7 @@ The signature serves many purposes, for example:
 [[op_FreeTransactionManager_prepareGenerateCardAsymmetricKeyPair]]
 ===== Prepare Generate Card Asymmetric Key Pair
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareGenerateCardAsymmetricKeyPair(keyPairContainer: KeyPairContainer) -> FreeTransactionManager`
 | Since       | 0.5
@@ -641,7 +641,7 @@ The signature serves many purposes, for example:
 [[op_FreeTransactionManager_prepareGetData]]
 ===== Prepare Get Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareGetData(tag: GetDataTag) -> FreeTransactionManager`
 | Since       | 0.5
@@ -657,7 +657,7 @@ The signature serves many purposes, for example:
 [[op_FreeTransactionManager_preparePlainWriteLock]]
 ===== Prepare Plain Write Lock
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> FreeTransactionManager`
 | Since       | 0.7
@@ -673,7 +673,7 @@ The signature serves many purposes, for example:
 [[op_FreeTransactionManager_prepareVerifySignature]]
 ===== Prepare Verify Signature
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareVerifySignature(data: SignatureVerificationData<?>) -> FreeTransactionManager`
 | Since       | 0.1
@@ -697,7 +697,7 @@ The signature serves many purposes, for example:
 [[type_KeyPairContainer]]
 ==== Key Pair Container
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `KeyPairContainer`
 | Kind     | Interface
@@ -709,7 +709,7 @@ The signature serves many purposes, for example:
 [[op_KeyPairContainer_getKeyPair]]
 ===== Get Key Pair
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getKeyPair() -> byte array`
 | Since       | 0.5
@@ -721,7 +721,7 @@ The signature serves many purposes, for example:
 [[type_KeyParameter]]
 ==== Key Parameter
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `KeyParameter`
 | Kind     | Interface
@@ -733,7 +733,7 @@ The signature serves many purposes, for example:
 [[op_KeyParameter_getAlgorithm]]
 ===== Get Algorithm
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getAlgorithm() -> byte`
 | Since       | 0.2
@@ -745,7 +745,7 @@ The signature serves many purposes, for example:
 [[op_KeyParameter_getKif]]
 ===== Get KIF
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getKif() -> byte`
 | Since       | 0.2
@@ -757,7 +757,7 @@ The signature serves many purposes, for example:
 [[op_KeyParameter_getKvc]]
 ===== Get KVC
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getKvc() -> byte`
 | Since       | 0.2
@@ -769,7 +769,7 @@ The signature serves many purposes, for example:
 [[op_KeyParameter_getParameterValue]]
 ===== Get Parameter Value
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getParameterValue(parameterNumber: integer) -> byte`
 | Since       | 0.2
@@ -782,7 +782,7 @@ The signature serves many purposes, for example:
 [[op_KeyParameter_getRawData]]
 ===== Get Raw Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getRawData() -> byte array`
 | Since       | 0.2
@@ -794,7 +794,7 @@ The signature serves many purposes, for example:
 [[type_LegacyCardCertificateComputationData]]
 ==== Legacy Card Certificate Computation Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `LegacyCardCertificateComputationData`
 | Kind     | Interface
@@ -806,7 +806,7 @@ The signature serves many purposes, for example:
 [[op_LegacyCardCertificateComputationData_getCertificate]]
 ===== Get Certificate
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getCertificate() -> byte array?`
 | Since       | 0.5
@@ -818,7 +818,7 @@ The signature serves many purposes, for example:
 [[op_LegacyCardCertificateComputationData_setCardAid]]
 ===== Set Card AID
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setCardAid(aid: byte array) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
@@ -831,7 +831,7 @@ The signature serves many purposes, for example:
 [[op_LegacyCardCertificateComputationData_setCardPublicKey]]
 ===== Set Card Public Key
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setCardPublicKey(cardPublicKey: byte array) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
@@ -845,7 +845,7 @@ The signature serves many purposes, for example:
 [[op_LegacyCardCertificateComputationData_setCardSerialNumber]]
 ===== Set Card Serial Number
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setCardSerialNumber(serialNumber: byte array) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
@@ -858,7 +858,7 @@ The signature serves many purposes, for example:
 [[op_LegacyCardCertificateComputationData_setCardStartupInfo]]
 ===== Set Card Startup Info
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setCardStartupInfo(startupInfo: byte array) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
@@ -871,7 +871,7 @@ The signature serves many purposes, for example:
 [[op_LegacyCardCertificateComputationData_setEndDate]]
 ===== Set End Date
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setEndDate(endDate: date) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
@@ -886,7 +886,7 @@ The signature serves many purposes, for example:
 [[op_LegacyCardCertificateComputationData_setStartDate]]
 ===== Set Start Date
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setStartDate(startDate: date) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
@@ -901,7 +901,7 @@ The signature serves many purposes, for example:
 [[type_LegacySam]]
 ==== Legacy SAM
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `LegacySam`
 | Kind     | Interface
@@ -920,7 +920,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getApplicationSubType]]
 ===== Get Application Sub Type
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getApplicationSubType() -> byte`
 | Since       | 0.1
@@ -932,7 +932,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getApplicationType]]
 ===== Get Application Type
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getApplicationType() -> byte`
 | Since       | 0.1
@@ -944,7 +944,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getCaCertificate]]
 ===== Get CA Certificate
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getCaCertificate() -> byte array?`
 | Since       | 0.5
@@ -958,7 +958,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getCounter]]
 ===== Get Counter
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getCounter(counterNumber: integer) -> integer?`
 | Since       | 0.1
@@ -972,7 +972,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getCounterCeiling]]
 ===== Get Counter Ceiling
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getCounterCeiling(counterNumber: integer) -> integer?`
 | Since       | 0.1
@@ -986,7 +986,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getCounterCeilings]]
 ===== Get Counter Ceilings
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getCounterCeilings() -> sortedMap<integer, integer>`
 | Since       | 0.1
@@ -999,7 +999,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getCounterIncrementAccess]]
 ===== Get Counter Increment Access
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getCounterIncrementAccess(counterNumber: integer) -> CounterIncrementAccess?`
 | Since       | 0.2
@@ -1013,7 +1013,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getCounters]]
 ===== Get Counters
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getCounters() -> sortedMap<integer, integer>`
 | Since       | 0.1
@@ -1026,7 +1026,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getPlatform]]
 ===== Get Platform
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getPlatform() -> byte`
 | Since       | 0.1
@@ -1038,7 +1038,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getProductInfo]]
 ===== Get Product Info
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getProductInfo() -> string`
 | Since       | 0.1
@@ -1050,7 +1050,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getProductType]]
 ===== Get Product Type
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getProductType() -> ProductType`
 | Since       | 0.1
@@ -1062,7 +1062,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getSamParameters]]
 ===== Get SAM Parameters
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getSamParameters() -> SamParameters?`
 | Since       | 0.7
@@ -1075,7 +1075,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getSerialNumber]]
 ===== Get Serial Number
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getSerialNumber() -> byte array`
 | Since       | 0.1
@@ -1087,7 +1087,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getSoftwareIssuer]]
 ===== Get Software Issuer
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getSoftwareIssuer() -> byte`
 | Since       | 0.1
@@ -1099,7 +1099,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getSoftwareRevision]]
 ===== Get Software Revision
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getSoftwareRevision() -> byte`
 | Since       | 0.1
@@ -1111,7 +1111,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getSoftwareVersion]]
 ===== Get Software Version
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getSoftwareVersion() -> byte`
 | Since       | 0.1
@@ -1123,7 +1123,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getSystemKeyParameter]]
 ===== Get System Key Parameter
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getSystemKeyParameter(systemKeyType: SystemKeyType) -> KeyParameter?`
 | Since       | 0.2
@@ -1137,7 +1137,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getWorkKeyParameter_byKifKvc]]
 ===== Get Work Key Parameter (KIF)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getWorkKeyParameter(kif: byte, kvc: byte) -> KeyParameter?`
 | Since       | 0.7
@@ -1153,7 +1153,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySam_getWorkKeyParameter_byRecord]]
 ===== Get Work Key Parameter (Record Number)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getWorkKeyParameter(recordNumber: integer) -> KeyParameter?`
 | Since       | 0.7
@@ -1167,7 +1167,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[type_LegacySamApiFactory]]
 ==== Legacy SAM API Factory
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `LegacySamApiFactory`
 | Kind     | Interface
@@ -1179,7 +1179,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySamApiFactory_createAsyncTransactionCreatorManager]]
 ===== Create Async Transaction Creator Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createAsyncTransactionCreatorManager(targetSamContext: string, securitySetting: SecuritySetting) -> AsyncTransactionCreatorManager`
 | Since       | 0.3
@@ -1196,7 +1196,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySamApiFactory_createAsyncTransactionExecutorManager]]
 ===== Create Async Transaction Executor Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createAsyncTransactionExecutorManager(samReader: CardReader, sam: LegacySam, samCommands: string) -> AsyncTransactionExecutorManager`
 | Since       | 0.3
@@ -1212,7 +1212,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 [[op_LegacySamApiFactory_createBasicSignatureComputationData]]
 ===== Create Basic Signature Computation Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createBasicSignatureComputationData() -> BasicSignatureComputationData`
 | Since       | 0.3
@@ -1228,7 +1228,7 @@ variant, use
 [[op_LegacySamApiFactory_createBasicSignatureVerificationData]]
 ===== Create Basic Signature Verification Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createBasicSignatureVerificationData() -> BasicSignatureVerificationData`
 | Since       | 0.3
@@ -1244,7 +1244,7 @@ traceable variant, use
 [[op_LegacySamApiFactory_createFreeTransactionManager]]
 ===== Create Free Transaction Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createFreeTransactionManager(samReader: CardReader, sam: LegacySam) -> FreeTransactionManager`
 | Since       | 0.3
@@ -1259,7 +1259,7 @@ traceable variant, use
 [[op_LegacySamApiFactory_createKeyPairContainer]]
 ===== Create Key Pair Container
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createKeyPairContainer() -> KeyPairContainer`
 | Since       | 0.5
@@ -1273,7 +1273,7 @@ traceable variant, use
 [[op_LegacySamApiFactory_createLegacyCardCertificateComputationData]]
 ===== Create Legacy Card Certificate Computation Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createLegacyCardCertificateComputationData() -> LegacyCardCertificateComputationData`
 | Since       | 0.5
@@ -1287,7 +1287,7 @@ the input and output data of `prepareComputeCardCertificate`.
 [[op_LegacySamApiFactory_createLegacySamSelectionExtension]]
 ===== Create Legacy SAM Selection Extension
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createLegacySamSelectionExtension() -> LegacySamSelectionExtension`
 | Since       | 0.3
@@ -1301,7 +1301,7 @@ the input and output data of `prepareComputeCardCertificate`.
 [[op_LegacySamApiFactory_createSecureWriteTransactionManager]]
 ===== Create Secure Write Transaction Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createSecureWriteTransactionManager(samReader: CardReader, sam: LegacySam, securitySetting: SecuritySetting) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1317,7 +1317,7 @@ the input and output data of `prepareComputeCardCertificate`.
 [[op_LegacySamApiFactory_createSecuritySetting]]
 ===== Create Security Setting
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createSecuritySetting() -> SecuritySetting`
 | Since       | 0.3
@@ -1332,7 +1332,7 @@ by a control SAM, as consumed by
 [[op_LegacySamApiFactory_createSymmetricCryptoCardTransactionManagerFactory]]
 ===== Create Symmetric Crypto Card Transaction Manager Factory
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createSymmetricCryptoCardTransactionManagerFactory(samReader: CardReader, sam: LegacySam) -> SymmetricCryptoCardTransactionManagerFactory`
 | Since       | 0.3
@@ -1347,7 +1347,7 @@ by a control SAM, as consumed by
 [[op_LegacySamApiFactory_createTraceableSignatureComputationData]]
 ===== Create Traceable Signature Computation Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createTraceableSignatureComputationData() -> TraceableSignatureComputationData`
 | Since       | 0.3
@@ -1363,7 +1363,7 @@ command. For the basic variant, use
 [[op_LegacySamApiFactory_createTraceableSignatureVerificationData]]
 ===== Create Traceable Signature Verification Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `createTraceableSignatureVerificationData() -> TraceableSignatureVerificationData`
 | Since       | 0.3
@@ -1379,7 +1379,7 @@ command. For the basic variant, use
 [[type_LegacySamSelectionExtension]]
 ==== Legacy SAM Selection Extension
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `LegacySamSelectionExtension`
 | Kind     | Interface
@@ -1405,7 +1405,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_prepareGetData]]
 ===== Prepare Get Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareGetData(tag: GetDataTag) -> LegacySamSelectionExtension`
 | Since       | 0.6
@@ -1418,7 +1418,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_prepareReadAllCountersStatus]]
 ===== Prepare Read All Counters Status
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadAllCountersStatus() -> LegacySamSelectionExtension`
 | Since       | 0.3
@@ -1430,7 +1430,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_prepareReadCounterStatus]]
 ===== Prepare Read Counter Status
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadCounterStatus(counterNumber: integer) -> LegacySamSelectionExtension`
 | Since       | 0.3
@@ -1446,7 +1446,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_prepareReadSamParameters]]
 ===== Prepare Read SAM Parameters
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadSamParameters() -> LegacySamSelectionExtension`
 | Since       | 0.7
@@ -1458,7 +1458,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_prepareReadSystemKeyParameters]]
 ===== Prepare Read System Key Parameters
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadSystemKeyParameters(systemKeyType: SystemKeyType) -> LegacySamSelectionExtension`
 | Since       | 0.3
@@ -1471,7 +1471,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byKifKvc]]
 ===== Prepare Read Work Key Parameters (KIF)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadWorkKeyParameters(kif: byte, kvc: byte) -> LegacySamSelectionExtension`
 | Since       | 0.7
@@ -1489,7 +1489,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byRecord]]
 ===== Prepare Read Work Key Parameters (Record Number)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareReadWorkKeyParameters(recordNumber: integer) -> LegacySamSelectionExtension`
 | Since       | 0.7
@@ -1505,7 +1505,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_setDynamicUnlockDataProvider]]
 ===== Set Dynamic Unlock Data Provider (No Target SAM Reader)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi) -> LegacySamSelectionExtension`
 | Since       | 0.4
@@ -1521,7 +1521,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_setDynamicUnlockDataProvider_withReader]]
 ===== Set Dynamic Unlock Data Provider (Target SAM Reader)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
 | Since       | 0.4
@@ -1536,7 +1536,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_setStaticUnlockDataProvider]]
 ===== Set Static Unlock Data Provider (No Target SAM Reader)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi) -> LegacySamSelectionExtension`
 | Since       | 0.4
@@ -1549,7 +1549,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_setStaticUnlockDataProvider_withReader]]
 ===== Set Static Unlock Data Provider (Target SAM Reader)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension`
 | Since       | 0.4
@@ -1564,7 +1564,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_setUnlockData]]
 ===== Set Unlock Data (No Product Type)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setUnlockData(unlockData: string) -> LegacySamSelectionExtension`
 | Since       | 0.3
@@ -1578,7 +1578,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[op_LegacySamSelectionExtension_setUnlockData_withProductType]]
 ===== Set Unlock Data (Product Type)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setUnlockData(unlockData: string, productType: LegacySam.ProductType) -> LegacySamSelectionExtension`
 | Since       | 0.3
@@ -1594,7 +1594,7 @@ overload (e.g. dynamic SAM reader allocation).
 [[type_ReadTransactionManager]]
 ==== Read Transaction Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `ReadTransactionManager`
 | Kind     | Interface
@@ -1613,7 +1613,7 @@ The operations on this interface mirror their equivalents on
 [[type_SamParameters]]
 ==== SAM Parameters
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `SamParameters`
 | Kind     | Interface
@@ -1625,7 +1625,7 @@ The operations on this interface mirror their equivalents on
 [[op_SamParameters_getRawData]]
 ===== Get Raw Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getRawData() -> byte array`
 | Since       | 0.7
@@ -1637,7 +1637,7 @@ The operations on this interface mirror their equivalents on
 [[type_SecureWriteTransactionManager]]
 ==== Secure Write Transaction Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `SecureWriteTransactionManager`
 | Kind     | Interface
@@ -1650,7 +1650,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecureWriteTransactionManager_preparePlainWriteLock]]
 ===== Prepare Plain Write Lock
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1666,7 +1666,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecureWriteTransactionManager_prepareTransferLock]]
 ===== Prepare Transfer Lock
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferLock(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1681,7 +1681,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecureWriteTransactionManager_prepareTransferLockDiversified]]
 ===== Prepare Transfer Lock Diversified
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferLockDiversified(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1696,7 +1696,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecureWriteTransactionManager_prepareTransferSystemKey]]
 ===== Prepare Transfer System Key
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferSystemKey(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1712,7 +1712,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecureWriteTransactionManager_prepareTransferSystemKeyDiversified]]
 ===== Prepare Transfer System Key Diversified
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferSystemKeyDiversified(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1728,7 +1728,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecureWriteTransactionManager_prepareTransferWorkKey]]
 ===== Prepare Transfer Work Key
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferWorkKey(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1747,7 +1747,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecureWriteTransactionManager_prepareTransferWorkKeyDiversified_withDiversifier]]
 ===== Prepare Transfer Work Key Diversified (Diversifier)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer, diversifier: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1768,7 +1768,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecureWriteTransactionManager_prepareTransferWorkKeyDiversified]]
 ===== Prepare Transfer Work Key Diversified (No Diversifier)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1788,7 +1788,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecureWriteTransactionManager_prepareWriteSamParameters]]
 ===== Prepare Write SAM Parameters
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareWriteSamParameters(parameters: byte array) -> SecureWriteTransactionManager`
 | Since       | 0.7
@@ -1801,7 +1801,7 @@ The operations on this interface mirror their equivalents on
 [[type_SecuritySetting]]
 ==== Security Setting
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `SecuritySetting`
 | Kind     | Interface
@@ -1813,7 +1813,7 @@ The operations on this interface mirror their equivalents on
 [[op_SecuritySetting_setControlSamResource]]
 ===== Set Control SAM Resource
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setControlSamResource(samReader: CardReader, controlSam: LegacySam) -> SecuritySetting`
 | Since       | 0.2
@@ -1828,7 +1828,7 @@ The operations on this interface mirror their equivalents on
 [[type_SignatureComputationData]]
 ==== Signature Computation Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `SignatureComputationData`
 | Kind     | Interface
@@ -1841,7 +1841,7 @@ The operations on this interface mirror their equivalents on
 [[op_SignatureComputationData_getSignature]]
 ===== Get Signature
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getSignature() -> byte array`
 | Since       | 0.1
@@ -1853,7 +1853,7 @@ The operations on this interface mirror their equivalents on
 [[op_SignatureComputationData_setData]]
 ===== Set Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setData(data: byte array, kif: byte, kvc: byte) -> T`
 | Since       | 0.1
@@ -1869,7 +1869,7 @@ The operations on this interface mirror their equivalents on
 [[op_SignatureComputationData_setKeyDiversifier]]
 ===== Set Key Diversifier
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
 | Since       | 0.1
@@ -1882,7 +1882,7 @@ The operations on this interface mirror their equivalents on
 [[op_SignatureComputationData_setSignatureSize]]
 ===== Set Signature Size
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setSignatureSize(size: integer) -> T`
 | Since       | 0.1
@@ -1895,7 +1895,7 @@ The operations on this interface mirror their equivalents on
 [[type_SignatureVerificationData]]
 ==== Signature Verification Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `SignatureVerificationData`
 | Kind     | Interface
@@ -1908,7 +1908,7 @@ The operations on this interface mirror their equivalents on
 [[op_SignatureVerificationData_isSignatureValid]]
 ===== Is Signature Valid
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `isSignatureValid() -> boolean`
 | Since       | 0.1
@@ -1920,7 +1920,7 @@ The operations on this interface mirror their equivalents on
 [[op_SignatureVerificationData_setData]]
 ===== Set Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setData(data: byte array, signature: byte array, kif: byte, kvc: byte) -> T`
 | Since       | 0.1
@@ -1937,7 +1937,7 @@ The operations on this interface mirror their equivalents on
 [[op_SignatureVerificationData_setKeyDiversifier]]
 ===== Set Key Diversifier
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
 | Since       | 0.1
@@ -1950,7 +1950,7 @@ The operations on this interface mirror their equivalents on
 [[type_TraceableSignatureComputationData]]
 ==== Traceable Signature Computation Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `TraceableSignatureComputationData`
 | Kind     | Interface
@@ -1963,7 +1963,7 @@ The operations on this interface mirror their equivalents on
 [[op_TraceableSignatureComputationData_getSignedData]]
 ===== Get Signed Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getSignedData() -> byte array`
 | Since       | 0.1
@@ -1975,7 +1975,7 @@ The operations on this interface mirror their equivalents on
 [[op_TraceableSignatureComputationData_withSamTraceabilityMode]]
 ===== With SAM Traceability Mode
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `withSamTraceabilityMode(offset: integer, samTraceabilityMode: SamTraceabilityMode) -> TraceableSignatureComputationData`
 | Since       | 0.1
@@ -1993,7 +1993,7 @@ The operations on this interface mirror their equivalents on
 [[op_TraceableSignatureComputationData_withoutBusyMode]]
 ===== Without Busy Mode
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `withoutBusyMode() -> TraceableSignatureComputationData`
 | Since       | 0.1
@@ -2008,7 +2008,7 @@ The operations on this interface mirror their equivalents on
 [[type_TraceableSignatureVerificationData]]
 ==== Traceable Signature Verification Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `TraceableSignatureVerificationData`
 | Kind     | Interface
@@ -2021,7 +2021,7 @@ The operations on this interface mirror their equivalents on
 [[op_TraceableSignatureVerificationData_withSamTraceabilityMode]]
 ===== With SAM Traceability Mode
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
 | `withSamTraceabilityMode(offset: integer, samTraceabilityMode: SamTraceabilityMode, samRevocationService: LegacySamRevocationServiceSpi) -> TraceableSignatureVerificationData`
@@ -2041,7 +2041,7 @@ The operations on this interface mirror their equivalents on
 [[op_TraceableSignatureVerificationData_withoutBusyMode]]
 ===== Without Busy Mode
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `withoutBusyMode() -> TraceableSignatureVerificationData`
 | Since       | 0.1
@@ -2064,7 +2064,7 @@ The operations on this interface mirror their equivalents on
 [[type_TransactionManager]]
 ==== Transaction Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `TransactionManager`
 | Kind     | Interface
@@ -2083,7 +2083,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_WriteTransactionManager]]
 ==== Write Transaction Manager
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `WriteTransactionManager`
 | Kind     | Interface
@@ -2097,7 +2097,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[op_WriteTransactionManager_prepareWriteCounterCeiling]]
 ===== Prepare Write Counter Ceiling
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `prepareWriteCounterCeiling(counterNumber: integer, ceilingValue: integer) -> T`
 | Since       | 0.2
@@ -2117,7 +2117,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[op_WriteTransactionManager_prepareWriteCounterConfiguration]]
 ===== Prepare Write Counter Configuration
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
 | `prepareWriteCounterConfiguration(counterNumber: integer, ceilingValue: integer, counterIncrementAccess: CounterIncrementAccess) -> T`
@@ -2143,7 +2143,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_LegacySamDynamicUnlockDataProviderSpi]]
 ==== Legacy SAM Dynamic Unlock Data Provider SPI
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `LegacySamDynamicUnlockDataProviderSpi`
 | Kind     | Interface (SPI)
@@ -2155,7 +2155,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[op_LegacySamDynamicUnlockDataProviderSpi_getUnlockData]]
 ===== Get Unlock Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getUnlockData(samSerialNumber: byte array, samChallenge: byte array) -> byte array`
 | Since       | 0.4
@@ -2172,7 +2172,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_LegacySamRevocationServiceSpi]]
 ==== Legacy SAM Revocation Service SPI
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `LegacySamRevocationServiceSpi`
 | Kind     | Interface (SPI)
@@ -2184,7 +2184,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[op_LegacySamRevocationServiceSpi_isSamRevoked_withCounter]]
 ===== Is SAM Revoked (Counter Value)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `isSamRevoked(serialNumber: byte array, counterValue: integer) -> boolean`
 | Since       | 0.1
@@ -2201,7 +2201,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[op_LegacySamRevocationServiceSpi_isSamRevoked]]
 ===== Is SAM Revoked (No Counter Value)
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `isSamRevoked(serialNumber: byte array) -> boolean`
 | Since       | 0.1
@@ -2214,7 +2214,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_LegacySamStaticUnlockDataProviderSpi]]
 ==== Legacy SAM Static Unlock Data Provider SPI
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `LegacySamStaticUnlockDataProviderSpi`
 | Kind     | Interface (SPI)
@@ -2226,7 +2226,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[op_LegacySamStaticUnlockDataProviderSpi_getUnlockData]]
 ===== Get Unlock Data
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature   | `getUnlockData(samSerialNumber: byte array) -> byte array`
 | Since       | 0.4
@@ -2241,7 +2241,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_CounterIncrementAccess]]
 ==== Counter Increment Access
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `CounterIncrementAccess`
 | Kind     | Enumeration
@@ -2260,7 +2260,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_GetDataTag]]
 ==== Get Data Tag
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `GetDataTag`
 | Kind     | Enumeration
@@ -2278,7 +2278,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_ProductType]]
 ==== Legacy SAM Product Type
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `ProductType`
 | Kind     | Enumeration
@@ -2300,7 +2300,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_SamTraceabilityMode]]
 ==== SAM Traceability Mode
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `SamTraceabilityMode`
 | Kind     | Enumeration
@@ -2319,7 +2319,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_SystemKeyType]]
 ==== System Key Type
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `SystemKeyType`
 | Kind     | Enumeration
@@ -2343,7 +2343,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 [[type_InconsistentDataException]]
 ==== Inconsistent Data Exception
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `InconsistentDataException`
 | Kind     | Runtime exception
@@ -2362,7 +2362,7 @@ The inconsistency falls into one of the following cases:
 [[type_InvalidSignatureException]]
 ==== Invalid Signature Exception
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `InvalidSignatureException`
 | Kind     | Runtime exception
@@ -2374,7 +2374,7 @@ The inconsistency falls into one of the following cases:
 [[type_SamRevokedException]]
 ==== SAM Revoked Exception
 
-[cols="1h,4", grid=rows, frame=all]
+[cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Name     | `SamRevokedException`
 | Kind     | Runtime exception
