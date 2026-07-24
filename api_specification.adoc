@@ -2,9 +2,9 @@
 Calypso Networks Association <https://calypsonet.org>
 //
 // Document identity
-:spec-name: Terminal Calypso Crypto Legacy SAM API
-:spec-id: CNA-TCCL-API
-:spec-ref: YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM
+:doc-name: Terminal Calypso Crypto Legacy SAM API
+:doc-id: CNA-TCCL-API
+:doc-ref: YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM
 :organization: Calypso Networks Association
 //
 // Revision
@@ -50,12 +50,12 @@ Calypso Networks Association <https://calypsonet.org>
 [abstract]
 == Abstract
 
-This document is the official technical specification of the **{spec-name}** standardised
+This document is the official technical specification of the **{doc-name}** standardised
 by the **{organization}** (CNA).
 It defines, in a language-agnostic way, the interfaces, classes, enumerations, exceptions, structural
-relationships and behavioural requirements that any conforming implementation of the {spec-name} MUST satisfy.
+relationships and behavioural requirements that any conforming implementation of the {doc-name} MUST satisfy.
 
-The {spec-name} exposes the abstractions required to operate Calypso *Legacy SAM* products (SAM C1, HSM C1, S1E1,
+The {doc-name} exposes the abstractions required to operate Calypso *Legacy SAM* products (SAM C1, HSM C1, S1E1,
 S1Dx). It is the symmetric counterpart of the *Terminal Calypso Crypto Symmetric API* (<<ref_cna_tccs,CNA-TCCS-API>>) for the
 specific case where the crypto module is a legacy Calypso SAM.
 
@@ -64,15 +64,15 @@ specific case where the crypto module is a legacy Calypso SAM.
 
 [cols="^.^1h,.^3", grid=rows, frame=all]
 |===
-| Reference           | {spec-ref}
-| Short name          | {spec-id}
+| Reference           | {doc-ref}
+| Short name          | {doc-id}
 | Version             | {revnumber}
 | Revision date       | {revdate}
 | Editor              | {organization}
 | Reference license   | Eclipse Public License -- v 2.0 (EPL-2.0)
 |===
 
-NOTE: The present document specifies the {revnumber} of the {spec-name}. It defines a single, coherent
+NOTE: The present document specifies the {revnumber} of the {doc-name}. It defines a single, coherent
 baseline against which conforming implementations are evaluated; the *Since* column indicates the version in
 which each member was introduced.
 
@@ -93,7 +93,7 @@ which each member was introduced.
 
 === Purpose
 
-The {spec-name} defines the public surface used by terminal applications and card-transaction managers to:
+The {doc-name} defines the public surface used by terminal applications and card-transaction managers to:
 
 * select, unlock and identify a Legacy SAM;
 * read SAM parameters, system keys, work keys and event counters;
@@ -396,7 +396,7 @@ include::api_class_diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Kind     | Final class
 | Namespace  | `calypso.crypto.legacysam`
 | Since    | 0.1
-| Purpose  | Exposes the immutable properties of the {spec-name}.
+| Purpose  | Exposes the immutable properties of the {doc-name}.
 |===
 
 ===== Constants
