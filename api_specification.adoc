@@ -11,6 +11,7 @@
 :doc-classification: Public
 :doc-id: CNA-TCCL-API
 :doc-ref: YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM
+:doc-repo: https://github.com/calypsonet/calypsonet-terminal-calypso-crypto-legacysam-uml-api
 //
 // Revision (bumped every edition)
 :revnumber: 2.0.0-SNAPSHOT
@@ -99,6 +100,7 @@ specific case where the crypto module is a legacy Calypso SAM.
 | Version             | {revnumber}
 | Revision date       | {revdate}
 | Editor              | {organization}
+| Source repository   | {doc-repo}
 | Reference license   | Eclipse Public License -- v 2.0 (EPL-2.0)
 |===
 
