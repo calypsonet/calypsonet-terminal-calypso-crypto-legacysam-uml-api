@@ -691,9 +691,9 @@ The signature serves many purposes, for example:
 |===
 | Signature
 | `preparePlainWriteLock(` +
-`{nbsp}{nbsp}lockIndex: byte,` +
-`{nbsp}{nbsp}lockParameters: byte,` +
-`{nbsp}{nbsp}lockValue: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockValue: byte array` +
 `) -> FreeTransactionManager`
 | Since       | 0.7
 | Description | Schedules the execution of a *Write Key* command to set the lock file of the SAM. The lock value is transferred in plain text.
@@ -1176,8 +1176,8 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature
 | `getWorkKeyParameter(` +
-`{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}kvc: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte` +
 `) -> KeyParameter?`
 | Since       | 0.7
 | Description | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available.
@@ -1222,8 +1222,8 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature
 | `createAsyncTransactionCreatorManager(` +
-`{nbsp}{nbsp}targetSamContext: string,` +
-`{nbsp}{nbsp}securitySetting: SecuritySetting` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetSamContext: string,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}securitySetting: SecuritySetting` +
 `) -> AsyncTransactionCreatorManager`
 | Since       | 0.3
 | Description
@@ -1243,9 +1243,9 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature
 | `createAsyncTransactionExecutorManager(` +
-`{nbsp}{nbsp}samReader: CardReader,` +
-`{nbsp}{nbsp}sam: LegacySam,` +
-`{nbsp}{nbsp}samCommands: string` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samReader: CardReader,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}sam: LegacySam,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samCommands: string` +
 `) -> AsyncTransactionExecutorManager`
 | Since       | 0.3
 | Description | Returns a new <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>. The `samCommands` MUST have been produced by an <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>.
@@ -1296,8 +1296,8 @@ traceable variant, use
 |===
 | Signature
 | `createFreeTransactionManager(` +
-`{nbsp}{nbsp}samReader: CardReader,` +
-`{nbsp}{nbsp}sam: LegacySam` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samReader: CardReader,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}sam: LegacySam` +
 `) -> FreeTransactionManager`
 | Since       | 0.3
 | Description | Returns a new <<type_FreeTransactionManager,`FreeTransactionManager`>> bound to the supplied SAM and reader.
@@ -1357,9 +1357,9 @@ the input and output data of `prepareComputeCardCertificate`.
 |===
 | Signature
 | `createSecureWriteTransactionManager(` +
-`{nbsp}{nbsp}samReader: CardReader,` +
-`{nbsp}{nbsp}sam: LegacySam,` +
-`{nbsp}{nbsp}securitySetting: SecuritySetting` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samReader: CardReader,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}sam: LegacySam,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}securitySetting: SecuritySetting` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Returns a new <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>> bound to the supplied SAM, reader and security setting.
@@ -1393,8 +1393,8 @@ by a control SAM, as consumed by
 |===
 | Signature
 | `createSymmetricCryptoCardTransactionManagerFactory(` +
-`{nbsp}{nbsp}samReader: CardReader,` +
-`{nbsp}{nbsp}sam: LegacySam` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samReader: CardReader,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}sam: LegacySam` +
 `) -> SymmetricCryptoCardTransactionManagerFactory`
 | Since       | 0.3
 | Description | Returns a new factory of <<ref_cna_tccs,CNA-TCCS-API>> `SymmetricCryptoCardTransactionManager` to be used to secure a Calypso card transaction with the supplied legacy SAM.
@@ -1536,8 +1536,8 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature
 | `prepareReadWorkKeyParameters(` +
-`{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}kvc: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte` +
 `) -> LegacySamSelectionExtension`
 | Since       | 0.7
 | Description
@@ -1590,8 +1590,8 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature
 | `setDynamicUnlockDataProvider(` +
-`{nbsp}{nbsp}dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi,` +
-`{nbsp}{nbsp}targetSamReader: CardReader` +
+`{nbsp}{nbsp}{nbsp}{nbsp}dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetSamReader: CardReader` +
 `) -> LegacySamSelectionExtension`
 | Since       | 0.4
 | Description | Sets the dynamic-unlock-data provider, with the target SAM reader supplied at creation time. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
@@ -1622,8 +1622,8 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature
 | `setStaticUnlockDataProvider(` +
-`{nbsp}{nbsp}staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi,` +
-`{nbsp}{nbsp}targetSamReader: CardReader` +
+`{nbsp}{nbsp}{nbsp}{nbsp}staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetSamReader: CardReader` +
 `) -> LegacySamSelectionExtension`
 | Since       | 0.4
 | Description | Sets the static-unlock-data provider, with the target SAM reader supplied at creation time. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
@@ -1655,8 +1655,8 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature
 | `setUnlockData(` +
-`{nbsp}{nbsp}unlockData: string,` +
-`{nbsp}{nbsp}productType: LegacySam.ProductType` +
+`{nbsp}{nbsp}{nbsp}{nbsp}unlockData: string,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}productType: LegacySam.ProductType` +
 `) -> LegacySamSelectionExtension`
 | Since       | 0.3
 | Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `string`) used to unlock a SAM C1, with an explicit target product type, and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
@@ -1731,9 +1731,9 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `preparePlainWriteLock(` +
-`{nbsp}{nbsp}lockIndex: byte,` +
-`{nbsp}{nbsp}lockParameters: byte,` +
-`{nbsp}{nbsp}lockValue: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockValue: byte array` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command to set the lock file with a plain-text 16-byte lock value.
@@ -1752,8 +1752,8 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferLock(` +
-`{nbsp}{nbsp}lockIndex: byte,` +
-`{nbsp}{nbsp}lockParameters: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: byte` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a lock file from the control SAM to the target SAM.
@@ -1771,8 +1771,8 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferLockDiversified(` +
-`{nbsp}{nbsp}lockIndex: byte,` +
-`{nbsp}{nbsp}lockParameters: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: byte` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a lock file from the control SAM to the target SAM, with diversification by the target SAM serial number.
@@ -1790,9 +1790,9 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferSystemKey(` +
-`{nbsp}{nbsp}systemKeyType: SystemKeyType,` +
-`{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}systemKeyParameters: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}systemKeyType: SystemKeyType,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}systemKeyParameters: byte array` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a system key from the control SAM to the target SAM. `systemKeyParameters` MUST be 29 bytes long.
@@ -1811,9 +1811,9 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferSystemKeyDiversified(` +
-`{nbsp}{nbsp}systemKeyType: SystemKeyType,` +
-`{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}systemKeyParameters: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}systemKeyType: SystemKeyType,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}systemKeyParameters: byte array` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a system key from the control SAM to the target SAM, with the key first diversified with the target SAM serial number. `systemKeyParameters` MUST be 29 bytes long.
@@ -1832,10 +1832,10 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferWorkKey(` +
-`{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}workKeyParameters: byte array,` +
-`{nbsp}{nbsp}targetRecordNumber: integer` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: byte array,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: integer` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description
@@ -1857,11 +1857,11 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferWorkKeyDiversified(` +
-`{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}workKeyParameters: byte array,` +
-`{nbsp}{nbsp}targetRecordNumber: integer,` +
-`{nbsp}{nbsp}diversifier: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: byte array,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: integer,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}diversifier: byte array` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description
@@ -1885,10 +1885,10 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferWorkKeyDiversified(` +
-`{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}workKeyParameters: byte array,` +
-`{nbsp}{nbsp}targetRecordNumber: integer` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: byte array,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: integer` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description
@@ -1936,8 +1936,8 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `setControlSamResource(` +
-`{nbsp}{nbsp}samReader: CardReader,` +
-`{nbsp}{nbsp}controlSam: LegacySam` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samReader: CardReader,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}controlSam: LegacySam` +
 `) -> SecuritySetting`
 | Since       | 0.2
 | Description | Sets the control SAM and the reader through which it can be accessed.
@@ -1980,9 +1980,9 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `setData(` +
-`{nbsp}{nbsp}data: byte array,` +
-`{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}kvc: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}data: byte array,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte` +
 `) -> T`
 | Since       | 0.1
 | Description | Sets the data to sign and the KIF/KVC of the key.
@@ -2052,10 +2052,10 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `setData(` +
-`{nbsp}{nbsp}data: byte array,` +
-`{nbsp}{nbsp}signature: byte array,` +
-`{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}kvc: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}data: byte array,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}signature: byte array,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte` +
 `) -> T`
 | Since       | 0.1
 | Description | Sets the signed data, the signature and the KIF/KVC of the verification key.
@@ -2113,8 +2113,8 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `withSamTraceabilityMode(` +
-`{nbsp}{nbsp}offset: integer,` +
-`{nbsp}{nbsp}samTraceabilityMode: SamTraceabilityMode` +
+`{nbsp}{nbsp}{nbsp}{nbsp}offset: integer,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samTraceabilityMode: SamTraceabilityMode` +
 `) -> TraceableSignatureComputationData`
 | Since       | 0.1
 | Description
@@ -2163,9 +2163,9 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `withSamTraceabilityMode(` +
-`{nbsp}{nbsp}offset: integer,` +
-`{nbsp}{nbsp}samTraceabilityMode: SamTraceabilityMode,` +
-`{nbsp}{nbsp}samRevocationService: LegacySamRevocationServiceSpi` +
+`{nbsp}{nbsp}{nbsp}{nbsp}offset: integer,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samTraceabilityMode: SamTraceabilityMode,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samRevocationService: LegacySamRevocationServiceSpi` +
 `) -> TraceableSignatureVerificationData`
 | Since       | 0.1
 | Description
@@ -2243,8 +2243,8 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 | Signature
 | `prepareWriteCounterCeiling(` +
-`{nbsp}{nbsp}counterNumber: integer,` +
-`{nbsp}{nbsp}ceilingValue: integer` +
+`{nbsp}{nbsp}{nbsp}{nbsp}counterNumber: integer,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}ceilingValue: integer` +
 `) -> T`
 | Since       | 0.2
 | Description
@@ -2267,9 +2267,9 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 | Signature
 | `prepareWriteCounterConfiguration(` +
-`{nbsp}{nbsp}counterNumber: integer,` +
-`{nbsp}{nbsp}ceilingValue: integer,` +
-`{nbsp}{nbsp}counterIncrementAccess: CounterIncrementAccess` +
+`{nbsp}{nbsp}{nbsp}{nbsp}counterNumber: integer,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}ceilingValue: integer,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}counterIncrementAccess: CounterIncrementAccess` +
 `) -> T`
 | Since       | 0.2
 | Description
@@ -2309,8 +2309,8 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 | Signature
 | `getUnlockData(` +
-`{nbsp}{nbsp}samSerialNumber: byte array,` +
-`{nbsp}{nbsp}samChallenge: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samSerialNumber: byte array,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samChallenge: byte array` +
 `) -> byte array`
 | Since       | 0.4
 | Description
@@ -2342,8 +2342,8 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 | Signature
 | `isSamRevoked(` +
-`{nbsp}{nbsp}serialNumber: byte array,` +
-`{nbsp}{nbsp}counterValue: integer` +
+`{nbsp}{nbsp}{nbsp}{nbsp}serialNumber: byte array,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}counterValue: integer` +
 `) -> boolean`
 | Since       | 0.1
 | Description
