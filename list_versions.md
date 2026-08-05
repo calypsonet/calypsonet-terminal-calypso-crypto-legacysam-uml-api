@@ -1,11 +1,11 @@
 | Version | Documents |
 |:---:|---|
 | 2.0.0-SNAPSHOT | [API class diagram](2.0.0-SNAPSHOT/class-diagram.svg)<br>[API specification (HTML)](2.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html)<br>[API specification (PDF)](2.0.0-SNAPSHOT/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.pdf) |
-| **1.0.0 (latest stable)** | [API class diagram](latest-stable/class-diagram.svg)<br>[API specification (HTML)](latest-stable/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html)<br>[API specification (PDF)](latest-stable/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.pdf) |
-| 0.7.0 | [API class diagram](0.7.0/class-diagram.svg)<br>[API specification (HTML)](0.7.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html)<br>[API specification (PDF)](0.7.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.pdf) |
-| 0.6.0 | [API class diagram](0.6.0/class-diagram.svg)<br>[API specification (HTML)](0.6.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html)<br>[API specification (PDF)](0.6.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.pdf) |
-| 0.5.0 | [API class diagram](0.5.0/class-diagram.svg)<br>[API specification (HTML)](0.5.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html)<br>[API specification (PDF)](0.5.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.pdf) |
-| 0.4.0 | [API class diagram](0.4.0/class-diagram.svg)<br>[API specification (HTML)](0.4.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html)<br>[API specification (PDF)](0.4.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.pdf) |
-| 0.3.0 | [API class diagram](0.3.0/class-diagram.svg)<br>[API specification (HTML)](0.3.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html)<br>[API specification (PDF)](0.3.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.pdf) |
-| 0.2.0 | [API class diagram](0.2.0/class-diagram.svg)<br>[API specification (HTML)](0.2.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html)<br>[API specification (PDF)](0.2.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.pdf) |
-| 0.1.0 | [API class diagram](0.1.0/class-diagram.svg)<br>[API specification (HTML)](0.1.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html)<br>[API specification (PDF)](0.1.0/YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.pdf) |
+| **1.0.0 (latest stable)** | [API class diagram](latest-stable/api_class_diagram.svg) |
+| 0.7.0 | [API class diagram](0.7.0/api_class_diagram.svg) |
+| 0.6.0 | [API class diagram](0.6.0/api_class_diagram.svg) |
+| 0.5.0 | [API class diagram](0.5.0/api_class_diagram.svg) |
+| 0.4.0 | [API class diagram](0.4.0/api_class_diagram.svg) |
+| 0.3.0 | [API class diagram](0.3.0/api_class_diagram.svg) |
+| 0.2.0 | [API class diagram](0.2.0/api_class_diagram.svg) |
+| 0.1.0 | [API class diagram](0.1.0/api_class_diagram.svg) |
