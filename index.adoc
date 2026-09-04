@@ -231,7 +231,7 @@ as-is in the UML class diagram (<<sec_class_diagram>>).
 | `date`          | Calendar date without a time-of-day or timezone.                 | `LocalDate`, `Date`.
 | `sortedMap<K,V>`| Associative array sorted by key.                                 | `SortedMap<K,V>`, `BTreeMap<K,V>`.
 | `T?`            | Nullable value: either a `T` value or the absence of value (`null`). | `Integer`/`Byte` (boxed), `Optional<T>`, `T?`.
-| `void`          | Indicates that an operation returns no value.                    | `void`, `Unit`, `None`.
+| `unit`          | Indicates that an operation returns no value.                    | `void`, `Unit`, `None`.
 |===
 
 ==== Type tables
@@ -243,7 +243,7 @@ Each interface, class, enumeration and exception defined in this document is des
 | Name       | The type's normalized name.
 | Kind       | The category of the type (interface, class, enumeration, exception, etc.).
 | Namespace  | The namespace in which the type is defined.
-| Generics   | The generic type parameter of this type, when applicable.
+| Generics   | The generic type parameter of this type, when applicable. A constraint on that parameter is written `<T : Bound>`.
 | Extends    | The type extended by this type, when applicable.
 | Implements | The interface implemented by this type, when applicable.
 | Since      | The version of the API in which the type was introduced.
@@ -1728,7 +1728,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Name     | `ReadTransactionManager`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Generics | `<T extends ReadTransactionManager<T>>`
+| Generics | `<T : ReadTransactionManager<T>>`
 | Extends  | <<type_TransactionManager,`TransactionManager<T>`>>
 | Since    | 0.1
 | Purpose  | Adds *read*-oriented operations to the common transaction manager: SAM parameters, system/work keys and counter status.
@@ -2011,7 +2011,7 @@ The operations on this interface mirror their equivalents on
 | Name     | `SignatureComputationData`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Generics | `<T extends SignatureComputationData<T>>`
+| Generics | `<T : SignatureComputationData<T>>`
 | Since    | 0.1
 | Purpose  | Common base contract for the input/output data of a signature computation.
 |===
@@ -2083,7 +2083,7 @@ The operations on this interface mirror their equivalents on
 | Name     | `SignatureVerificationData`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Generics | `<T extends SignatureVerificationData<T>>`
+| Generics | `<T : SignatureVerificationData<T>>`
 | Since    | 0.1
 | Purpose  | Common base contract for the input/output data of a signature verification.
 |===
@@ -2285,7 +2285,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Name     | `WriteTransactionManager`
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Generics | `<T extends WriteTransactionManager<T>>`
+| Generics | `<T : WriteTransactionManager<T>>`
 | Extends  | <<type_TransactionManager,`TransactionManager<T>`>>
 | Since    | 0.2
 | Purpose  | Common base of every *write* transaction manager. Writes MAY be performed synchronously or asynchronously.

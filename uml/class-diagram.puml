@@ -73,29 +73,29 @@ end legend
 package "calypso.crypto.legacysam" as legacysam {
 
 +class "**final** LegacySamApiProperties" as ApiProperties <<green>> {
-    +{static} **final** String VERSION
+    +{static} **final** VERSION: string
 }
 +interface "LegacySamApiFactory" as LegacySamApiFactory <<blue>> {
 
-    +LegacySamSelectionExtension createLegacySamSelectionExtension ()
+    +createLegacySamSelectionExtension() -> LegacySamSelectionExtension
 
-    +<back:pink>SymmetricCryptoCardTransactionManagerFactory</back> createSymmetricCryptoCardTransactionManagerFactory (<back:yellow>CardReader</back> samReader, LegacySam sam)
+    +createSymmetricCryptoCardTransactionManagerFactory(samReader: <back:yellow>CardReader</back>, sam: LegacySam) -> <back:pink>SymmetricCryptoCardTransactionManagerFactory</back>
 
-    +SecuritySetting createSecuritySetting ()
+    +createSecuritySetting() -> SecuritySetting
 
-    +FreeTransactionManager createFreeTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam)
-    +<color:grey>SecureReadTransactionManager createSecureReadTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, SecuritySetting securitySetting)
-    +SecureWriteTransactionManager createSecureWriteTransactionManager (<back:yellow>CardReader</back> samReader, LegacySam sam, SecuritySetting securitySetting)
-    +AsyncTransactionCreatorManager createAsyncTransactionCreatorManager (String targetSamContext, SecuritySetting securitySetting)
-    +AsyncTransactionExecutorManager createAsyncTransactionExecutorManager (<back:yellow>CardReader</back> samReader, LegacySam sam, String samCommands)
+    +createFreeTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam) -> FreeTransactionManager
+    +<color:grey>createSecureReadTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, securitySetting: SecuritySetting) -> SecureReadTransactionManager
+    +createSecureWriteTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, securitySetting: SecuritySetting) -> SecureWriteTransactionManager
+    +createAsyncTransactionCreatorManager(targetSamContext: string, securitySetting: SecuritySetting) -> AsyncTransactionCreatorManager
+    +createAsyncTransactionExecutorManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, samCommands: string) -> AsyncTransactionExecutorManager
 
-    +KeyPairContainer createKeyPairContainer ()
-    +LegacyCardCertificateComputationData createLegacyCardCertificateComputationData ()
+    +createKeyPairContainer() -> KeyPairContainer
+    +createLegacyCardCertificateComputationData() -> LegacyCardCertificateComputationData
 
-    +BasicSignatureComputationData createBasicSignatureComputationData ()
-    +TraceableSignatureComputationData createTraceableSignatureComputationData ()
-    +BasicSignatureVerificationData createBasicSignatureVerificationData ()
-    +TraceableSignatureVerificationData createTraceableSignatureVerificationData ()
+    +createBasicSignatureComputationData() -> BasicSignatureComputationData
+    +createTraceableSignatureComputationData() -> TraceableSignatureComputationData
+    +createBasicSignatureVerificationData() -> BasicSignatureVerificationData
+    +createTraceableSignatureVerificationData() -> TraceableSignatureVerificationData
 }
 +enum SystemKeyType <<green>> {
     PERSONALIZATION
@@ -114,116 +114,116 @@ package "calypso.crypto.legacysam" as legacysam {
 package "transaction" as transaction {
     +interface "<<<back:yellow>CardTransactionManager</back>>></color>\nTransactionManager" as TransactionManager <<grey>> {
     }
-    +interface ReadTransactionManager<T extends ReadTransactionManager<T>> <<grey>> extends TransactionManager {
-        +T prepareReadSamParameters ()
+    +interface ReadTransactionManager<T : ReadTransactionManager<T>> <<grey>> extends TransactionManager {
+        +prepareReadSamParameters() -> T
 
-        +<color:grey>T prepareReadCaadRecord (int caadRecordNumber)
-        +<color:grey>T prepareReadCaadRecords (int fromCaadRecordNumber, int toCaadRecordNumber)
+        +<color:grey>prepareReadCaadRecord(caadRecordNumber: integer) -> T
+        +<color:grey>prepareReadCaadRecords(fromCaadRecordNumber: integer, toCaadRecordNumber: integer) -> T
 
-        +T prepareReadSystemKeyParameters (SystemKeyType systemKeyType)
+        +prepareReadSystemKeyParameters(systemKeyType: SystemKeyType) -> T
 
-        +T prepareReadWorkKeyParameter (int recordNumber)
-        +T prepareReadWorkKeyParameter (byte kif, byte kvc)
+        +prepareReadWorkKeyParameters(recordNumber: integer) -> T
+        +prepareReadWorkKeyParameters(kif: byte, kvc: byte) -> T
 
-        +T prepareReadCounterStatus (int counterNumber)
-        +T prepareReadAllCountersStatus ()
+        +prepareReadCounterStatus(counterNumber: integer) -> T
+        +prepareReadAllCountersStatus() -> T
     }
-    +interface WriteTransactionManager<T extends WriteTransactionManager<T>> <<grey>> extends TransactionManager {
-        +T prepareWriteCounterCeiling (int counterNumber, int ceilingValue)
-        +T prepareWriteCounterConfiguration (int counterNumber, int ceilingValue, CounterIncrementAccess counterIncrementAccess)
+    +interface WriteTransactionManager<T : WriteTransactionManager<T>> <<grey>> extends TransactionManager {
+        +prepareWriteCounterCeiling(counterNumber: integer, ceilingValue: integer) -> T
+        +prepareWriteCounterConfiguration(counterNumber: integer, ceilingValue: integer, counterIncrementAccess: CounterIncrementAccess) -> T
     }
     +interface "<color:grey>SecureReadTransactionManager" as SecureReadTransactionManager <<blue>> extends ReadTransactionManager {
     }
     +interface FreeTransactionManager <<blue>> extends ReadTransactionManager {
-        +FreeTransactionManager prepareGetData (GetDataTag tag)
-        +FreeTransactionManager prepareGenerateCardAsymmetricKeyPair (KeyPairContainer keyPairContainer)
-        +FreeTransactionManager prepareComputeCardCertificate (LegacyCardCertificateComputationData data)
+        +prepareGetData(tag: GetDataTag) -> FreeTransactionManager
+        +prepareGenerateCardAsymmetricKeyPair(keyPairContainer: KeyPairContainer) -> FreeTransactionManager
+        +prepareComputeCardCertificate(data: LegacyCardCertificateComputationData) -> FreeTransactionManager
 
-        +<color:grey>FreeTransactionManager preparePlainLoadWorkKey (byte kif, byte kvc, byte[] workKeyParameters, byte[] workKeyValue)
-        +<color:grey>FreeTransactionManager preparePlainExportWorkKey (byte kif, byte kvc, byte[] workKeyParameters, byte[] workKeyValue)
+        +<color:grey>preparePlainLoadWorkKey(kif: byte, kvc: byte, workKeyParameters: byte array, workKeyValue: byte array) -> FreeTransactionManager
+        +<color:grey>preparePlainExportWorkKey(kif: byte, kvc: byte, workKeyParameters: byte array, workKeyValue: byte array) -> FreeTransactionManager
 
-        +FreeTransactionManager preparePlainWriteLock (int lockIndex, byte lockParameters, byte[] lockValue)
+        +preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> FreeTransactionManager
 
-        +FreeTransactionManager prepareComputeSignature (SignatureComputationData<?> data)
-        +FreeTransactionManager prepareVerifySignature (SignatureVerificationData<?> data)
+        +prepareComputeSignature(data: SignatureComputationData<?>) -> FreeTransactionManager
+        +prepareVerifySignature(data: SignatureVerificationData<?>) -> FreeTransactionManager
 
-        +String exportTargetSamContextForAsyncTransaction ()
+        +exportTargetSamContextForAsyncTransaction() -> string
     }
     +interface "SecureWriteTransactionManager" as SecureWriteTransactionManager <<blue>> extends WriteTransactionManager {
-        +SecureWriteTransactionManager prepareWriteSamParameters (byte[] parameters)
+        +prepareWriteSamParameters(parameters: byte array) -> SecureWriteTransactionManager
 
-        +<color:grey>SecureWriteTransactionManager prepareWriteCaadRecord (int caadRecordNumber, byte[] caad)
+        +<color:grey>prepareWriteCaadRecord(caadRecordNumber: integer, caad: byte array) -> SecureWriteTransactionManager
 
-        +SecureWriteTransactionManager prepareTransferSystemKey (SystemKeyType systemKeyType, byte kvc, byte[] systemKeyParameters)
-        +SecureWriteTransactionManager prepareTransferSystemKeyDiversified (SystemKeyType systemKeyType, byte kvc, byte[] systemKeyParameters)
+        +prepareTransferSystemKey(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager
+        +prepareTransferSystemKeyDiversified(systemKeyType: SystemKeyType, kvc: byte, systemKeyParameters: byte array) -> SecureWriteTransactionManager
 
-        +SecureWriteTransactionManager prepareTransferWorkKey (byte kif, byte kvc, byte[] workKeyParameters, int targetRecordNumber)
-        +SecureWriteTransactionManager prepareTransferWorkKeyDiversified (byte kif, byte kvc, byte[] workKeyParameters, int targetRecordNumber)
-        +SecureWriteTransactionManager prepareTransferWorkKeyDiversified (byte kif, byte kvc, byte[] workKeyParameters, int targetRecordNumber, byte[] diversifier)
+        +prepareTransferWorkKey(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager
+        +prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer) -> SecureWriteTransactionManager
+        +prepareTransferWorkKeyDiversified(kif: byte, kvc: byte, workKeyParameters: byte array, targetRecordNumber: integer, diversifier: byte array) -> SecureWriteTransactionManager
 
-        +SecureWriteTransactionManager prepareTransferLock (int lockIndex, byte lockParameters)
-        +SecureWriteTransactionManager prepareTransferLockDiversified (int lockIndex, byte lockParameters)
+        +prepareTransferLock(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager
+        +prepareTransferLockDiversified(lockIndex: byte, lockParameters: byte) -> SecureWriteTransactionManager
 
-        +SecureWriteTransactionManager preparePlainWriteLock (int lockIndex, byte lockParameters, byte[] lockValue)
+        +preparePlainWriteLock(lockIndex: byte, lockParameters: byte, lockValue: byte array) -> SecureWriteTransactionManager
     }
     +interface AsyncTransactionCreatorManager <<blue>> extends WriteTransactionManager {
-        +String exportCommands ()
+        +exportCommands() -> string
     }
     +interface AsyncTransactionExecutorManager <<blue>> extends TransactionManager {
     }
 
     +interface SecuritySetting <<blue>> {
-        +SecuritySetting setControlSamResource (<back:yellow>CardReader</back> samReader, LegacySam sam)
+        +setControlSamResource(samReader: <back:yellow>CardReader</back>, controlSam: LegacySam) -> SecuritySetting
     }
     +interface "<<<back:pink>CardTransactionCryptoExtension</back>>>\nCardTransactionLegacySamExtension" as CardTransactionLegacySamExtension {
-        +CardTransactionLegacySamExtension prepareComputeSignature (SignatureComputationData<?> data)
-        +CardTransactionLegacySamExtension prepareVerifySignature (SignatureVerificationData<?> data)
+        +prepareComputeSignature(data: SignatureComputationData<?>) -> CardTransactionLegacySamExtension
+        +prepareVerifySignature(data: SignatureVerificationData<?>) -> CardTransactionLegacySamExtension
     }
 
     +interface "KeyPairContainer" as KeyPairContainer <<blue>> {
-        +byte[] getKeyPair ()
+        +getKeyPair() -> byte array
     }
     +interface "LegacyCardCertificateComputationData" as LegacyCardCertificateComputationData <<blue>> {
-        +LegacyCardCertificateComputationData setCardPublicKey (byte[] cardPublicKey)
-        +LegacyCardCertificateComputationData setStartDate (LocalDate startDate)
-        +LegacyCardCertificateComputationData setEndDate (LocalDate endDate)
-        +LegacyCardCertificateComputationData setCardAid (byte[] aid)
-        +LegacyCardCertificateComputationData setCardSerialNumber (byte[] serialNumber)
-        +LegacyCardCertificateComputationData setCardStartupInfo (byte[] startupInfo)
+        +setCardPublicKey(cardPublicKey: byte array) -> LegacyCardCertificateComputationData
+        +setStartDate(startDate: date) -> LegacyCardCertificateComputationData
+        +setEndDate(endDate: date) -> LegacyCardCertificateComputationData
+        +setCardAid(aid: byte array) -> LegacyCardCertificateComputationData
+        +setCardSerialNumber(serialNumber: byte array) -> LegacyCardCertificateComputationData
+        +setCardStartupInfo(startupInfo: byte array) -> LegacyCardCertificateComputationData
 
-        +byte[] getCertificate ()
+        +getCertificate() -> byte array?
     }
 
-    +interface "SignatureComputationData" as SignatureComputationData<T extends SignatureComputationData<T>> <<grey>> {
-        +T setData (byte[] data, byte kif, byte kvc)
-        +T setSignatureSize (int size)
-        +T setKeyDiversifier (byte[] diversifier)
+    +interface "SignatureComputationData" as SignatureComputationData<T : SignatureComputationData<T>> <<grey>> {
+        +setData(data: byte array, kif: byte, kvc: byte) -> T
+        +setSignatureSize(size: integer) -> T
+        +setKeyDiversifier(diversifier: byte array) -> T
 
-        +byte[] getSignature ()
+        +getSignature() -> byte array
     }
     +interface BasicSignatureComputationData <<blue>> extends SignatureComputationData {
     }
     +interface TraceableSignatureComputationData <<blue>> extends SignatureComputationData {
-        +TraceableSignatureComputationData withSamTraceabilityMode (int offset, SamTraceabilityMode samTraceabilityMode)
-        +TraceableSignatureComputationData withoutBusyMode ()
+        +withSamTraceabilityMode(offset: integer, samTraceabilityMode: SamTraceabilityMode) -> TraceableSignatureComputationData
+        +withoutBusyMode() -> TraceableSignatureComputationData
 
-        +byte[] getSignedData ()
+        +getSignedData() -> byte array
     }
     +enum "SamTraceabilityMode" as SamTraceabilityMode <<green>> {
         FULL_SERIAL_NUMBER
         TRUNCATED_SERIAL_NUMBER
     }
-    +interface "SignatureVerificationData" as SignatureVerificationData<T extends SignatureVerificationData<T>> <<grey>> {
-        +T setData (byte[] data, byte[] signature, byte kif, byte kvc)
-        +T setKeyDiversifier (byte[] diversifier)
+    +interface "SignatureVerificationData" as SignatureVerificationData<T : SignatureVerificationData<T>> <<grey>> {
+        +setData(data: byte array, signature: byte array, kif: byte, kvc: byte) -> T
+        +setKeyDiversifier(diversifier: byte array) -> T
 
-        +boolean isSignatureValid ()
+        +isSignatureValid() -> boolean
     }
     +interface BasicSignatureVerificationData <<blue>> extends SignatureVerificationData {
     }
     +interface TraceableSignatureVerificationData <<blue>> extends SignatureVerificationData {
-        +TraceableSignatureVerificationData withSamTraceabilityMode (int offset, SamTraceabilityMode samTraceabilityMode, LegacySamRevocationServiceSpi samRevocationService)
-        +TraceableSignatureVerificationData withoutBusyMode ()
+        +withSamTraceabilityMode(offset: integer, samTraceabilityMode: SamTraceabilityMode, samRevocationService: LegacySamRevocationServiceSpi) -> TraceableSignatureVerificationData
+        +withoutBusyMode() -> TraceableSignatureVerificationData
     }
 
     ' Exceptions
@@ -235,65 +235,65 @@ package "transaction" as transaction {
 }
 package "sam" as sam {
     +interface "<<<back:yellow>CardSelectionExtension</back>>>\nLegacySamSelectionExtension" as LegacySamSelectionExtension <<blue>> {
-        +LegacySamSelectionExtension setUnlockData (String unlockData)
-        +LegacySamSelectionExtension setUnlockData (String unlockData, LegacySam.ProductType productType)
-        +LegacySamSelectionExtension setStaticUnlockDataProvider (LegacySamStaticUnlockDataProviderSpi staticUnlockDataProvider)
-        +LegacySamSelectionExtension setStaticUnlockDataProvider (LegacySamStaticUnlockDataProviderSpi staticUnlockDataProvider, CardReader targetSamReader)
-        +LegacySamSelectionExtension setDynamicUnlockDataProvider (LegacySamDynamicUnlockDataProviderSpi dynamicUnlockDataProvider)
-        +LegacySamSelectionExtension setDynamicUnlockDataProvider (LegacySamDynamicUnlockDataProviderSpi dynamicUnlockDataProvider, CardReader targetSamReader)
+        +setUnlockData(unlockData: string) -> LegacySamSelectionExtension
+        +setUnlockData(unlockData: string, productType: LegacySam.ProductType) -> LegacySamSelectionExtension
+        +setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi) -> LegacySamSelectionExtension
+        +setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension
+        +setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi) -> LegacySamSelectionExtension
+        +setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi, targetSamReader: CardReader) -> LegacySamSelectionExtension
 
-        +LegacySamSelectionExtension prepareReadSamParameters ()
+        +prepareReadSamParameters() -> LegacySamSelectionExtension
 
-        +<color:grey>LegacySamSelectionExtension prepareReadCaadRecord (int caadRecordNumber)
-        +<color:grey>LegacySamSelectionExtension prepareReadCaadRecords (int fromCaadRecordNumber, int toCaadRecordNumber)
+        +<color:grey>prepareReadCaadRecord(caadRecordNumber: integer) -> LegacySamSelectionExtension
+        +<color:grey>prepareReadCaadRecords(fromCaadRecordNumber: integer, toCaadRecordNumber: integer) -> LegacySamSelectionExtension
 
-        +LegacySamSelectionExtension prepareReadSystemKeyParameters (SystemKeyType systemKeyType)
+        +prepareReadSystemKeyParameters(systemKeyType: SystemKeyType) -> LegacySamSelectionExtension
 
-        +LegacySamSelectionExtension prepareReadWorkKeyParameter (int recordNumber)
-        +LegacySamSelectionExtension prepareReadWorkKeyParameter (byte kif, byte kvc)
+        +prepareReadWorkKeyParameters(recordNumber: integer) -> LegacySamSelectionExtension
+        +prepareReadWorkKeyParameters(kif: byte, kvc: byte) -> LegacySamSelectionExtension
 
-        +LegacySamSelectionExtension prepareReadCounterStatus (int counterNumber)
-        +LegacySamSelectionExtension prepareReadAllCountersStatus ()
+        +prepareReadCounterStatus(counterNumber: integer) -> LegacySamSelectionExtension
+        +prepareReadAllCountersStatus() -> LegacySamSelectionExtension
 
-        +LegacySamSelectionExtension prepareGetData (GetDataTag tag)
+        +prepareGetData(tag: GetDataTag) -> LegacySamSelectionExtension
     }
     +interface "<<<back:yellow>SmartCard</back>>>\nLegacySam" as LegacySam {
-        +ProductType getProductType ()
-        +String getProductInfo ()
+        +getProductType() -> ProductType
+        +getProductInfo() -> string
 
-        +byte[] getSerialNumber ()
-        +byte getPlatform ()
-        +byte getApplicationType ()
-        +byte getApplicationSubType ()
-        +byte getSoftwareIssuer ()
-        +byte getSoftwareVersion ()
-        +byte getSoftwareRevision ()
+        +getSerialNumber() -> byte array
+        +getPlatform() -> byte
+        +getApplicationType() -> byte
+        +getApplicationSubType() -> byte
+        +getSoftwareIssuer() -> byte
+        +getSoftwareVersion() -> byte
+        +getSoftwareRevision() -> byte
 
-        +Integer getCounter (int counterNumber)
-        +SortedMap<Integer, Integer> getCounters ()
-        +CounterIncrementAccess getCounterIncrementAccess (int counterNumber)
+        +getCounter(counterNumber: integer) -> integer?
+        +getCounters() -> sortedMap<integer, integer>
+        +getCounterIncrementAccess(counterNumber: integer) -> CounterIncrementAccess?
 
-        +Integer getCounterCeiling (int counterNumber)
-        +SortedMap<Integer, Integer> getCounterCeilings ()
+        +getCounterCeiling(counterNumber: integer) -> integer?
+        +getCounterCeilings() -> sortedMap<integer, integer>
 
-        +byte[] getCaCertificate ()
+        +getCaCertificate() -> byte array?
 
-        +SamParameters getSamParameters ()
+        +getSamParameters() -> SamParameters?
 
-        +KeyParameter getSystemKeyParameter (SystemKeyType systemKeyType)
+        +getSystemKeyParameter(systemKeyType: SystemKeyType) -> KeyParameter?
 
-        +KeyParameter getWorkKeyParameter (int recordNumber)
-        +KeyParameter getWorkKeyParameter (byte kif, byte kvc)
+        +getWorkKeyParameter(recordNumber: integer) -> KeyParameter?
+        +getWorkKeyParameter(kif: byte, kvc: byte) -> KeyParameter?
     }
     +interface "SamParameters" as SamParameters {
-        +byte getRawData ()
+        +getRawData() -> byte array
     }
     +interface KeyParameter {
-        +byte getRawData ()
-        +byte getKif ()
-        +byte getKvc ()
-        +byte getAlgorithm ()
-        +byte getParameterValue (int parameterNumber)
+        +getRawData() -> byte array
+        +getKif() -> byte
+        +getKvc() -> byte
+        +getAlgorithm() -> byte
+        +getParameterValue(parameterNumber: integer) -> byte
     }
     +enum "ProductType" as SamProductType <<green>> {
         SAM_C1
@@ -305,14 +305,14 @@ package "sam" as sam {
 }
 package "spi" as spi {
     +interface "LegacySamStaticUnlockDataProviderSpi" as LegacySamStaticUnlockDataProviderSpi <<red>> {
-        +byte[] getUnlockData (byte[] samSerialNumber)
+        +getUnlockData(samSerialNumber: byte array) -> byte array
     }
     +interface "LegacySamDynamicUnlockDataProviderSpi" as LegacySamDynamicUnlockDataProviderSpi <<red>> {
-        +byte[] getUnlockData (byte[] samSerialNumber, byte[] samChallenge)
+        +getUnlockData(samSerialNumber: byte array, samChallenge: byte array) -> byte array
     }
     +interface LegacySamRevocationServiceSpi <<red>> {
-        +boolean isSamRevoked (byte[] serialNumber)
-        +boolean isSamRevoked (byte[] serialNumber, int counterValue)
+        +isSamRevoked(serialNumber: byte array) -> boolean
+        +isSamRevoked(serialNumber: byte array, counterValue: integer) -> boolean
     }
 }
 
