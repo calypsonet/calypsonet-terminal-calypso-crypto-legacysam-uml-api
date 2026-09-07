@@ -100,8 +100,9 @@ include::assets/layout/_colophon.adoc[]
 
 This document is the official technical specification of the **{doc-name}** standardised
 by the **{organization}** (CNA).
-It defines, in a language-agnostic way, the interfaces, classes, enumerations, exceptions, structural
-relationships and behavioural requirements that any conforming implementation of the {doc-name} MUST satisfy.
+It defines, in a language-agnostic way (using a notation inspired by the Kotlin language), the interfaces,
+classes, enumerations, exceptions, structural relationships and behavioural requirements that any conforming
+implementation of the {doc-name} MUST satisfy.
 
 The {doc-name} exposes the abstractions required to operate Calypso *Legacy SAM* products (SAM C1, HSM C1, S1E1,
 S1Dx). It is the symmetric counterpart of the *Terminal Calypso Crypto Symmetric API* (<<ref_cna_tccs,CNA-TCCS-API>>) for the
@@ -218,20 +219,24 @@ Type names follow `UpperCamelCase`; operation, parameter and enumeration-member 
 except for enumeration values which use `UPPER_SNAKE_CASE`. Names defined by this specification are reproduced
 as-is in the UML class diagram (<<sec_class_diagram>>).
 
-==== Language-agnostic types
+==== Data types
+
+The following type names, whose notation is inspired by the Kotlin language, are used in operation signatures
+and are mapped, in each binding, to the closest equivalent native type. Implementations MUST preserve the
+semantic intent rather than the syntactic form.
 
 [cols="^.^1,.^3,.^3", options="header"]
 |===
-| Symbolic type   | Description                                                     | Typical bindings
-| `string`        | Sequence of characters, UTF-8 encoded by default.                | `String`, `string`, `str`.
-| `boolean`       | Two-state truth value.                                           | `boolean`, `bool`.
-| `byte`          | Signed 8-bit value.                                              | `byte`, `i8`.
-| `integer`       | Signed 32-bit integer.                                           | `int`, `Int32`.
-| `byte array`    | Ordered sequence of octets.                                      | `byte[]`, `[u8]`, `bytes`.
-| `date`          | Calendar date without a time-of-day or timezone.                 | `LocalDate`, `Date`.
-| `sortedMap<K,V>`| Associative array sorted by key.                                 | `SortedMap<K,V>`, `BTreeMap<K,V>`.
-| `T?`            | Nullable value: either a `T` value or the absence of value (`null`). | `Integer`/`Byte` (boxed), `Optional<T>`, `T?`.
-| `unit`          | Indicates that an operation returns no value.                    | `void`, `Unit`, `None`.
+| Type            | Description                                                     | Typical bindings
+| `String`        | Sequence of characters, UTF-8 encoded by default.                | `String`, `string`, `str`.
+| `Boolean`       | Two-state truth value.                                           | `boolean`, `bool`.
+| `Byte`          | Signed 8-bit value.                                              | `byte`, `i8`.
+| `Int`           | Signed 32-bit integer.                                           | `int`, `Int32`, `i32`.
+| `ByteArray`     | Ordered sequence of octets.                                      | `byte[]`, `[u8]`, `bytes`.
+| `LocalDate`     | Calendar date without a time-of-day or timezone.                 | `LocalDate`, `Date`, `NaiveDate`.
+| `SortedMap<K,V>`| Associative array sorted by key.                                 | `SortedMap<K,V>`, `BTreeMap<K,V>`.
+| `T?`            | Nullable value: either a `T` value or the absence of value (`null`). | `Integer`/`Byte` (boxed), `Optional<T>`, `T?`, `Option<T>`.
+| `Unit`          | Indicates that an operation returns no value.                    | `void`, `Unit`, `None`, `()`.
 |===
 
 ==== Type tables
@@ -261,7 +266,7 @@ Each operation defined in this document is described by a table of the form:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | The operation's language-agnostic signature.
+| Signature   | The operation's signature.
 | Since       | The version of the API in which the operation was introduced.
 | Description | A normative description of the operation's behaviour.
 | Parameters  | A description of each input parameter.
@@ -281,7 +286,7 @@ not restated for each operation:
 * *Non-`null` results.* Unless the return type is marked nullable (`T?`) or the *Returns* row states otherwise, an
   operation returns a non-`null` value.
 * *Collections.* Unless the return type is marked nullable (`T?`), an operation whose return type is a collection
-  (e.g. `list`, `set`, `map`) returns an empty collection rather than `null`.
+  (e.g. `List`, `Set`, `Map`) returns an empty collection rather than `null`.
 * *Fluent composition.* Builder-style operations return the current instance so that calls can be chained.
 
 ==== Concurrency
@@ -447,7 +452,7 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 [cols="^.^1,^.^1,^.^1,.^4", options="header"]
 |===
 | Name      | Type     | Since | Description
-| `VERSION` | `string` | 0.1 | String representation of the version of the API (e.g. `"2.0"`).
+| `VERSION` | `String` | 0.1 | String representation of the version of the API (e.g. `"2.0"`).
 |===
 
 === API Interfaces
@@ -471,12 +476,12 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `exportCommands() -> string`
+| Signature   | `exportCommands() -> String`
 | Since       | 0.2
 | Description
-| Returns a non-empty `string` carrying the prepared commands. These commands can later be imported and processed
+| Returns a non-empty `String` carrying the prepared commands. These commands can later be imported and processed
   by an <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>.
-| Returns     | A non-empty `string`.
+| Returns     | A non-empty `String`.
 | Throws      | None.
 |===
 
@@ -617,12 +622,12 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `exportTargetSamContextForAsyncTransaction() -> string`
+| Signature   | `exportTargetSamContextForAsyncTransaction() -> String`
 | Since       | 0.2
 | Description
-| Executes the commands required to obtain the security context of the target SAM. The returned `string` is
+| Executes the commands required to obtain the security context of the target SAM. The returned `String` is
   passed to <<op_LegacySamApiFactory_createAsyncTransactionCreatorManager,`LegacySamApiFactory.createAsyncTransactionCreatorManager`>>.
-| Returns     | A non-empty `string`.
+| Returns     | A non-empty `String`.
 | Throws      | None.
 |===
 
@@ -719,16 +724,16 @@ The signature serves many purposes, for example:
 |===
 | Signature
 | `preparePlainWriteLock(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockValue: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockValue: ByteArray` +
 `) -> FreeTransactionManager`
 | Since       | 0.7
 | Description | Schedules the execution of a *Write Key* command to set the lock file of the SAM. The lock value is transferred in plain text.
 | Parameters
 | `lockIndex`      -- the index of the lock file. +
   `lockParameters` -- the lock permissions parameters. +
-  `lockValue`      -- a 16-byte `byte array` representing the lock's value.
+  `lockValue`      -- a 16-byte `ByteArray` representing the lock's value.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
 | Throws      | `IllegalArgumentException` -- if `lockValue` is out of range.
 |===
@@ -769,7 +774,7 @@ The signature serves many purposes, for example:
 | Kind     | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since    | 0.5
-| Purpose  | Carries the input/output data of `prepareGenerateCardAsymmetricKeyPair`. A key pair consists of a `byte array` holding the public key and the private key values. An instance is obtained via <<op_LegacySamApiFactory_createKeyPairContainer,`LegacySamApiFactory.createKeyPairContainer`>>.
+| Purpose  | Carries the input/output data of `prepareGenerateCardAsymmetricKeyPair`. A key pair consists of a `ByteArray` holding the public key and the private key values. An instance is obtained via <<op_LegacySamApiFactory_createKeyPairContainer,`LegacySamApiFactory.createKeyPairContainer`>>.
 |===
 
 [[op_KeyPairContainer_getKeyPair]]
@@ -777,10 +782,10 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getKeyPair() -> byte array`
+| Signature   | `getKeyPair() -> ByteArray`
 | Since       | 0.5
-| Description | Returns the generated key pair as a 96-byte `byte array`.
-| Returns     | A non-empty `byte array`.
+| Description | Returns the generated key pair as a 96-byte `ByteArray`.
+| Returns     | A non-empty `ByteArray`.
 | Throws      | None.
 |===
 
@@ -801,10 +806,10 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getAlgorithm() -> byte`
+| Signature   | `getAlgorithm() -> Byte`
 | Since       | 0.2
 | Description | Returns the key algorithm identifier byte.
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | None.
 |===
 
@@ -813,10 +818,10 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getKif() -> byte`
+| Signature   | `getKif() -> Byte`
 | Since       | 0.2
 | Description | Returns the key identifier (KIF).
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | None.
 |===
 
@@ -825,10 +830,10 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getKvc() -> byte`
+| Signature   | `getKvc() -> Byte`
 | Since       | 0.2
 | Description | Returns the key version (KVC).
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | None.
 |===
 
@@ -837,11 +842,11 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getParameterValue(parameterNumber: integer) -> byte`
+| Signature   | `getParameterValue(parameterNumber: Int) -> Byte`
 | Since       | 0.2
 | Description | Returns the value of the parameter whose number is supplied.
 | Parameters  | `parameterNumber` -- the number of the parameter to get (in range `[1..10]`).
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | `IllegalArgumentException` -- if the argument is out of range.
 |===
 
@@ -850,10 +855,10 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getRawData() -> byte array`
+| Signature   | `getRawData() -> ByteArray`
 | Since       | 0.2
 | Description | Returns the raw key parameter data: 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10.
-| Returns     | A non-empty `byte array`.
+| Returns     | A non-empty `ByteArray`.
 | Throws      | None.
 |===
 
@@ -874,10 +879,10 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getCertificate() -> byte array?`
+| Signature   | `getCertificate() -> ByteArray?`
 | Since       | 0.5
 | Description | Returns the 316-byte certificate generated by the SAM, or `null` if the command has not been processed yet.
-| Returns     | A non-empty `byte array`, or `null` if the command has not been processed yet.
+| Returns     | A non-empty `ByteArray`, or `null` if the command has not been processed yet.
 | Throws      | None.
 |===
 
@@ -886,7 +891,7 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `setCardAid(aid: byte array) -> LegacyCardCertificateComputationData`
+| Signature   | `setCardAid(aid: ByteArray) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
 | Description | Sets the AID of the autonomous PKI application of the target card. The AID MUST be 5 to 16 bytes and MUST NOT contain only zero bytes.
 | Parameters  | `aid` -- the AID value as a 5 to 16 bytes byte array. Must not contain only zero bytes.
@@ -901,7 +906,7 @@ The signature serves many purposes, for example:
 |===
 | Signature
 | `setCardPublicKey(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}cardPublicKey: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}cardPublicKey: ByteArray` +
 `) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
 | Description
@@ -918,7 +923,7 @@ The signature serves many purposes, for example:
 |===
 | Signature
 | `setCardSerialNumber(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}serialNumber: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}serialNumber: ByteArray` +
 `) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
 | Description | Sets the 8-byte card serial number.
@@ -934,7 +939,7 @@ The signature serves many purposes, for example:
 |===
 | Signature
 | `setCardStartupInfo(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}startupInfo: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}startupInfo: ByteArray` +
 `) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
 | Description | Sets the 7-byte startup info to embed in the certificate.
@@ -948,7 +953,7 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `setEndDate(endDate: date) -> LegacyCardCertificateComputationData`
+| Signature   | `setEndDate(endDate: LocalDate) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
 | Description
 | Sets the end of the validity period. The end date is optional: when it is not defined, the certificate is not
@@ -963,7 +968,7 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `setStartDate(startDate: date) -> LegacyCardCertificateComputationData`
+| Signature   | `setStartDate(startDate: LocalDate) -> LegacyCardCertificateComputationData`
 | Since       | 0.5
 | Description
 | Sets the start of the validity period. The start date is optional: when it is not defined, the certificate is
@@ -997,10 +1002,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getApplicationSubType() -> byte`
+| Signature   | `getApplicationSubType() -> Byte`
 | Since       | 0.1
 | Description | Returns the application subtype byte.
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | None.
 |===
 
@@ -1009,10 +1014,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getApplicationType() -> byte`
+| Signature   | `getApplicationType() -> Byte`
 | Since       | 0.1
 | Description | Returns the application type byte.
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | None.
 |===
 
@@ -1021,10 +1026,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getCaCertificate() -> byte array?`
+| Signature   | `getCaCertificate() -> ByteArray?`
 | Since       | 0.5
 | Description | Returns the CA certificate retrieved from the SAM (384 bytes); `null` if not available.
-| Returns     | A non-empty `byte array`, or `null` if not available.
+| Returns     | A non-empty `ByteArray`, or `null` if not available.
 | Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareGetData,`LegacySamSelectionExtension.prepareGetData`>> +
                 <<op_FreeTransactionManager_prepareGetData,`FreeTransactionManager.prepareGetData`>>
@@ -1035,11 +1040,11 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getCounter(counterNumber: integer) -> integer?`
+| Signature   | `getCounter(counterNumber: Int) -> Int?`
 | Since       | 0.1
 | Description | Returns the value of the supplied counter (`[0..26]`). `null` if the value is not set.
 | Parameters  | `counterNumber` -- the number of the counter (in range [0..26]).
-| Returns     | An `integer` value, or `null` if the value is not set.
+| Returns     | An `Int` value, or `null` if the value is not set.
 | Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
 |===
@@ -1049,11 +1054,11 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getCounterCeiling(counterNumber: integer) -> integer?`
+| Signature   | `getCounterCeiling(counterNumber: Int) -> Int?`
 | Since       | 0.1
 | Description | Returns the ceiling value of the supplied counter; `null` if not set.
 | Parameters  | `counterNumber` -- the number of the counter ceiling (in range [0..26]).
-| Returns     | An `integer` value, or `null` if not set.
+| Returns     | An `Int` value, or `null` if not set.
 | Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
 |===
@@ -1063,10 +1068,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getCounterCeilings() -> sortedMap<integer, integer>`
+| Signature   | `getCounterCeilings() -> SortedMap<Int, Int>`
 | Since       | 0.1
 | Description | Returns the known ceiling values, keyed by ceiling number.
-| Returns     | A `sortedMap<integer, integer>`; empty if no ceiling is known.
+| Returns     | A `SortedMap<Int, Int>`; empty if no ceiling is known.
 | Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadAllCountersStatus,`LegacySamSelectionExtension.prepareReadAllCountersStatus`>>
 |===
@@ -1076,7 +1081,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getCounterIncrementAccess(counterNumber: integer) -> CounterIncrementAccess?`
+| Signature   | `getCounterIncrementAccess(counterNumber: Int) -> CounterIncrementAccess?`
 | Since       | 0.2
 | Description | Returns the increment-access mode for the supplied counter; `null` if unknown.
 | Parameters  | `counterNumber` -- the number of the counter being checked.
@@ -1090,10 +1095,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getCounters() -> sortedMap<integer, integer>`
+| Signature   | `getCounters() -> SortedMap<Int, Int>`
 | Since       | 0.1
 | Description | Returns the values of the known counters, keyed by counter number.
-| Returns     | A `sortedMap<integer, integer>`; empty if no counter is known.
+| Returns     | A `SortedMap<Int, Int>`; empty if no counter is known.
 | Throws      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadAllCountersStatus,`LegacySamSelectionExtension.prepareReadAllCountersStatus`>>
 |===
@@ -1103,10 +1108,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getPlatform() -> byte`
+| Signature   | `getPlatform() -> Byte`
 | Since       | 0.1
 | Description | Returns the platform identifier byte.
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | None.
 |===
 
@@ -1115,10 +1120,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getProductInfo() -> string`
+| Signature   | `getProductInfo() -> String`
 | Since       | 0.1
 | Description | Returns a textual description of the SAM.
-| Returns     | A non-empty `string`.
+| Returns     | A non-empty `String`.
 | Throws      | None.
 |===
 
@@ -1152,10 +1157,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getSerialNumber() -> byte array`
+| Signature   | `getSerialNumber() -> ByteArray`
 | Since       | 0.1
 | Description | Returns the SAM serial number.
-| Returns     | A non-empty `byte array`.
+| Returns     | A non-empty `ByteArray`.
 | Throws      | None.
 |===
 
@@ -1164,10 +1169,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getSoftwareIssuer() -> byte`
+| Signature   | `getSoftwareIssuer() -> Byte`
 | Since       | 0.1
 | Description | Returns the software issuer identifier.
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | None.
 |===
 
@@ -1176,10 +1181,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getSoftwareRevision() -> byte`
+| Signature   | `getSoftwareRevision() -> Byte`
 | Since       | 0.1
 | Description | Returns the software revision number.
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | None.
 |===
 
@@ -1188,10 +1193,10 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getSoftwareVersion() -> byte`
+| Signature   | `getSoftwareVersion() -> Byte`
 | Since       | 0.1
 | Description | Returns the software version number.
-| Returns     | A `byte` value.
+| Returns     | A `Byte` value.
 | Throws      | None.
 |===
 
@@ -1216,8 +1221,8 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature
 | `getWorkKeyParameter(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
 `) -> KeyParameter?`
 | Since       | 0.7
 | Description | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available.
@@ -1234,7 +1239,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getWorkKeyParameter(recordNumber: integer) -> KeyParameter?`
+| Signature   | `getWorkKeyParameter(recordNumber: Int) -> KeyParameter?`
 | Since       | 0.7
 | Description | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available.
 | Parameters  | `recordNumber` -- the key record number (in range [1..126]).
@@ -1262,7 +1267,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 |===
 | Signature
 | `createAsyncTransactionCreatorManager(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}targetSamContext: string,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetSamContext: String,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}securitySetting: SecuritySetting` +
 `) -> AsyncTransactionCreatorManager`
 | Since       | 0.3
@@ -1285,14 +1290,14 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | `createAsyncTransactionExecutorManager(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}samReader: CardReader,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}sam: LegacySam,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}samCommands: string` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samCommands: String` +
 `) -> AsyncTransactionExecutorManager`
 | Since       | 0.3
 | Description | Returns a new <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>. The `samCommands` MUST have been produced by an <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>.
 | Parameters
 | `samReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>))   -- the reader to use to communicate with the SAM. +
   `sam` (<<type_LegacySam,`LegacySam`>>)         -- the SAM image. +
-  `samCommands` -- a `string` containing the prepared commands.
+  `samCommands` -- a `String` containing the prepared commands.
 | Returns     | An <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>.
 | Throws      | `IllegalArgumentException` -- if any argument is invalid.
 |===
@@ -1533,7 +1538,7 @@ overload (e.g. dynamic SAM reader allocation).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `prepareReadCounterStatus(counterNumber: integer) -> LegacySamSelectionExtension`
+| Signature   | `prepareReadCounterStatus(counterNumber: Int) -> LegacySamSelectionExtension`
 | Since       | 0.3
 | Description
 | Schedules the execution of *Read Event Counter* and *Read Ceiling* commands to read the status of the supplied
@@ -1579,8 +1584,8 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature
 | `prepareReadWorkKeyParameters(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
 `) -> LegacySamSelectionExtension`
 | Since       | 0.7
 | Description
@@ -1601,7 +1606,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature
 | `prepareReadWorkKeyParameters(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}recordNumber: integer` +
+`{nbsp}{nbsp}{nbsp}{nbsp}recordNumber: Int` +
 `) -> LegacySamSelectionExtension`
 | Since       | 0.7
 | Description
@@ -1691,10 +1696,10 @@ overload (e.g. dynamic SAM reader allocation).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `setUnlockData(unlockData: string) -> LegacySamSelectionExtension`
+| Signature   | `setUnlockData(unlockData: String) -> LegacySamSelectionExtension`
 | Since       | 0.3
-| Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `string`) used to unlock a SAM C1 and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
-| Parameters  | `unlockData` -- the unlock data as a 32-character hexadecimal `string`.
+| Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `String`) used to unlock a SAM C1 and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
+| Parameters  | `unlockData` -- the unlock data as a 32-character hexadecimal `String`.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
 | Throws      | `IllegalArgumentException` -- if the unlock data is malformed or out of range. +
   `IllegalStateException` -- if an unlocking setting has already been set.
@@ -1707,13 +1712,13 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 | Signature
 | `setUnlockData(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}unlockData: string,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}unlockData: String,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}productType: LegacySam.ProductType` +
 `) -> LegacySamSelectionExtension`
 | Since       | 0.3
-| Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `string`) used to unlock a SAM C1, with an explicit target product type, and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
+| Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `String`) used to unlock a SAM C1, with an explicit target product type, and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
 | Parameters
-| `unlockData`  -- the unlock data as a 32-character hexadecimal `string`. +
+| `unlockData`  -- the unlock data as a 32-character hexadecimal `String`. +
   `productType` (<<type_ProductType,`LegacySam.ProductType`>>) -- the targeted product type.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
 | Throws      | `IllegalArgumentException` -- if any argument is malformed or out of range. +
@@ -1756,10 +1761,10 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getRawData() -> byte array`
+| Signature   | `getRawData() -> ByteArray`
 | Since       | 0.7
 | Description | Returns the raw data of the SAM parameters as a 29-byte array.
-| Returns     | A non-empty `byte array`.
+| Returns     | A non-empty `ByteArray`.
 | Throws      | None.
 |===
 
@@ -1783,9 +1788,9 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `preparePlainWriteLock(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockValue: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockValue: ByteArray` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command to set the lock file with a plain-text 16-byte lock value.
@@ -1804,8 +1809,8 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferLock(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: Byte` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a lock file from the control SAM to the target SAM.
@@ -1823,8 +1828,8 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferLockDiversified(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockIndex: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}lockParameters: Byte` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a lock file from the control SAM to the target SAM, with diversification by the target SAM serial number.
@@ -1843,8 +1848,8 @@ The operations on this interface mirror their equivalents on
 | Signature
 | `prepareTransferSystemKey(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}systemKeyType: SystemKeyType,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}systemKeyParameters: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}systemKeyParameters: ByteArray` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a system key from the control SAM to the target SAM. `systemKeyParameters` MUST be 29 bytes long.
@@ -1864,8 +1869,8 @@ The operations on this interface mirror their equivalents on
 | Signature
 | `prepareTransferSystemKeyDiversified(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}systemKeyType: SystemKeyType,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}systemKeyParameters: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}systemKeyParameters: ByteArray` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Key* command transferring a system key from the control SAM to the target SAM, with the key first diversified with the target SAM serial number. `systemKeyParameters` MUST be 29 bytes long.
@@ -1884,10 +1889,10 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferWorkKey(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: byte array,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: integer` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: ByteArray,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: Int` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description
@@ -1909,11 +1914,11 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferWorkKeyDiversified(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: byte array,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: integer,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}diversifier: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: ByteArray,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: Int,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}diversifier: ByteArray` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description
@@ -1937,10 +1942,10 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareTransferWorkKeyDiversified(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: byte array,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: integer` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: ByteArray,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: Int` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description
@@ -1963,7 +1968,7 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `prepareWriteSamParameters(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}parameters: byte array` +
+`{nbsp}{nbsp}{nbsp}{nbsp}parameters: ByteArray` +
 `) -> SecureWriteTransactionManager`
 | Since       | 0.7
 | Description | Schedules a *Write Parameters* command. The supplied buffer MUST be 29 bytes long.
@@ -2021,10 +2026,10 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getSignature() -> byte array`
+| Signature   | `getSignature() -> ByteArray`
 | Since       | 0.1
 | Description | Returns the computed signature (1 to 8 bytes).
-| Returns     | A non-empty `byte array`.
+| Returns     | A non-empty `ByteArray`.
 | Throws      | `IllegalStateException` -- if the command has not yet been processed.
 |===
 
@@ -2035,9 +2040,9 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `setData(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}data: byte array,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}data: ByteArray,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
 `) -> T`
 | Since       | 0.1
 | Description | Sets the data to sign and the KIF/KVC of the key.
@@ -2054,7 +2059,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
+| Signature   | `setKeyDiversifier(diversifier: ByteArray) -> T`
 | Since       | 0.1
 | Description | Sets an explicit 1-to-8-byte key diversifier. By default, the diversifier is the full serial number of the target card or SAM.
 | Parameters  | `diversifier` -- the diversifier to be used (from 1 to 8 bytes long).
@@ -2067,7 +2072,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `setSignatureSize(size: integer) -> T`
+| Signature   | `setSignatureSize(size: Int) -> T`
 | Since       | 0.1
 | Description | Sets the expected signature size in bytes (`[1..8]`). The default size is 8 bytes; the longer the signature, the more secure it is.
 | Parameters  | `size` -- the expected size [1..8].
@@ -2093,10 +2098,10 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `isSignatureValid() -> boolean`
+| Signature   | `isSignatureValid() -> Boolean`
 | Since       | 0.1
 | Description | Indicates whether the signature is valid.
-| Returns     | A `boolean` value.
+| Returns     | A `Boolean` value.
 | Throws      | `IllegalStateException` -- if the command has not yet been processed.
 |===
 
@@ -2107,10 +2112,10 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `setData(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}data: byte array,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}signature: byte array,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kif: byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: byte` +
+`{nbsp}{nbsp}{nbsp}{nbsp}data: ByteArray,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}signature: ByteArray,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
 `) -> T`
 | Since       | 0.1
 | Description | Sets the signed data, the signature and the KIF/KVC of the verification key.
@@ -2128,7 +2133,7 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `setKeyDiversifier(diversifier: byte array) -> T`
+| Signature   | `setKeyDiversifier(diversifier: ByteArray) -> T`
 | Since       | 0.1
 | Description | Sets an explicit 1-to-8-byte key diversifier. Default: full serial number of the target card or SAM.
 | Parameters  | `diversifier` -- the diversifier to be used (from 1 to 8 bytes long).
@@ -2154,10 +2159,10 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getSignedData() -> byte array`
+| Signature   | `getSignedData() -> ByteArray`
 | Since       | 0.1
 | Description | Returns the data that was actually signed. If *SAM traceability* mode was enabled, the returned data embeds the SAM traceability information.
-| Returns     | A non-empty `byte array`.
+| Returns     | A non-empty `ByteArray`.
 | Throws      | `IllegalStateException` -- if the command has not yet been processed.
 |===
 
@@ -2168,7 +2173,7 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `withSamTraceabilityMode(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}offset: integer,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}offset: Int,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}samTraceabilityMode: SamTraceabilityMode` +
 `) -> TraceableSignatureComputationData`
 | Since       | 0.1
@@ -2218,7 +2223,7 @@ The operations on this interface mirror their equivalents on
 |===
 | Signature
 | `withSamTraceabilityMode(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}offset: integer,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}offset: Int,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}samTraceabilityMode: SamTraceabilityMode,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}samRevocationService: LegacySamRevocationServiceSpi` +
 `) -> TraceableSignatureVerificationData`
@@ -2298,8 +2303,8 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 | Signature
 | `prepareWriteCounterCeiling(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}counterNumber: integer,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}ceilingValue: integer` +
+`{nbsp}{nbsp}{nbsp}{nbsp}counterNumber: Int,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}ceilingValue: Int` +
 `) -> T`
 | Since       | 0.2
 | Description
@@ -2322,8 +2327,8 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 | Signature
 | `prepareWriteCounterConfiguration(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}counterNumber: integer,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}ceilingValue: integer,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}counterNumber: Int,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}ceilingValue: Int,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}counterIncrementAccess: CounterIncrementAccess` +
 `) -> T`
 | Since       | 0.2
@@ -2364,9 +2369,9 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 | Signature
 | `getUnlockData(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}samSerialNumber: byte array,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}samChallenge: byte array` +
-`) -> byte array`
+`{nbsp}{nbsp}{nbsp}{nbsp}samSerialNumber: ByteArray,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}samChallenge: ByteArray` +
+`) -> ByteArray`
 | Since       | 0.4
 | Description
 | Returns the dynamic unlock data computed by an origin SAM. The serial number and the challenge are required to
@@ -2374,7 +2379,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 | Parameters
 | `samSerialNumber` -- the target SAM serial number. +
   `samChallenge` -- the challenge provided by the target SAM.
-| Returns     | An 8-byte `byte array`.
+| Returns     | An 8-byte `ByteArray`.
 | Throws      | None.
 |===
 
@@ -2397,9 +2402,9 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 |===
 | Signature
 | `isSamRevoked(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}serialNumber: byte array,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}counterValue: integer` +
-`) -> boolean`
+`{nbsp}{nbsp}{nbsp}{nbsp}serialNumber: ByteArray,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}counterValue: Int` +
+`) -> Boolean`
 | Since       | 0.1
 | Description
 | Checks if the SAM with the supplied serial number and counter value is revoked. The supplied serial number MAY
@@ -2416,7 +2421,7 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `isSamRevoked(serialNumber: byte array) -> boolean`
+| Signature   | `isSamRevoked(serialNumber: ByteArray) -> Boolean`
 | Since       | 0.1
 | Description | Checks if the SAM with the supplied serial number is revoked. The serial number MAY be complete (4 bytes) or partial (3 LSBytes).
 | Parameters  | `serialNumber` -- the complete or partial SAM serial number to check.
@@ -2441,11 +2446,11 @@ verification failure) and `InconsistentDataException` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature   | `getUnlockData(samSerialNumber: byte array) -> byte array`
+| Signature   | `getUnlockData(samSerialNumber: ByteArray) -> ByteArray`
 | Since       | 0.4
 | Description | Returns the static unlock data expected by the target SAM. The serial number MAY be used as a diversifier.
 | Parameters  | `samSerialNumber` -- the target SAM serial number.
-| Returns     | A 16-byte `byte array`.
+| Returns     | A 16-byte `ByteArray`.
 | Throws      | None.
 |===
 
