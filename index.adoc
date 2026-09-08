@@ -271,7 +271,8 @@ Each operation defined in this document is described by a table of the form:
 | Description | A normative description of the operation's behaviour.
 | Parameters  | A description of each input parameter.
 | Returns     | A description of the returned value, if any.
-| Errors      | A list of error conditions, each mapped to a specific error type.
+| Pre-conditions | The conditions the caller MUST satisfy before invoking the operation, each prefixed by its nature. Present only when applicable.
+| Errors      | A list of error conditions a correct caller must handle, each mapped to a specific error type.
 | See also    | Cross-references to related operations or types, each a hyperlink to the corresponding table. Present only when applicable.
 |===
 
@@ -280,10 +281,14 @@ Each operation defined in this document is described by a table of the form:
 To avoid repetition, the following rules apply to every operation table in <<sec_specification>> and are therefore
 not restated for each operation:
 
-* *Non-`null` arguments.* Unless explicitly stated otherwise, every input parameter being non-`null` is an
-  implicit pre-condition of the operation. Checking it is the responsibility of the implementation, and failing
-  to meet that pre-condition MUST raise an illegal argument error. This implicit check is not restated in the
-  *Errors* row, which states `None.` when no other error can occur.
+* *Pre-conditions.* The *Pre-conditions* row states what the caller MUST guarantee before invoking the
+  operation. Violating one is a contract error, never listed in the *Errors* row, which describes only the
+  outcomes a correct caller must handle. Each entry is prefixed by its nature, which determines the error
+  raised when the condition is not met:
+** *Argument* -- an illegal argument error.
+** *Range* -- an index out of bounds error.
+** *State* -- an illegal state error.
+** *Capability* -- an unsupported operation error.
 * *Non-`null` results.* Unless the return type is marked nullable (`T?`) or the *Returns* row states otherwise, an
   operation returns a non-`null` value.
 * *Collections.* Unless the return type is marked nullable (`T?`), an operation whose return type is a collection
@@ -573,7 +578,9 @@ The signature serves many purposes, for example:
   by the *Select Diversifier* command.
 | Parameters  | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_CardTransactionLegacySamExtension,`CardTransactionLegacySamExtension`>>).
-| Errors      | `IllegalArgumentError` -- if the input data is inconsistent.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the input data is consistent.
+| Errors      | None.
 | See also    | <<type_SignatureComputationData,`SignatureComputationData`>> +
                 <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> +
                 <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>
@@ -596,10 +603,9 @@ The signature serves many purposes, for example:
   <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
 | Parameters  | `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_CardTransactionLegacySamExtension,`CardTransactionLegacySamExtension`>>).
-| Errors
-| `IllegalArgumentError` -- if the input data is inconsistent. +
-  <<type_SamRevoked,`SamRevoked`>> -- if the signature was computed in *SAM traceability* mode, the revocation check was
-  requested and the SAM is revoked (traceable signatures only).
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the input data is consistent.
+| Errors      | <<type_SamRevoked,`SamRevoked`>> -- if the signature was computed in *SAM traceability* mode, the revocation check was requested and the SAM is revoked (traceable signatures only).
 | See also    | <<type_SignatureVerificationData,`SignatureVerificationData`>> +
                 <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>> +
                 <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>
@@ -645,6 +651,7 @@ The signature serves many purposes, for example:
 | Description | Schedules the execution of a *PSO Compute Certificate* command. The result is written into the supplied data carrier.
 | Parameters  | `data` (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 | See also    | <<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>> +
                 <<op_LegacySamApiFactory_createLegacyCardCertificateComputationData,`LegacySamApiFactory.createLegacyCardCertificateComputationData`>>
@@ -677,7 +684,9 @@ The signature serves many purposes, for example:
   by the *Select Diversifier* command.
 | Parameters  | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
-| Errors      | `IllegalArgumentError` -- if the input data is inconsistent.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the input data is consistent.
+| Errors      | None.
 | See also    | <<type_SignatureComputationData,`SignatureComputationData`>> +
                 <<type_BasicSignatureComputationData,`BasicSignatureComputationData`>> +
                 <<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>> +
@@ -697,6 +706,7 @@ The signature serves many purposes, for example:
 | Description | Schedules the execution of a *Card Generate Asymmetric Key Pair* command. The result is written into the supplied container.
 | Parameters  | `keyPairContainer` (<<type_KeyPairContainer,`KeyPairContainer`>>) -- the container for the output data.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 | See also    | <<type_KeyPairContainer,`KeyPairContainer`>> +
                 <<op_LegacySamApiFactory_createKeyPairContainer,`LegacySamApiFactory.createKeyPairContainer`>>
@@ -715,6 +725,7 @@ The signature serves many purposes, for example:
   <<op_LegacySam_getCaCertificate,`getCaCertificate`>>.
 | Parameters  | `tag` (<<type_GetDataTag,`GetDataTag`>>) -- the tag to retrieve the data for.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -736,7 +747,9 @@ The signature serves many purposes, for example:
   `lockParameters` -- the lock permissions parameters. +
   `lockValue`      -- a 16-byte `ByteArray` representing the lock's value.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
-| Errors      | `IllegalArgumentError` -- if `lockValue` is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- `lockValue` is within range.
+| Errors      | None.
 |===
 
 [[op_FreeTransactionManager_prepareVerifySignature]]
@@ -756,10 +769,9 @@ The signature serves many purposes, for example:
   <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>.
 | Parameters  | `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the input/output data containing the parameters of the command.
 | Returns     | The current instance (<<type_FreeTransactionManager,`FreeTransactionManager`>>).
-| Errors
-| `IllegalArgumentError` -- if the input data is inconsistent. +
-  <<type_SamRevoked,`SamRevoked`>> -- if the signature was computed in *SAM traceability* mode, the revocation check was
-  requested and the SAM is revoked (traceable signatures only).
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the input data is consistent.
+| Errors      | <<type_SamRevoked,`SamRevoked`>> -- if the signature was computed in *SAM traceability* mode, the revocation check was requested and the SAM is revoked (traceable signatures only).
 | See also    | <<type_SignatureVerificationData,`SignatureVerificationData`>> +
                 <<type_BasicSignatureVerificationData,`BasicSignatureVerificationData`>> +
                 <<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>> +
@@ -848,7 +860,9 @@ The signature serves many purposes, for example:
 | Description | Returns the value of the parameter whose number is supplied.
 | Parameters  | `parameterNumber` -- the number of the parameter to get (in range `[1..10]`).
 | Returns     | A `Byte` value.
-| Errors      | `IllegalArgumentError` -- if the argument is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the argument is within range.
+| Errors      | None.
 |===
 
 [[op_KeyParameter_getRawData]]
@@ -897,7 +911,9 @@ The signature serves many purposes, for example:
 | Description | Sets the AID of the autonomous PKI application of the target card. The AID MUST be 5 to 16 bytes and MUST NOT contain only zero bytes.
 | Parameters  | `aid` -- the AID value as a 5 to 16 bytes byte array. Must not contain only zero bytes.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
-| Errors      | `IllegalArgumentError` -- if the AID is out of range, or contains only zero bytes.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the AID is within range and contains at least one non-zero byte.
+| Errors      | None.
 |===
 
 [[op_LegacyCardCertificateComputationData_setCardPublicKey]]
@@ -914,7 +930,9 @@ The signature serves many purposes, for example:
 | Sets the card public key (64 bytes, secp256r1 curve). This key is used for the verification of card signatures.
 | Parameters  | `cardPublicKey` -- the 64-byte array representing the public key on the secp256r1 curve.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
-| Errors      | `IllegalArgumentError` -- if the key is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the key is within range.
+| Errors      | None.
 |===
 
 [[op_LegacyCardCertificateComputationData_setCardSerialNumber]]
@@ -930,7 +948,9 @@ The signature serves many purposes, for example:
 | Description | Sets the 8-byte card serial number.
 | Parameters  | `serialNumber` -- the serial number of the card as an 8-byte byte array.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
-| Errors      | `IllegalArgumentError` -- if the argument is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the argument is within range.
+| Errors      | None.
 |===
 
 [[op_LegacyCardCertificateComputationData_setCardStartupInfo]]
@@ -946,7 +966,9 @@ The signature serves many purposes, for example:
 | Description | Sets the 7-byte startup info to embed in the certificate.
 | Parameters  | `startupInfo` -- the 7-byte byte array representing the startup info for the card certificate.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
-| Errors      | `IllegalArgumentError` -- if the argument is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the argument is within range.
+| Errors      | None.
 |===
 
 [[op_LegacyCardCertificateComputationData_setEndDate]]
@@ -961,6 +983,7 @@ The signature serves many purposes, for example:
   subject to an end date constraint.
 | Parameters  | `endDate` -- the end date.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -976,6 +999,7 @@ The signature serves many purposes, for example:
   not subject to a start date constraint.
 | Parameters  | `startDate` -- the start date.
 | Returns     | The current instance (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -1046,6 +1070,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the value of the supplied counter (`[0..26]`). `null` if the value is not set.
 | Parameters  | `counterNumber` -- the number of the counter (in range [0..26]).
 | Returns     | An `Int` value, or `null` if the value is not set.
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
 |===
@@ -1060,6 +1085,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the ceiling value of the supplied counter; `null` if not set.
 | Parameters  | `counterNumber` -- the number of the counter ceiling (in range [0..26]).
 | Returns     | An `Int` value, or `null` if not set.
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
 |===
@@ -1087,6 +1113,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the increment-access mode for the supplied counter; `null` if unknown.
 | Parameters  | `counterNumber` -- the number of the counter being checked.
 | Returns     | A <<type_CounterIncrementAccess,`CounterIncrementAccess`>>, or `null` if unknown.
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
 |===
@@ -1211,6 +1238,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the parameters of the supplied system key; `null` if not available.
 | Parameters  | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the system key whose parameters are requested.
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadSystemKeyParameters,`LegacySamSelectionExtension.prepareReadSystemKeyParameters`>>
 |===
@@ -1231,6 +1259,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byKifKvc,`LegacySamSelectionExtension.prepareReadWorkKeyParameters(byte, byte)`>>
 |===
@@ -1245,7 +1274,9 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Description | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available.
 | Parameters  | `recordNumber` -- the key record number (in range [1..126]).
 | Returns     | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
-| Errors      | `IllegalArgumentError` -- if the record number is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the record number is within range.
+| Errors      | None.
 | See also    | <<op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byRecord,`LegacySamSelectionExtension.prepareReadWorkKeyParameters(int)`>>
 |===
 
@@ -1279,7 +1310,9 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | `targetSamContext` -- the target SAM context. +
   `securitySetting` (<<type_SecuritySetting,`SecuritySetting`>>)  -- the security settings.
 | Returns     | An <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>.
-| Errors      | `IllegalArgumentError` -- if any argument is invalid.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is valid.
+| Errors      | None.
 |===
 
 [[op_LegacySamApiFactory_createAsyncTransactionExecutorManager]]
@@ -1300,7 +1333,9 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
   `sam` (<<type_LegacySam,`LegacySam`>>)         -- the SAM image. +
   `samCommands` -- a `String` containing the prepared commands.
 | Returns     | An <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>.
-| Errors      | `IllegalArgumentError` -- if any argument is invalid.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is valid.
+| Errors      | None.
 |===
 
 [[op_LegacySamApiFactory_createBasicSignatureComputationData]]
@@ -1351,7 +1386,9 @@ traceable variant, use
 | `samReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>)) -- the reader to use to communicate with the SAM. +
   `sam` (<<type_LegacySam,`LegacySam`>>)       -- the SAM image.
 | Returns     | A <<type_FreeTransactionManager,`FreeTransactionManager`>>.
-| Errors      | `IllegalArgumentError` -- if any argument is invalid.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is valid.
+| Errors      | None.
 |===
 
 [[op_LegacySamApiFactory_createKeyPairContainer]]
@@ -1414,7 +1451,9 @@ the input and output data of `prepareComputeCardCertificate`.
   `sam` (<<type_LegacySam,`LegacySam`>>)             -- the SAM image. +
   `securitySetting` (<<type_SecuritySetting,`SecuritySetting`>>) -- the security settings.
 | Returns     | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
-| Errors      | `IllegalArgumentError` -- if any argument is invalid.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is valid.
+| Errors      | None.
 |===
 
 [[op_LegacySamApiFactory_createSecuritySetting]]
@@ -1448,7 +1487,9 @@ by a control SAM, as consumed by
 | `samReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>)) -- the reader to use to communicate with the SAM. +
   `sam` (<<type_LegacySam,`LegacySam`>>)       -- the associated control SAM to be used with the card transaction.
 | Returns     | A `SymmetricCryptoCardTransactionManagerFactory` (<<ref_cna_tcc,CNA-TCC-API>>).
-| Errors      | `IllegalArgumentError` -- if any argument is invalid.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is valid.
+| Errors      | None.
 |===
 
 [[op_LegacySamApiFactory_createTraceableSignatureComputationData]]
@@ -1519,6 +1560,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Description | Schedules the execution of a *Get Data* command for the supplied tag. The result is accessible via a dedicated getter (e.g. `LegacySam.getCaCertificate`).
 | Parameters  | `tag` (<<type_GetDataTag,`GetDataTag`>>) -- the tag to retrieve the data for.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -1547,7 +1589,9 @@ overload (e.g. dynamic SAM reader allocation).
   whole record at once.
 | Parameters  | `counterNumber` -- the number of the counter whose status is to be read (in range `[0..26]`).
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
-| Errors      | `IllegalArgumentError` -- if the counter number is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the counter number is within range.
+| Errors      | None.
 |===
 
 [[op_LegacySamSelectionExtension_prepareReadSamParameters]]
@@ -1575,6 +1619,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Description | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result is available via `LegacySam.getSystemKeyParameter`.
 | Parameters  | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the type of system key.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -1597,6 +1642,7 @@ overload (e.g. dynamic SAM reader allocation).
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -1616,7 +1662,9 @@ overload (e.g. dynamic SAM reader allocation).
   <<op_LegacySam_getWorkKeyParameter_byRecord,`LegacySam.getWorkKeyParameter`>>.
 | Parameters  | `recordNumber` -- the key record number (in range `[1..126]`).
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
-| Errors      | `IllegalArgumentError` -- if the record number is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the record number is within range.
+| Errors      | None.
 |===
 
 [[op_LegacySamSelectionExtension_setDynamicUnlockDataProvider]]
@@ -1635,7 +1683,9 @@ overload (e.g. dynamic SAM reader allocation).
   filtering, followed by a request to the provider.
 | Parameters  | `dynamicUnlockDataProvider` (<<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
-| Errors      | `IllegalStateError` -- if an unlocking setting has already been set.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *State* -- no unlocking setting has been set.
+| Errors      | None.
 |===
 
 [[op_LegacySamSelectionExtension_setDynamicUnlockDataProvider_withReader]]
@@ -1654,7 +1704,9 @@ overload (e.g. dynamic SAM reader allocation).
 | `dynamicUnlockDataProvider` (<<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>. +
   `targetSamReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>))           -- the card reader used to communicate with the target SAM.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
-| Errors      | `IllegalStateError` -- if an unlocking setting has already been set.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *State* -- no unlocking setting has been set.
+| Errors      | None.
 |===
 
 [[op_LegacySamSelectionExtension_setStaticUnlockDataProvider]]
@@ -1670,7 +1722,9 @@ overload (e.g. dynamic SAM reader allocation).
 | Description | Sets the static-unlock-data provider. To be used when the SAM reader is supplied later in the workflow. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
 | Parameters  | `staticUnlockDataProvider` (<<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
-| Errors      | `IllegalStateError` -- if an unlocking setting has already been set.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *State* -- no unlocking setting has been set.
+| Errors      | None.
 |===
 
 [[op_LegacySamSelectionExtension_setStaticUnlockDataProvider_withReader]]
@@ -1689,7 +1743,9 @@ overload (e.g. dynamic SAM reader allocation).
 | `staticUnlockDataProvider` (<<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>. +
   `targetSamReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>))          -- the card reader used to communicate with the target SAM.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
-| Errors      | `IllegalStateError` -- if an unlocking setting has already been set.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *State* -- no unlocking setting has been set.
+| Errors      | None.
 |===
 
 [[op_LegacySamSelectionExtension_setUnlockData]]
@@ -1702,8 +1758,10 @@ overload (e.g. dynamic SAM reader allocation).
 | Description | Sets the unlock data (8 or 16 bytes, supplied as a 32-character hexadecimal `String`) used to unlock a SAM C1 and schedules an *Unlock* command in the first position of the selection scenario. The *Unlock* command MUST be executed only after a successful filtering.
 | Parameters  | `unlockData` -- the unlock data as a 32-character hexadecimal `String`.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
-| Errors      | `IllegalArgumentError` -- if the unlock data is malformed or out of range. +
-  `IllegalStateError` -- if an unlocking setting has already been set.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the unlock data is well-formed and within range. +
+  *State* -- no unlocking setting has been set.
+| Errors      | None.
 |===
 
 [[op_LegacySamSelectionExtension_setUnlockData_withProductType]]
@@ -1722,8 +1780,10 @@ overload (e.g. dynamic SAM reader allocation).
 | `unlockData`  -- the unlock data as a 32-character hexadecimal `String`. +
   `productType` (<<type_ProductType,`LegacySam.ProductType`>>) -- the targeted product type.
 | Returns     | The current instance (<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>).
-| Errors      | `IllegalArgumentError` -- if any argument is malformed or out of range. +
-  `IllegalStateError` -- if an unlocking setting has already been set.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is well-formed and within range. +
+  *State* -- no unlocking setting has been set.
+| Errors      | None.
 |===
 
 [[type_ReadTransactionManager]]
@@ -1800,7 +1860,9 @@ The operations on this interface mirror their equivalents on
   `lockParameters` -- the lock permissions parameters. +
   `lockValue` -- a 16-byte byte array representing the lock's value.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
-| Errors      | `IllegalArgumentError` -- if `lockValue` is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- `lockValue` is within range.
+| Errors      | None.
 |===
 
 [[op_SecureWriteTransactionManager_prepareTransferLock]]
@@ -1819,6 +1881,7 @@ The operations on this interface mirror their equivalents on
 | `lockIndex` -- the index of the lock file. +
   `lockParameters` -- the lock permissions parameters.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -1838,6 +1901,7 @@ The operations on this interface mirror their equivalents on
 | `lockIndex` -- the index of the lock file. +
   `lockParameters` -- the lock permissions parameters.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -1859,7 +1923,9 @@ The operations on this interface mirror their equivalents on
   `kvc` -- the KVC of the key. +
   `systemKeyParameters` -- the 29-byte key parameters.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
-| Errors      | `IllegalArgumentError` -- if any argument is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is within range.
+| Errors      | None.
 |===
 
 [[op_SecureWriteTransactionManager_prepareTransferSystemKeyDiversified]]
@@ -1880,6 +1946,7 @@ The operations on this interface mirror their equivalents on
   `kvc` -- the KVC of the key. +
   `systemKeyParameters` -- the 29-byte key parameters.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -1905,7 +1972,9 @@ The operations on this interface mirror their equivalents on
   `workKeyParameters` -- a 29-byte byte array containing the key parameter data. +
   `targetRecordNumber` -- the number of the record where to store the key (in range [0..126]).
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
-| Errors      | `IllegalArgumentError` -- if any argument is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is within range.
+| Errors      | None.
 |===
 
 [[op_SecureWriteTransactionManager_prepareTransferWorkKeyDiversified_withDiversifier]]
@@ -1933,6 +2002,7 @@ The operations on this interface mirror their equivalents on
   `targetRecordNumber` -- the number of the record where to store the key (in range [0..126]). +
   `diversifier` -- a 8-byte byte array to use as key diversifier.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -1959,6 +2029,7 @@ The operations on this interface mirror their equivalents on
   `workKeyParameters` -- a 29-byte byte array containing the key parameter data. +
   `targetRecordNumber` -- the number of the record where to store the key (in range [0..126]).
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -1975,7 +2046,9 @@ The operations on this interface mirror their equivalents on
 | Description | Schedules a *Write Parameters* command. The supplied buffer MUST be 29 bytes long.
 | Parameters  | `parameters` -- a 29-byte byte array representing the content of the SAM parameters file.
 | Returns     | The current instance (<<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>).
-| Errors      | `IllegalArgumentError` -- if the argument is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the argument is within range.
+| Errors      | None.
 |===
 
 [[type_SecuritySetting]]
@@ -2006,7 +2079,9 @@ The operations on this interface mirror their equivalents on
 | `samReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>)) -- the reader through which the control SAM is accessed. +
   `controlSam` (<<type_LegacySam,`LegacySam`>>) -- the control SAM used to secure the transaction.
 | Returns     | The current instance (<<type_SecuritySetting,`SecuritySetting`>>).
-| Errors      | `IllegalArgumentError` -- if the product type of `controlSam` is `UNKNOWN`.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the product type of `controlSam` is not `UNKNOWN`.
+| Errors      | None.
 |===
 
 [[type_SignatureComputationData]]
@@ -2031,7 +2106,8 @@ The operations on this interface mirror their equivalents on
 | Since       | 0.1
 | Description | Returns the computed signature (1 to 8 bytes).
 | Returns     | A non-empty `ByteArray`.
-| Errors      | `IllegalStateError` -- if the command has not yet been processed.
+| Pre-conditions | *State* -- the command has been processed.
+| Errors      | None.
 |===
 
 [[op_SignatureComputationData_setData]]
@@ -2052,6 +2128,7 @@ The operations on this interface mirror their equivalents on
   `kif` -- the KIF of the key to be used for the signature computation. +
   `kvc` -- the KVC of the key to be used for the signature computation.
 | Returns     | The current instance (`T`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -2065,6 +2142,7 @@ The operations on this interface mirror their equivalents on
 | Description | Sets an explicit 1-to-8-byte key diversifier. By default, the diversifier is the full serial number of the target card or SAM.
 | Parameters  | `diversifier` -- the diversifier to be used (from 1 to 8 bytes long).
 | Returns     | The current instance (`T`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -2078,6 +2156,7 @@ The operations on this interface mirror their equivalents on
 | Description | Sets the expected signature size in bytes (`[1..8]`). The default size is 8 bytes; the longer the signature, the more secure it is.
 | Parameters  | `size` -- the expected size [1..8].
 | Returns     | The current instance (`T`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -2103,7 +2182,8 @@ The operations on this interface mirror their equivalents on
 | Since       | 0.1
 | Description | Indicates whether the signature is valid.
 | Returns     | A `Boolean` value.
-| Errors      | `IllegalStateError` -- if the command has not yet been processed.
+| Pre-conditions | *State* -- the command has been processed.
+| Errors      | None.
 |===
 
 [[op_SignatureVerificationData_setData]]
@@ -2126,6 +2206,7 @@ The operations on this interface mirror their equivalents on
   `kif` -- the KIF of the key to be used for the signature verification. +
   `kvc` -- the KVC of the key to be used for the signature verification.
 | Returns     | The current instance (`T`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -2139,6 +2220,7 @@ The operations on this interface mirror their equivalents on
 | Description | Sets an explicit 1-to-8-byte key diversifier. Default: full serial number of the target card or SAM.
 | Parameters  | `diversifier` -- the diversifier to be used (from 1 to 8 bytes long).
 | Returns     | The current instance (`T`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -2164,7 +2246,8 @@ The operations on this interface mirror their equivalents on
 | Since       | 0.1
 | Description | Returns the data that was actually signed. If *SAM traceability* mode was enabled, the returned data embeds the SAM traceability information.
 | Returns     | A non-empty `ByteArray`.
-| Errors      | `IllegalStateError` -- if the command has not yet been processed.
+| Pre-conditions | *State* -- the command has been processed.
+| Errors      | None.
 |===
 
 [[op_TraceableSignatureComputationData_withSamTraceabilityMode]]
@@ -2186,6 +2269,7 @@ The operations on this interface mirror their equivalents on
 | `offset` -- the bit offset after which the traceability data is written. +
   `samTraceabilityMode` (<<type_SamTraceabilityMode,`SamTraceabilityMode`>>) -- the traceability mode to apply.
 | Returns     | The current instance (<<type_TraceableSignatureComputationData,`TraceableSignatureComputationData`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -2237,6 +2321,7 @@ The operations on this interface mirror their equivalents on
   `samTraceabilityMode` (<<type_SamTraceabilityMode,`SamTraceabilityMode`>>) -- the traceability mode used. +
   `samRevocationService` (<<type_LegacySamRevocationServiceSpi,`LegacySamRevocationServiceSpi`>>) -- the optional service used to check the signing SAM's revocation status.
 | Returns     | The current instance (<<type_TraceableSignatureVerificationData,`TraceableSignatureVerificationData`>>).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 | See also    | <<op_TraceableSignatureComputationData_withSamTraceabilityMode,`TraceableSignatureComputationData.withSamTraceabilityMode`>>
 |===
@@ -2318,7 +2403,9 @@ verification failure) and `InconsistentData` (data inconsistency).
 | `counterNumber` -- the number of the counter whose ceiling is to be written (in range [0..26]). +
   `ceilingValue` -- the desired value for the ceiling. The ceiling value is defined as a positive integer less than or equal to 16777210 (in hexadecimal: FFFFFAh).
 | Returns     | The current instance (`T`).
-| Errors      | `IllegalArgumentError` -- if any argument is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is within range.
+| Errors      | None.
 |===
 
 [[op_WriteTransactionManager_prepareWriteCounterConfiguration]]
@@ -2346,7 +2433,9 @@ verification failure) and `InconsistentData` (data inconsistency).
   `ceilingValue` -- the ceiling value to set for the counter. +
   `counterIncrementAccess` (<<type_CounterIncrementAccess,`CounterIncrementAccess`>>) -- the free-incrementation access configuration.
 | Returns     | The current instance (`T`).
-| Errors      | `IllegalArgumentError` -- if any argument is out of range.
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- every argument is within range.
+| Errors      | None.
 |===
 
 === SPI Interfaces
@@ -2381,6 +2470,7 @@ verification failure) and `InconsistentData` (data inconsistency).
 | `samSerialNumber` -- the target SAM serial number. +
   `samChallenge` -- the challenge provided by the target SAM.
 | Returns     | An 8-byte `ByteArray`.
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -2414,6 +2504,7 @@ verification failure) and `InconsistentData` (data inconsistency).
 | `serialNumber` -- the complete or partial SAM serial number to check. +
   `counterValue` -- the SAM counter value.
 | Returns     | `true` if the SAM is revoked, `false` otherwise.
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -2427,6 +2518,7 @@ verification failure) and `InconsistentData` (data inconsistency).
 | Description | Checks if the SAM with the supplied serial number is revoked. The serial number MAY be complete (4 bytes) or partial (3 LSBytes).
 | Parameters  | `serialNumber` -- the complete or partial SAM serial number to check.
 | Returns     | `true` if the SAM is revoked, `false` otherwise.
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
@@ -2452,6 +2544,7 @@ verification failure) and `InconsistentData` (data inconsistency).
 | Description | Returns the static unlock data expected by the target SAM. The serial number MAY be used as a diversifier.
 | Parameters  | `samSerialNumber` -- the target SAM serial number.
 | Returns     | A 16-byte `ByteArray`.
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors      | None.
 |===
 
