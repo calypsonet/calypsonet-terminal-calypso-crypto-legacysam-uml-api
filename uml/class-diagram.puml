@@ -227,10 +227,9 @@ package "transaction" as transaction {
     }
 
     ' Errors
-    +class "<i>«errors»" as errors <<green>> {
-        +**SamRevoked**
-        +**InconsistentData**: Number of R-APDUs != number of C-APDUs
-        +**InvalidSignature**
+    +exception "<i>«error»\nSamRevoked\nInconsistentData\nInvalidSignature" as errors <<purple>>  {
+        +val message: String
+        +val cause: Any?
     }
 }
 package "sam" as sam {
