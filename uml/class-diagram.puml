@@ -67,7 +67,7 @@ legend top
     *** <back:#EBF5FB><color:#3498DB><b>Factory or interface provided by the factory
     *** <back:#FEFECE><color:#D4AC0D><b>Interface that cannot be instantiated directly by the factory
     *** <back:#FDEDEC><color:#E74C3C><b>SPI (Service Provider Interface) to be provided by the end-user
-    *** <back:#E9F7EF><color:#27AE60><b>Class, enum or exception
+    *** <back:#E9F7EF><color:#27AE60><b>Class, enum or error
 end legend
 
 package "calypso.crypto.legacysam" as legacysam {
@@ -226,11 +226,11 @@ package "transaction" as transaction {
         +withoutBusyMode() → TraceableSignatureVerificationData
     }
 
-    ' Exceptions
-    +class "<<RuntimeException>>" as RuntimeException <<green>> {
-        +**SamRevokedException**
-        +**InconsistentDataException**: Number of R-APDUs != number of C-APDUs
-        +**InvalidSignatureException**
+    ' Errors
+    +class "<i>«errors»" as errors <<green>> {
+        +**SamRevoked**
+        +**InconsistentData**: Number of R-APDUs != number of C-APDUs
+        +**InvalidSignature**
     }
 }
 package "sam" as sam {
@@ -354,7 +354,7 @@ LegacySam .up..> CounterIncrementAccess #C_LINK : provide >
 
 ' == LAYOUT ==
 
-'LegacySamApiFactory -[hidden]- RuntimeException
+'LegacySamApiFactory -[hidden]- errors
 'LegacySamApiFactory -[hidden]right- ApiProperties
 
 ' == STYLE ==
