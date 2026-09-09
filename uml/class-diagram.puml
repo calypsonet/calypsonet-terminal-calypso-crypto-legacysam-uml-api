@@ -146,6 +146,7 @@ package "transaction" as transaction {
 
         +prepareComputeSignature(data: SignatureComputationData<?>) → FreeTransactionManager
         +prepareVerifySignature(data: SignatureVerificationData<?>) → FreeTransactionManager
+        {method} <size:10><color:#7F8C8D>    ⚠ errors: SamRevoked</color></size>
 
         +exportTargetSamContextForAsyncTransaction() → String
     }
@@ -178,6 +179,7 @@ package "transaction" as transaction {
     +interface "<<<back:pink>CardTransactionCryptoExtension</back>>>\nCardTransactionLegacySamExtension" as CardTransactionLegacySamExtension {
         +prepareComputeSignature(data: SignatureComputationData<?>) → CardTransactionLegacySamExtension
         +prepareVerifySignature(data: SignatureVerificationData<?>) → CardTransactionLegacySamExtension
+        {method} <size:10><color:#7F8C8D>    ⚠ errors: SamRevoked</color></size>
     }
 
     +interface "KeyPairContainer" as KeyPairContainer <<blue>> {
