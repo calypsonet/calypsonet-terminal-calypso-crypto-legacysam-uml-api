@@ -229,7 +229,7 @@ package "transaction" as transaction {
     }
 
     ' Errors
-    +exception "<i>«error»\nSamRevoked\nInconsistentData\nInvalidSignature" as errors <<purple>>  {
+    +exception "SamRevoked\nInconsistentData\nInvalidSignature" as errors <<purple>> <<error>> {
         +val message: String
         +val cause: Any?
     }
