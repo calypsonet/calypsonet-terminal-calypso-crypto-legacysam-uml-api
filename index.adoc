@@ -446,11 +446,11 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `LegacySamApiProperties`
-| Kind     | Final class
+| Name       | `LegacySamApiProperties`
+| Kind       | Final class
 | Namespace  | `calypso.crypto.legacysam`
-| Since    | 0.1
-| Purpose  | Exposes the immutable properties of the {doc-name}.
+| Since      | 0.1
+| Purpose    | Exposes the immutable properties of the {doc-name}.
 |===
 
 ===== Constants
@@ -468,13 +468,13 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `AsyncTransactionCreatorManager`
-| Kind     | Interface
+| Name       | `AsyncTransactionCreatorManager`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | <<type_WriteTransactionManager,`WriteTransactionManager<AsyncTransactionCreatorManager>`>>
-| Since    | 0.2
-| Purpose  | Prepares write commands using a control SAM and exports them as a serialised stream for later replay by an <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>. An instance is obtained via <<op_LegacySamApiFactory_createAsyncTransactionCreatorManager,`LegacySamApiFactory.createAsyncTransactionCreatorManager`>>.
-| See also    | <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>
+| Extends    | <<type_WriteTransactionManager,`WriteTransactionManager<AsyncTransactionCreatorManager>`>>
+| Since      | 0.2
+| Purpose    | Prepares write commands using a control SAM and exports them as a serialised stream for later replay by an <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>. An instance is obtained via <<op_LegacySamApiFactory_createAsyncTransactionCreatorManager,`LegacySamApiFactory.createAsyncTransactionCreatorManager`>>.
+| See also   | <<type_AsyncTransactionExecutorManager,`AsyncTransactionExecutorManager`>>
 |===
 
 [[op_AsyncTransactionCreatorManager_exportCommands]]
@@ -497,13 +497,13 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `AsyncTransactionExecutorManager`
-| Kind     | Interface
+| Name       | `AsyncTransactionExecutorManager`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | <<type_TransactionManager,`TransactionManager<AsyncTransactionExecutorManager>`>>
-| Since    | 0.2
-| Purpose  | Executes a command stream prepared by an <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>. Declares no additional operation. An instance is obtained via <<op_LegacySamApiFactory_createAsyncTransactionExecutorManager,`LegacySamApiFactory.createAsyncTransactionExecutorManager`>>.
-| See also    | <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>
+| Extends    | <<type_TransactionManager,`TransactionManager<AsyncTransactionExecutorManager>`>>
+| Since      | 0.2
+| Purpose    | Executes a command stream prepared by an <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>. Declares no additional operation. An instance is obtained via <<op_LegacySamApiFactory_createAsyncTransactionExecutorManager,`LegacySamApiFactory.createAsyncTransactionExecutorManager`>>.
+| See also   | <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>
 |===
 
 [[type_BasicSignatureComputationData]]
@@ -511,12 +511,12 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `BasicSignatureComputationData`
-| Kind     | Interface
+| Name       | `BasicSignatureComputationData`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | `SignatureComputationData<BasicSignatureComputationData>`
-| Since    | 0.1
-| Purpose  | Specialisation for basic signature computation using the *Data Cipher* command. An instance is obtained via <<op_LegacySamApiFactory_createBasicSignatureComputationData,`LegacySamApiFactory.createBasicSignatureComputationData`>>.
+| Extends    | `SignatureComputationData<BasicSignatureComputationData>`
+| Since      | 0.1
+| Purpose    | Specialisation for basic signature computation using the *Data Cipher* command. An instance is obtained via <<op_LegacySamApiFactory_createBasicSignatureComputationData,`LegacySamApiFactory.createBasicSignatureComputationData`>>.
 |===
 
 `BasicSignatureComputationData` declares no additional operation.
@@ -526,12 +526,12 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `BasicSignatureVerificationData`
-| Kind     | Interface
+| Name       | `BasicSignatureVerificationData`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | `SignatureVerificationData<BasicSignatureVerificationData>`
-| Since    | 0.1
-| Purpose  | Specialisation for basic signature verification using the *Data Cipher* command. An instance is obtained via <<op_LegacySamApiFactory_createBasicSignatureVerificationData,`LegacySamApiFactory.createBasicSignatureVerificationData`>>.
+| Extends    | `SignatureVerificationData<BasicSignatureVerificationData>`
+| Since      | 0.1
+| Purpose    | Specialisation for basic signature verification using the *Data Cipher* command. An instance is obtained via <<op_LegacySamApiFactory_createBasicSignatureVerificationData,`LegacySamApiFactory.createBasicSignatureVerificationData`>>.
 |===
 
 `BasicSignatureVerificationData` declares no additional operation.
@@ -541,11 +541,11 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `CardTransactionLegacySamExtension`
-| Kind     | Interface
+| Name       | `CardTransactionLegacySamExtension`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | `CardTransactionCryptoExtension` (<<ref_cna_tcc,CNA-TCC-API>>)
-| Since    | 0.3
+| Extends    | `CardTransactionCryptoExtension` (<<ref_cna_tcc,CNA-TCC-API>>)
+| Since      | 0.3
 | Purpose
 | Card-transaction crypto extension enriching the <<ref_cna_tcc,CNA-TCC-API>> command set with SAM-backed signature computation
   and verification. Instances are obtained through `SecureRegularModeTransactionManager.getCryptoExtension` or
@@ -617,12 +617,12 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `FreeTransactionManager`
-| Kind     | Interface
+| Name       | `FreeTransactionManager`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | <<type_ReadTransactionManager,`ReadTransactionManager<FreeTransactionManager>`>>
-| Since    | 0.1
-| Purpose  | Transaction manager used when no control SAM is involved. An instance is obtained via <<op_LegacySamApiFactory_createFreeTransactionManager,`LegacySamApiFactory.createFreeTransactionManager`>>.
+| Extends    | <<type_ReadTransactionManager,`ReadTransactionManager<FreeTransactionManager>`>>
+| Since      | 0.1
+| Purpose    | Transaction manager used when no control SAM is involved. An instance is obtained via <<op_LegacySamApiFactory_createFreeTransactionManager,`LegacySamApiFactory.createFreeTransactionManager`>>.
 |===
 
 [[op_FreeTransactionManager_exportTargetSamContextForAsyncTransaction]]
@@ -785,11 +785,11 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `KeyPairContainer`
-| Kind     | Interface
+| Name       | `KeyPairContainer`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Since    | 0.5
-| Purpose  | Carries the input/output data of `prepareGenerateCardAsymmetricKeyPair`. A key pair consists of a `ByteArray` holding the public key and the private key values. An instance is obtained via <<op_LegacySamApiFactory_createKeyPairContainer,`LegacySamApiFactory.createKeyPairContainer`>>.
+| Since      | 0.5
+| Purpose    | Carries the input/output data of `prepareGenerateCardAsymmetricKeyPair`. A key pair consists of a `ByteArray` holding the public key and the private key values. An instance is obtained via <<op_LegacySamApiFactory_createKeyPairContainer,`LegacySamApiFactory.createKeyPairContainer`>>.
 |===
 
 [[op_KeyPairContainer_getKeyPair]]
@@ -810,11 +810,11 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `KeyParameter`
-| Kind     | Interface
+| Name       | `KeyParameter`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
-| Since    | 0.2
-| Purpose  | Carries the parameters of a key managed by the SAM (system or work key).
+| Since      | 0.2
+| Purpose    | Carries the parameters of a key managed by the SAM (system or work key).
 |===
 
 [[op_KeyParameter_getAlgorithm]]
@@ -889,11 +889,11 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `LegacyCardCertificateComputationData`
-| Kind     | Interface
+| Name       | `LegacyCardCertificateComputationData`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Since    | 0.5
-| Purpose  | Carries the input/output data of `prepareComputeCardCertificate`. An instance is obtained via <<op_LegacySamApiFactory_createLegacyCardCertificateComputationData,`LegacySamApiFactory.createLegacyCardCertificateComputationData`>>.
+| Since      | 0.5
+| Purpose    | Carries the input/output data of `prepareComputeCardCertificate`. An instance is obtained via <<op_LegacySamApiFactory_createLegacyCardCertificateComputationData,`LegacySamApiFactory.createLegacyCardCertificateComputationData`>>.
 |===
 
 [[op_LegacyCardCertificateComputationData_getCertificate]]
@@ -1016,12 +1016,12 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `LegacySam`
-| Kind     | Interface
+| Name       | `LegacySam`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
-| Extends  | `SmartCard` (<<ref_cna_tr,CNA-TR-API>>)
-| Since    | 0.1
-| Purpose  | Dynamic view of a legacy SAM, updated from selection to the end of the transaction.
+| Extends    | `SmartCard` (<<ref_cna_tr,CNA-TR-API>>)
+| Since      | 0.1
+| Purpose    | Dynamic view of a legacy SAM, updated from selection to the end of the transaction.
 |===
 
 A `LegacySam` instance is obtained by casting the <<ref_cna_tr,CNA-TR-API>> `SmartCard` produced by the selection scenario
@@ -1306,11 +1306,11 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `LegacySamApiFactory`
-| Kind     | Interface
+| Name       | `LegacySamApiFactory`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam`
-| Since    | 0.3
-| Purpose  | Factory used by the application to obtain instances of every public type provided by the API.
+| Since      | 0.3
+| Purpose    | Factory used by the application to obtain instances of every public type provided by the API.
 |===
 
 [[op_LegacySamApiFactory_createAsyncTransactionCreatorManager]]
@@ -1558,12 +1558,12 @@ command. For the basic variant, use
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `LegacySamSelectionExtension`
-| Kind     | Interface
+| Name       | `LegacySamSelectionExtension`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
-| Extends  | `CardSelectionExtension` (<<ref_cna_tr,CNA-TR-API>>)
-| Since    | 0.3
-| Purpose  | Enriches the <<ref_cna_tr,CNA-TR-API>> selection scenario with SAM-specific commands (Unlock, Read Parameters, etc.). An instance is obtained via <<op_LegacySamApiFactory_createLegacySamSelectionExtension,`LegacySamApiFactory.createLegacySamSelectionExtension`>>.
+| Extends    | `CardSelectionExtension` (<<ref_cna_tr,CNA-TR-API>>)
+| Since      | 0.3
+| Purpose    | Enriches the <<ref_cna_tr,CNA-TR-API>> selection scenario with SAM-specific commands (Unlock, Read Parameters, etc.). An instance is obtained via <<op_LegacySamApiFactory_createLegacySamSelectionExtension,`LegacySamApiFactory.createLegacySamSelectionExtension`>>.
 |===
 
 If the SAM is *locked*, three mutually exclusive unlocking strategies are offered:
@@ -1822,13 +1822,13 @@ overload (e.g. dynamic SAM reader allocation).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `ReadTransactionManager`
-| Kind     | Interface
+| Name       | `ReadTransactionManager`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Generics | `<T : ReadTransactionManager<T>>`
-| Extends  | <<type_TransactionManager,`TransactionManager<T>`>>
-| Since    | 0.1
-| Purpose  | Adds *read*-oriented operations to the common transaction manager: SAM parameters, system/work keys and counter status.
+| Generics   | `<T : ReadTransactionManager<T>>`
+| Extends    | <<type_TransactionManager,`TransactionManager<T>`>>
+| Since      | 0.1
+| Purpose    | Adds *read*-oriented operations to the common transaction manager: SAM parameters, system/work keys and counter status.
 |===
 
 The operations on this interface mirror their equivalents on
@@ -1841,11 +1841,11 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `SamParameters`
-| Kind     | Interface
+| Name       | `SamParameters`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.sam`
-| Since    | 0.7
-| Purpose  | Carries the parameters of the SAM as a single immutable record.
+| Since      | 0.7
+| Purpose    | Carries the parameters of the SAM as a single immutable record.
 |===
 
 [[op_SamParameters_getRawData]]
@@ -1866,12 +1866,12 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `SecureWriteTransactionManager`
-| Kind     | Interface
+| Name       | `SecureWriteTransactionManager`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | <<type_WriteTransactionManager,`WriteTransactionManager<SecureWriteTransactionManager>`>>
-| Since    | 0.7
-| Purpose  | *Synchronous* write transaction manager that requires a control SAM. Used to write SAM parameters, transfer keys and transfer lock files. An instance is obtained via <<op_LegacySamApiFactory_createSecureWriteTransactionManager,`LegacySamApiFactory.createSecureWriteTransactionManager`>>.
+| Extends    | <<type_WriteTransactionManager,`WriteTransactionManager<SecureWriteTransactionManager>`>>
+| Since      | 0.7
+| Purpose    | *Synchronous* write transaction manager that requires a control SAM. Used to write SAM parameters, transfer keys and transfer lock files. An instance is obtained via <<op_LegacySamApiFactory_createSecureWriteTransactionManager,`LegacySamApiFactory.createSecureWriteTransactionManager`>>.
 |===
 
 [[op_SecureWriteTransactionManager_preparePlainWriteLock]]
@@ -2088,11 +2088,11 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `SecuritySetting`
-| Kind     | Interface
+| Name       | `SecuritySetting`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Since    | 0.2
-| Purpose  | Security setting carrier for legacy-SAM transactions secured by a control SAM. An instance is obtained via <<op_LegacySamApiFactory_createSecuritySetting,`LegacySamApiFactory.createSecuritySetting`>>.
+| Since      | 0.2
+| Purpose    | Security setting carrier for legacy-SAM transactions secured by a control SAM. An instance is obtained via <<op_LegacySamApiFactory_createSecuritySetting,`LegacySamApiFactory.createSecuritySetting`>>.
 |===
 
 [[op_SecuritySetting_setControlSamResource]]
@@ -2121,12 +2121,12 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `SignatureComputationData`
-| Kind     | Interface
+| Name       | `SignatureComputationData`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Generics | `<T : SignatureComputationData<T>>`
-| Since    | 0.1
-| Purpose  | Common base contract for the input/output data of a signature computation.
+| Generics   | `<T : SignatureComputationData<T>>`
+| Since      | 0.1
+| Purpose    | Common base contract for the input/output data of a signature computation.
 |===
 
 [[op_SignatureComputationData_getSignature]]
@@ -2197,12 +2197,12 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `SignatureVerificationData`
-| Kind     | Interface
+| Name       | `SignatureVerificationData`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Generics | `<T : SignatureVerificationData<T>>`
-| Since    | 0.1
-| Purpose  | Common base contract for the input/output data of a signature verification.
+| Generics   | `<T : SignatureVerificationData<T>>`
+| Since      | 0.1
+| Purpose    | Common base contract for the input/output data of a signature verification.
 |===
 
 [[op_SignatureVerificationData_isSignatureValid]]
@@ -2261,12 +2261,12 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `TraceableSignatureComputationData`
-| Kind     | Interface
+| Name       | `TraceableSignatureComputationData`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | `SignatureComputationData<TraceableSignatureComputationData>`
-| Since    | 0.1
-| Purpose  | Specialisation for traceable signature computation using the *PSO Compute Signature* command. An instance is obtained via <<op_LegacySamApiFactory_createTraceableSignatureComputationData,`LegacySamApiFactory.createTraceableSignatureComputationData`>>.
+| Extends    | `SignatureComputationData<TraceableSignatureComputationData>`
+| Since      | 0.1
+| Purpose    | Specialisation for traceable signature computation using the *PSO Compute Signature* command. An instance is obtained via <<op_LegacySamApiFactory_createTraceableSignatureComputationData,`LegacySamApiFactory.createTraceableSignatureComputationData`>>.
 |===
 
 [[op_TraceableSignatureComputationData_getSignedData]]
@@ -2326,12 +2326,12 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `TraceableSignatureVerificationData`
-| Kind     | Interface
+| Name       | `TraceableSignatureVerificationData`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | `SignatureVerificationData<TraceableSignatureVerificationData>`
-| Since    | 0.1
-| Purpose  | Specialisation for verifications performed with the *PSO Verify Signature* command. An instance is obtained via <<op_LegacySamApiFactory_createTraceableSignatureVerificationData,`LegacySamApiFactory.createTraceableSignatureVerificationData`>>.
+| Extends    | `SignatureVerificationData<TraceableSignatureVerificationData>`
+| Since      | 0.1
+| Purpose    | Specialisation for verifications performed with the *PSO Verify Signature* command. An instance is obtained via <<op_LegacySamApiFactory_createTraceableSignatureVerificationData,`LegacySamApiFactory.createTraceableSignatureVerificationData`>>.
 |===
 
 [[op_TraceableSignatureVerificationData_withSamTraceabilityMode]]
@@ -2388,12 +2388,12 @@ The operations on this interface mirror their equivalents on
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `TransactionManager`
-| Kind     | Interface
+| Name       | `TransactionManager`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Extends  | `CardTransactionManager` (<<ref_cna_tr,CNA-TR-API>>)
-| Since    | 0.1
-| Purpose  | Common base of every legacy-SAM transaction manager. Provides command processing for the SAM.
+| Extends    | `CardTransactionManager` (<<ref_cna_tr,CNA-TR-API>>)
+| Since      | 0.1
+| Purpose    | Common base of every legacy-SAM transaction manager. Provides command processing for the SAM.
 |===
 
 The Legacy SAM `TransactionManager` is not generic; processing of prepared commands is inherited from
@@ -2407,13 +2407,13 @@ verification failure) and `InconsistentData` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `WriteTransactionManager`
-| Kind     | Interface
+| Name       | `WriteTransactionManager`
+| Kind       | Interface
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Generics | `<T : WriteTransactionManager<T>>`
-| Extends  | <<type_TransactionManager,`TransactionManager<T>`>>
-| Since    | 0.2
-| Purpose  | Common base of every *write* transaction manager. Writes MAY be performed synchronously or asynchronously.
+| Generics   | `<T : WriteTransactionManager<T>>`
+| Extends    | <<type_TransactionManager,`TransactionManager<T>`>>
+| Since      | 0.2
+| Purpose    | Common base of every *write* transaction manager. Writes MAY be performed synchronously or asynchronously.
 |===
 
 [[op_WriteTransactionManager_prepareWriteCounterCeiling]]
@@ -2479,11 +2479,11 @@ verification failure) and `InconsistentData` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `LegacySamDynamicUnlockDataProviderSpi`
-| Kind     | Interface (SPI)
+| Name       | `LegacySamDynamicUnlockDataProviderSpi`
+| Kind       | Interface (SPI)
 | Namespace  | `calypso.crypto.legacysam.spi`
-| Since    | 0.4
-| Purpose  | Interface that the application MUST implement to compute the dynamic unlock data expected by the SAM.
+| Since      | 0.4
+| Purpose    | Interface that the application MUST implement to compute the dynamic unlock data expected by the SAM.
 |===
 
 [[op_LegacySamDynamicUnlockDataProviderSpi_getUnlockData]]
@@ -2513,11 +2513,11 @@ verification failure) and `InconsistentData` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `LegacySamRevocationServiceSpi`
-| Kind     | Interface (SPI)
+| Name       | `LegacySamRevocationServiceSpi`
+| Kind       | Interface (SPI)
 | Namespace  | `calypso.crypto.legacysam.spi`
-| Since    | 0.1
-| Purpose  | Interface that the application MUST implement to check dynamically whether a SAM is revoked.
+| Since      | 0.1
+| Purpose    | Interface that the application MUST implement to check dynamically whether a SAM is revoked.
 |===
 
 [[op_LegacySamRevocationServiceSpi_isSamRevoked_withCounter]]
@@ -2561,11 +2561,11 @@ verification failure) and `InconsistentData` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `LegacySamStaticUnlockDataProviderSpi`
-| Kind     | Interface (SPI)
+| Name       | `LegacySamStaticUnlockDataProviderSpi`
+| Kind       | Interface (SPI)
 | Namespace  | `calypso.crypto.legacysam.spi`
-| Since    | 0.4
-| Purpose  | Interface that the application MUST implement to compute the static unlock data expected by the target SAM.
+| Since      | 0.4
+| Purpose    | Interface that the application MUST implement to compute the static unlock data expected by the target SAM.
 |===
 
 [[op_LegacySamStaticUnlockDataProviderSpi_getUnlockData]]
@@ -2589,11 +2589,11 @@ verification failure) and `InconsistentData` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `CounterIncrementAccess`
-| Kind     | Enumeration
+| Name       | `CounterIncrementAccess`
+| Kind       | Enumeration
 | Namespace  | `calypso.crypto.legacysam`
-| Since    | 0.3
-| Purpose  | Possible access rights for incrementing event counters using the *Increment Counter* command.
+| Since      | 0.3
+| Purpose    | Possible access rights for incrementing event counters using the *Increment Counter* command.
 |===
 
 [cols="^.^3,^.^1,.^5", options="header"]
@@ -2608,11 +2608,11 @@ verification failure) and `InconsistentData` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `GetDataTag`
-| Kind     | Enumeration
+| Name       | `GetDataTag`
+| Kind       | Enumeration
 | Namespace  | `calypso.crypto.legacysam`
-| Since    | 0.5
-| Purpose  | Output data tags retrievable through the *Get Data* command. MAY NOT be applicable to all products.
+| Since      | 0.5
+| Purpose    | Output data tags retrievable through the *Get Data* command. MAY NOT be applicable to all products.
 |===
 
 [cols="^.^3,^.^1,.^5", options="header"]
@@ -2626,11 +2626,11 @@ verification failure) and `InconsistentData` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `ProductType`
-| Kind     | Enumeration
+| Name       | `ProductType`
+| Kind       | Enumeration
 | Namespace  | `calypso.crypto.legacysam.sam`.<<type_LegacySam,`LegacySam`>>
-| Since    | 0.1
-| Purpose  | Product type of a legacy SAM.
+| Since      | 0.1
+| Purpose    | Product type of a legacy SAM.
 |===
 
 [cols="^.^3,^.^1,.^5", options="header"]
@@ -2648,11 +2648,11 @@ verification failure) and `InconsistentData` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `SamTraceabilityMode`
-| Kind     | Enumeration
+| Name       | `SamTraceabilityMode`
+| Kind       | Enumeration
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Since    | 0.3
-| Purpose  | SAM traceability mode used with traceable signature operations.
+| Since      | 0.3
+| Purpose    | SAM traceability mode used with traceable signature operations.
 |===
 
 [cols="^.^3,^.^1,.^5", options="header"]
@@ -2667,11 +2667,11 @@ verification failure) and `InconsistentData` (data inconsistency).
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `SystemKeyType`
-| Kind     | Enumeration
+| Name       | `SystemKeyType`
+| Kind       | Enumeration
 | Namespace  | `calypso.crypto.legacysam`
-| Since    | 0.2
-| Purpose  | System key types of a legacy SAM. Each type corresponds to a specific role.
+| Since      | 0.2
+| Purpose    | System key types of a legacy SAM. Each type corresponds to a specific role.
 |===
 
 [cols="^.^3,^.^1,.^5", options="header"]
@@ -2686,16 +2686,20 @@ verification failure) and `InconsistentData` (data inconsistency).
 [[sec_errors]]
 === Errors
 
+Every error defined below carries two properties: `message` (`String`), which describes the condition, and
+`cause` (`Any?`), the underlying error that triggered it, `null` when there is none. They are not
+restated for each error.
+
 [[type_InconsistentData]]
 ==== Inconsistent Data
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `InconsistentData`
-| Kind     | Error
+| Name       | `InconsistentData`
+| Kind       | Error
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Since    | 0.1
-| Purpose  | Indicates the detection of inconsistent data.
+| Since      | 0.1
+| Purpose    | Indicates the detection of inconsistent data.
 |===
 
 The inconsistency falls into one of the following cases:
@@ -2710,11 +2714,11 @@ The inconsistency falls into one of the following cases:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `InvalidSignature`
-| Kind     | Error
+| Name       | `InvalidSignature`
+| Kind       | Error
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Since    | 0.1
-| Purpose  | Indicates that a signature is invalid.
+| Since      | 0.1
+| Purpose    | Indicates that a signature is invalid.
 |===
 
 [[type_SamRevoked]]
@@ -2722,9 +2726,9 @@ The inconsistency falls into one of the following cases:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name     | `SamRevoked`
-| Kind     | Error
+| Name       | `SamRevoked`
+| Kind       | Error
 | Namespace  | `calypso.crypto.legacysam.transaction`
-| Since    | 0.1
-| Purpose  | Indicates that the SAM is revoked.
+| Since      | 0.1
+| Purpose    | Indicates that the SAM is revoked.
 |===
