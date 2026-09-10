@@ -72,7 +72,7 @@ end legend
 
 package "calypso.crypto.legacysam" as legacysam {
 
-class "LegacySamApiProperties" as ApiProperties <<green>> <<constants>> {
+class "LegacySamApiProperties" as ApiProperties <<constants>> <<green>> {
     +const VERSION: String = "2.0"
 }
 interface "LegacySamApiFactory" as LegacySamApiFactory <<blue>> {
@@ -229,7 +229,7 @@ package "transaction" as transaction {
     }
 
     ' Errors
-    exception "SamRevoked\nInconsistentData\nInvalidSignature" as errors <<green>> <<error>> {
+    exception "SamRevoked\nInconsistentData\nInvalidSignature" as errors <<error>> <<green>> {
         +val message: String
         +val cause: Any?
     }
