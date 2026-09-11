@@ -112,7 +112,7 @@ enum "CounterIncrementAccess" as CounterIncrementAccess <<green>> {
 }
 
 package "transaction" as transaction {
-    interface "<<<back:yellow>CardTransactionManager</back>>></color>\nTransactionManager" as TransactionManager <<grey>> {
+    interface "«<back:yellow>CardTransactionManager</back>»</color>\nTransactionManager" as TransactionManager <<grey>> {
     }
     interface ReadTransactionManager <<grey>> extends TransactionManager {
         +prepareReadSamParameters() → Self
@@ -176,7 +176,7 @@ package "transaction" as transaction {
     interface SecuritySetting <<blue>> {
         +setControlSamResource(samReader: <back:yellow>CardReader</back>, controlSam: LegacySam) → Self
     }
-    interface "<<<back:pink>CardTransactionCryptoExtension</back>>>\nCardTransactionLegacySamExtension" as CardTransactionLegacySamExtension {
+    interface "«<back:pink>CardTransactionCryptoExtension</back>»\nCardTransactionLegacySamExtension" as CardTransactionLegacySamExtension {
         +prepareComputeSignature(data: SignatureComputationData) → Self
         +prepareVerifySignature(data: SignatureVerificationData) → Self
         {method} <size:10><color:#7F8C8D>    ⚠ errors: SamRevoked</color></size>
@@ -235,7 +235,7 @@ package "transaction" as transaction {
     }
 }
 package "sam" as sam {
-    interface "<<<back:yellow>CardSelectionExtension</back>>>\nLegacySamSelectionExtension" as LegacySamSelectionExtension <<blue>> {
+    interface "«<back:yellow>CardSelectionExtension</back>»\nLegacySamSelectionExtension" as LegacySamSelectionExtension <<blue>> {
         +setUnlockData(unlockData: String) → Self
         +setUnlockData(unlockData: String, productType: LegacySamProductType) → Self
         +setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi) → Self
@@ -258,7 +258,7 @@ package "sam" as sam {
 
         +prepareGetData(tag: GetDataTag) → Self
     }
-    interface "<<<back:yellow>SmartCard</back>>>\nLegacySam" as LegacySam {
+    interface "«<back:yellow>SmartCard</back>»\nLegacySam" as LegacySam {
         +getProductType() → LegacySamProductType
         +getProductInfo() → String
 
