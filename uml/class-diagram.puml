@@ -98,17 +98,17 @@ interface "LegacySamApiFactory" as LegacySamApiFactory <<blue>> {
     +createTraceableSignatureVerificationData() → TraceableSignatureVerificationData
 }
 enum SystemKeyType <<green>> {
-    PERSONALIZATION
-    KEY_MANAGEMENT
-    RELOADING
-    AUTHENTICATION
+    +PERSONALIZATION
+    +KEY_MANAGEMENT
+    +RELOADING
+    +AUTHENTICATION
 }
 enum "GetDataTag" as GetDataTag <<green>> {
-    CA_CERTIFICATE
+    +CA_CERTIFICATE
 }
 enum "CounterIncrementAccess" as CounterIncrementAccess <<green>> {
-    FREE_COUNTING_ENABLED
-    FREE_COUNTING_DISABLED
+    +FREE_COUNTING_ENABLED
+    +FREE_COUNTING_DISABLED
 }
 
 package "transaction" as transaction {
@@ -212,8 +212,8 @@ package "transaction" as transaction {
         +getSignedData() → ByteArray
     }
     enum "SamTraceabilityMode" as SamTraceabilityMode <<green>> {
-        FULL_SERIAL_NUMBER
-        TRUNCATED_SERIAL_NUMBER
+        +FULL_SERIAL_NUMBER
+        +TRUNCATED_SERIAL_NUMBER
     }
     interface "SignatureVerificationData" as SignatureVerificationData <<grey>> {
         +setData(data: ByteArray, signature: ByteArray, kif: Byte, kvc: Byte) → Self
@@ -297,11 +297,11 @@ package "sam" as sam {
         +getParameterValue(parameterNumber: Int) → Byte
     }
     enum "LegacySamProductType" as LegacySamProductType <<green>> {
-        SAM_C1
-        HSM_C1
-        SAM_S1E1
-        SAM_S1Dx
-        UNKNOWN
+        +SAM_C1
+        +HSM_C1
+        +SAM_S1E1
+        +SAM_S1DX
+        +UNKNOWN
     }
 }
 package "spi" as spi {
