@@ -910,13 +910,13 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | Signature
 | `prepareComputeSignature(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureComputationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}idCommand: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
 `) -> Self`
 | Since          | 0.3
 | Description
 a| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command in the context of a Calypso card
 transaction. Once processed, the signature is available in the <<type_LegacySam,`LegacySam`>> through
-<<op_LegacySam_getSignature,`getSignature`>> called with `idCommand`, and, for a traceable computation, the
+<<op_LegacySam_getSignature,`getSignature`>> called with `commandId`, and, for a traceable computation, the
 signed data through <<op_LegacySam_getSignedData,`getSignedData`>>.
 
 The signature serves many purposes, for example:
@@ -930,7 +930,7 @@ The signature serves many purposes, for example:
   by the *Select Diversifier* command.
 | Parameters
 | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the computation criteria. +
-  `idCommand` -- the application-supplied identifier of this command.
+  `commandId` -- the application-supplied identifier of this command.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- the input data is consistent.
@@ -948,16 +948,16 @@ The signature serves many purposes, for example:
 | Signature
 | `prepareVerifySignature(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureVerificationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}idCommand: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
 `) -> Self`
 | Since          | 0.3
 | Description
 | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command in the context of a Calypso card
   transaction. Once processed, the outcome is available in the <<type_LegacySam,`LegacySam`>> through
-  <<op_LegacySam_isSignatureValid,`isSignatureValid`>> called with `idCommand`.
+  <<op_LegacySam_isSignatureValid,`isSignatureValid`>> called with `commandId`.
 | Parameters
 | `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the verification criteria. +
-  `idCommand` -- the application-supplied identifier of this command.
+  `commandId` -- the application-supplied identifier of this command.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- the input data is consistent.
@@ -1003,16 +1003,16 @@ The signature serves many purposes, for example:
 | Signature
 | `prepareComputeCardCertificate(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}data: LegacyCardCertificateComputationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}idCommand: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
 `) -> Self`
 | Since          | 0.5
 | Description
 | Schedules the execution of a *PSO Compute Certificate* command. Once processed, the certificate is
   available in the <<type_LegacySam,`LegacySam`>> through
-  <<op_LegacySam_getComputedCardCertificate,`getComputedCardCertificate`>> called with `idCommand`.
+  <<op_LegacySam_getComputedCardCertificate,`getComputedCardCertificate`>> called with `commandId`.
 | Parameters
 | `data` (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>) -- the computation criteria. +
-  `idCommand` -- the application-supplied identifier of this command.
+  `commandId` -- the application-supplied identifier of this command.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
@@ -1028,13 +1028,13 @@ The signature serves many purposes, for example:
 | Signature
 | `prepareComputeSignature(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureComputationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}idCommand: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
 `) -> Self`
 | Since          | 0.1
 | Description
 a| Schedules the execution of a *Data Cipher* or *PSO Compute Signature* command. Once processed, the signature
 is available in the <<type_LegacySam,`LegacySam`>> through <<op_LegacySam_getSignature,`getSignature`>> called
-with `idCommand`, and, for a traceable computation, the signed data through
+with `commandId`, and, for a traceable computation, the signed data through
 <<op_LegacySam_getSignedData,`getSignedData`>>.
 
 The signature serves many purposes, for example:
@@ -1048,7 +1048,7 @@ The signature serves many purposes, for example:
   by the *Select Diversifier* command.
 | Parameters
 | `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the computation criteria. +
-  `idCommand` -- the application-supplied identifier of this command.
+  `commandId` -- the application-supplied identifier of this command.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- the input data is consistent.
@@ -1064,13 +1064,13 @@ The signature serves many purposes, for example:
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `prepareGenerateCardAsymmetricKeyPair(idCommand: Int) -> Self`
+| Signature      | `prepareGenerateCardAsymmetricKeyPair(commandId: Int) -> Self`
 | Since          | 0.5
 | Description
 | Schedules the execution of a *Card Generate Asymmetric Key Pair* command. Once processed, the key pair
   is available in the <<type_LegacySam,`LegacySam`>> through <<op_LegacySam_getKeyPair,`getKeyPair`>>
-  called with `idCommand`.
-| Parameters     | `idCommand` -- the application-supplied identifier of this command.
+  called with `commandId`.
+| Parameters     | `commandId` -- the application-supplied identifier of this command.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
@@ -1125,16 +1125,16 @@ The signature serves many purposes, for example:
 | Signature
 | `prepareVerifySignature(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureVerificationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}idCommand: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
 `) -> Self`
 | Since          | 0.1
 | Description
 | Schedules the execution of a *Data Cipher* or *PSO Verify Signature* command. Once processed, the outcome
   is available in the <<type_LegacySam,`LegacySam`>> through
-  <<op_LegacySam_isSignatureValid,`isSignatureValid`>> called with `idCommand`.
+  <<op_LegacySam_isSignatureValid,`isSignatureValid`>> called with `commandId`.
 | Parameters
 | `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the verification criteria. +
-  `idCommand` -- the application-supplied identifier of this command.
+  `commandId` -- the application-supplied identifier of this command.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- the input data is consistent.
@@ -1210,12 +1210,12 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getComputedCardCertificate(idCommand: Int) -> ByteArray?`
+| Signature      | `getComputedCardCertificate(commandId: Int) -> ByteArray?`
 | Since          | 2.0
 | Description
 | 316-byte card certificate produced by the certificate computation prepared with this identifier.
   When several such commands share the same identifier, the value returned is that of the most recently processed one.
-| Parameters     | `idCommand` -- the identifier attached to the command when it was prepared.
+| Parameters     | `commandId` -- the identifier attached to the command when it was prepared.
 | Returns        | A non-empty `ByteArray`. `null` if no certificate computation carrying this identifier has been processed.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
@@ -1269,12 +1269,12 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getKeyPair(idCommand: Int) -> ByteArray?`
+| Signature      | `getKeyPair(commandId: Int) -> ByteArray?`
 | Since          | 2.0
 | Description
 | 96-byte key pair produced by the card asymmetric key pair generation prepared with this identifier.
   When several such commands share the same identifier, the value returned is that of the most recently processed one.
-| Parameters     | `idCommand` -- the identifier attached to the command when it was prepared.
+| Parameters     | `commandId` -- the identifier attached to the command when it was prepared.
 | Returns        | A non-empty `ByteArray`. `null` if no key pair generation carrying this identifier has been processed.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
@@ -1352,12 +1352,12 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getSignature(idCommand: Int) -> ByteArray?`
+| Signature      | `getSignature(commandId: Int) -> ByteArray?`
 | Since          | 2.0
 | Description
 | Signature computed by the signature computation prepared with this identifier.
   When several such commands share the same identifier, the value returned is that of the most recently processed one.
-| Parameters     | `idCommand` -- the identifier attached to the command when it was prepared.
+| Parameters     | `commandId` -- the identifier attached to the command when it was prepared.
 | Returns        | A non-empty `ByteArray` of 1 to 8 bytes. `null` if no signature computation carrying this identifier has been processed.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
@@ -1369,12 +1369,12 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getSignedData(idCommand: Int) -> ByteArray?`
+| Signature      | `getSignedData(commandId: Int) -> ByteArray?`
 | Since          | 2.0
 | Description
 | Data actually signed by the traceable signature computation prepared with this identifier. When *SAM traceability* mode was enabled, it embeds the SAM traceability information.
   When several such commands share the same identifier, the value returned is that of the most recently processed one.
-| Parameters     | `idCommand` -- the identifier attached to the command when it was prepared.
+| Parameters     | `commandId` -- the identifier attached to the command when it was prepared.
 | Returns        | A non-empty `ByteArray`. `null` if no traceable signature computation carrying this identifier has been processed.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
@@ -1477,12 +1477,12 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `isSignatureValid(idCommand: Int) -> Boolean?`
+| Signature      | `isSignatureValid(commandId: Int) -> Boolean?`
 | Since          | 2.0
 | Description
 | Outcome of the signature verification prepared with this identifier.
   When several such commands share the same identifier, the value returned is that of the most recently processed one.
-| Parameters     | `idCommand` -- the identifier attached to the command when it was prepared.
+| Parameters     | `commandId` -- the identifier attached to the command when it was prepared.
 | Returns        | A `Boolean` value. `null` if no signature verification carrying this identifier has been processed.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.

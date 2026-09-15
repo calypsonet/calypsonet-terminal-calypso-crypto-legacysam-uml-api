@@ -126,16 +126,16 @@ package "transaction" as transaction {
     }
     interface FreeTransactionManager <<blue>> extends ReadTransactionManager {
         +prepareGetData(tag: GetDataTag) → Self
-        +prepareGenerateCardAsymmetricKeyPair(idCommand: Int) → Self
-        +prepareComputeCardCertificate(data: LegacyCardCertificateComputationData<color:blue>, idCommand: Int</color>) → Self
+        +prepareGenerateCardAsymmetricKeyPair(commandId: Int) → Self
+        +prepareComputeCardCertificate(data: LegacyCardCertificateComputationData<color:blue>, commandId: Int</color>) → Self
 
         +<color:grey>preparePlainLoadWorkKey(kif: Byte, kvc: Byte, workKeyParameters: ByteArray, workKeyValue: ByteArray) → Self
         +<color:grey>preparePlainExportWorkKey(kif: Byte, kvc: Byte, workKeyParameters: ByteArray, workKeyValue: ByteArray) → Self
 
         +preparePlainWriteLock(lockIndex: Byte, lockParameters: Byte, lockValue: ByteArray) → Self
 
-        +prepareComputeSignature(data: SignatureComputationData<color:blue>, idCommand: Int</color>) → Self
-        +prepareVerifySignature(data: SignatureVerificationData<color:blue>, idCommand: Int</color>) → Self
+        +prepareComputeSignature(data: SignatureComputationData<color:blue>, commandId: Int</color>) → Self
+        +prepareVerifySignature(data: SignatureVerificationData<color:blue>, commandId: Int</color>) → Self
         {method} <size:10><color:#7F8C8D>    ⚠ errors: SamRevoked</color></size>
 
         +exportTargetSamContextForAsyncTransaction() → String
@@ -168,8 +168,8 @@ package "transaction" as transaction {
         +val controlSam: LegacySam
     }
     interface "«<back:pink>CardTransactionCryptoExtension</back>»\nCardTransactionLegacySamExtension" as CardTransactionLegacySamExtension {
-        +prepareComputeSignature(data: SignatureComputationData<color:blue>, idCommand: Int</color>) → Self
-        +prepareVerifySignature(data: SignatureVerificationData<color:blue>, idCommand: Int</color>) → Self
+        +prepareComputeSignature(data: SignatureComputationData<color:blue>, commandId: Int</color>) → Self
+        +prepareVerifySignature(data: SignatureVerificationData<color:blue>, commandId: Int</color>) → Self
         {method} <size:10><color:#7F8C8D>    ⚠ errors: SamRevoked</color></size>
     }
 
@@ -283,11 +283,11 @@ package "sam" as sam {
         +getWorkKeyParameter(recordNumber: Int) → KeyParameter?
         +getWorkKeyParameter(kif: Byte, kvc: Byte) → KeyParameter?
 
-        +<color:blue>getKeyPair(idCommand: Int) → ByteArray?
-        +<color:blue>getComputedCardCertificate(idCommand: Int) → ByteArray?
-        +<color:blue>getSignature(idCommand: Int) → ByteArray?
-        +<color:blue>getSignedData(idCommand: Int) → ByteArray?
-        +<color:blue>isSignatureValid(idCommand: Int) → Boolean?
+        +<color:blue>getKeyPair(commandId: Int) → ByteArray?
+        +<color:blue>getComputedCardCertificate(commandId: Int) → ByteArray?
+        +<color:blue>getSignature(commandId: Int) → ByteArray?
+        +<color:blue>getSignedData(commandId: Int) → ByteArray?
+        +<color:blue>isSignatureValid(commandId: Int) → Boolean?
     }
     class "KeyParameter" as KeyParameter <<data>> <<green>> {
         +val rawData: ByteArray
