@@ -1445,80 +1445,80 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | See also       | <<op_LegacySam_getSystemKeyParameter,`getSystemKeyParameter`>>
 |===
 
-[[op_LegacySam_getWorkKeyParameter_byKifKvc]]
-===== Get Work Key Parameter (KIF)
+[[op_LegacySam_getWorkKeyParameterByKifKvc]]
+===== Get Work Key Parameter By KIF KVC
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
-| `getWorkKeyParameter(` +
+| `getWorkKeyParameterByKifKvc(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
 `) -> KeyParameter?`
 | Since          | 0.7
-| Description    | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available. Each call returns a snapshot decoded from the value returned by `getWorkKeyParameterRawData` at the time of the call.
+| Description    | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available. Each call returns a snapshot decoded from the value returned by `getWorkKeyParameterRawDataByKifKvc` at the time of the call.
 | Parameters
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
 | Returns        | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
-| See also       | <<op_LegacySam_getWorkKeyParameterRawData_byKifKvc,`getWorkKeyParameterRawData(kif, kvc)`>> +
-  <<op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byKifKvc,`LegacySamSelectionExtension.prepareReadWorkKeyParameters(kif, kvc)`>>
+| See also       | <<op_LegacySam_getWorkKeyParameterRawDataByKifKvc,`getWorkKeyParameterRawDataByKifKvc`>> +
+  <<op_LegacySamSelectionExtension_prepareReadWorkKeyParametersByKifKvc,`LegacySamSelectionExtension.prepareReadWorkKeyParametersByKifKvc`>>
 |===
 
-[[op_LegacySam_getWorkKeyParameter_byRecord]]
-===== Get Work Key Parameter (Record Number)
+[[op_LegacySam_getWorkKeyParameterByRecordNumber]]
+===== Get Work Key Parameter By Record Number
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getWorkKeyParameter(recordNumber: Int) -> KeyParameter?`
+| Signature      | `getWorkKeyParameterByRecordNumber(recordNumber: Int) -> KeyParameter?`
 | Since          | 0.7
-| Description    | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available. Each call returns a snapshot decoded from the value returned by `getWorkKeyParameterRawData` at the time of the call.
+| Description    | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available. Each call returns a snapshot decoded from the value returned by `getWorkKeyParameterRawDataByRecordNumber` at the time of the call.
 | Parameters     | `recordNumber` -- the key record number (in range [1..126]).
 | Returns        | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Range* -- the record number is within range.
 | Errors         | None.
-| See also       | <<op_LegacySam_getWorkKeyParameterRawData_byRecord,`getWorkKeyParameterRawData(recordNumber)`>> +
-  <<op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byRecord,`LegacySamSelectionExtension.prepareReadWorkKeyParameters(recordNumber)`>>
+| See also       | <<op_LegacySam_getWorkKeyParameterRawDataByRecordNumber,`getWorkKeyParameterRawDataByRecordNumber`>> +
+  <<op_LegacySamSelectionExtension_prepareReadWorkKeyParametersByRecordNumber,`LegacySamSelectionExtension.prepareReadWorkKeyParametersByRecordNumber`>>
 |===
 
-[[op_LegacySam_getWorkKeyParameterRawData_byKifKvc]]
-===== Get Work Key Parameter Raw Data (KIF)
+[[op_LegacySam_getWorkKeyParameterRawDataByKifKvc]]
+===== Get Work Key Parameter Raw Data By KIF KVC
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
-| `getWorkKeyParameterRawData(` +
+| `getWorkKeyParameterRawDataByKifKvc(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
 `) -> ByteArray?`
 | Since          | 2.0
-| Description    | Returns the raw parameters of the work key referenced by its KIF/KVC pair: 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameter,`KeyParameter`>> returned by `getWorkKeyParameter(kif, kvc)` for the same key at the same time is the decoding of this value; both are `null` together.
+| Description    | Returns the raw parameters of the work key referenced by its KIF/KVC pair: 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameter,`KeyParameter`>> returned by `getWorkKeyParameterByKifKvc` for the same key at the same time is the decoding of this value; both are `null` together.
 | Parameters
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
 | Returns        | The 13-byte raw key parameters, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
-| See also       | <<op_LegacySam_getWorkKeyParameter_byKifKvc,`getWorkKeyParameter(kif, kvc)`>>
+| See also       | <<op_LegacySam_getWorkKeyParameterByKifKvc,`getWorkKeyParameterByKifKvc`>>
 |===
 
-[[op_LegacySam_getWorkKeyParameterRawData_byRecord]]
-===== Get Work Key Parameter Raw Data (Record Number)
+[[op_LegacySam_getWorkKeyParameterRawDataByRecordNumber]]
+===== Get Work Key Parameter Raw Data By Record Number
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getWorkKeyParameterRawData(recordNumber: Int) -> ByteArray?`
+| Signature      | `getWorkKeyParameterRawDataByRecordNumber(recordNumber: Int) -> ByteArray?`
 | Since          | 2.0
-| Description    | Returns the raw parameters of the work key at the supplied record number (`[1..126]`): 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameter,`KeyParameter`>> returned by `getWorkKeyParameter(recordNumber)` for the same key at the same time is the decoding of this value; both are `null` together.
+| Description    | Returns the raw parameters of the work key at the supplied record number (`[1..126]`): 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameter,`KeyParameter`>> returned by `getWorkKeyParameterByRecordNumber` for the same key at the same time is the decoding of this value; both are `null` together.
 | Parameters     | `recordNumber` -- the key record number (in range [1..126]).
 | Returns        | The 13-byte raw key parameters, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Range* -- the record number is within range.
 | Errors         | None.
-| See also       | <<op_LegacySam_getWorkKeyParameter_byRecord,`getWorkKeyParameter(recordNumber)`>>
+| See also       | <<op_LegacySam_getWorkKeyParameterByRecordNumber,`getWorkKeyParameterByRecordNumber`>>
 |===
 
 [[op_LegacySam_isSignatureValid]]
@@ -1777,13 +1777,13 @@ overload (e.g. dynamic SAM reader allocation).
 | Errors         | None.
 |===
 
-[[op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byKifKvc]]
-===== Prepare Read Work Key Parameters (KIF)
+[[op_LegacySamSelectionExtension_prepareReadWorkKeyParametersByKifKvc]]
+===== Prepare Read Work Key Parameters By KIF KVC
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
-| `prepareReadWorkKeyParameters(` +
+| `prepareReadWorkKeyParametersByKifKvc(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
 `) -> Self`
@@ -1791,7 +1791,7 @@ overload (e.g. dynamic SAM reader allocation).
 | Description
 | Schedules the execution of a *Read Key Parameters* command for the work key referenced by its KIF/KVC pair.
   Once processed, the result is accessible through
-  <<op_LegacySam_getWorkKeyParameter_byKifKvc,`LegacySam.getWorkKeyParameter`>>.
+  <<op_LegacySam_getWorkKeyParameterByKifKvc,`LegacySam.getWorkKeyParameterByKifKvc`>>.
 | Parameters
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
@@ -1800,20 +1800,20 @@ overload (e.g. dynamic SAM reader allocation).
 | Errors         | None.
 |===
 
-[[op_LegacySamSelectionExtension_prepareReadWorkKeyParameters_byRecord]]
-===== Prepare Read Work Key Parameters (Record Number)
+[[op_LegacySamSelectionExtension_prepareReadWorkKeyParametersByRecordNumber]]
+===== Prepare Read Work Key Parameters By Record Number
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
-| `prepareReadWorkKeyParameters(` +
+| `prepareReadWorkKeyParametersByRecordNumber(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}recordNumber: Int` +
 `) -> Self`
 | Since          | 0.7
 | Description
 | Schedules the execution of a *Read Key Parameters* command for the work key at the supplied record number
   (`[1..126]`). Once processed, the result is accessible through
-  <<op_LegacySam_getWorkKeyParameter_byRecord,`LegacySam.getWorkKeyParameter`>>.
+  <<op_LegacySam_getWorkKeyParameterByRecordNumber,`LegacySam.getWorkKeyParameterByRecordNumber`>>.
 | Parameters     | `recordNumber` -- the key record number (in range `[1..126]`).
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
@@ -1955,7 +1955,7 @@ overload (e.g. dynamic SAM reader allocation).
 
 The operations on this interface mirror their equivalents on
 <<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>. `prepareReadSamParameters`,
-`prepareReadSystemKeyParameters`, `prepareReadWorkKeyParameters` (both overloads), `prepareReadCounterStatus` and
+`prepareReadSystemKeyParameters`, `prepareReadWorkKeyParametersByRecordNumber`, `prepareReadWorkKeyParametersByKifKvc`, `prepareReadCounterStatus` and
 `prepareReadAllCountersStatus` behaves identically.
 
 [[type_SecureWriteTransactionManager]]

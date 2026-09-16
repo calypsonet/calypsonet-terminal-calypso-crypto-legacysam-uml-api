@@ -112,8 +112,8 @@ package "transaction" as transaction {
 
         +prepareReadSystemKeyParameters(systemKeyType: SystemKeyType) → Self
 
-        +prepareReadWorkKeyParameters(recordNumber: Int) → Self
-        +prepareReadWorkKeyParameters(kif: Byte, kvc: Byte) → Self
+        +<color:blue>prepareReadWorkKeyParametersByRecordNumber(recordNumber: Int) → Self
+        +<color:blue>prepareReadWorkKeyParametersByKifKvc(kif: Byte, kvc: Byte) → Self
 
         +prepareReadCounterStatus(counterNumber: Int) → Self
         +prepareReadAllCountersStatus() → Self
@@ -250,8 +250,8 @@ package "sam" as sam {
 
         +prepareReadSystemKeyParameters(systemKeyType: SystemKeyType) → Self
 
-        +prepareReadWorkKeyParameters(recordNumber: Int) → Self
-        +prepareReadWorkKeyParameters(kif: Byte, kvc: Byte) → Self
+        +<color:blue>prepareReadWorkKeyParametersByRecordNumber(recordNumber: Int) → Self
+        +<color:blue>prepareReadWorkKeyParametersByKifKvc(kif: Byte, kvc: Byte) → Self
 
         +prepareReadCounterStatus(counterNumber: Int) → Self
         +prepareReadAllCountersStatus() → Self
@@ -281,10 +281,10 @@ package "sam" as sam {
         +getSystemKeyParameter(systemKeyType: SystemKeyType) → KeyParameter?
         +<color:blue>getSystemKeyParameterRawData(systemKeyType: SystemKeyType) → ByteArray?
 
-        +getWorkKeyParameter(recordNumber: Int) → KeyParameter?
-        +<color:blue>getWorkKeyParameterRawData(recordNumber: Int) → ByteArray?
-        +getWorkKeyParameter(kif: Byte, kvc: Byte) → KeyParameter?
-        +<color:blue>getWorkKeyParameterRawData(kif: Byte, kvc: Byte) → ByteArray?
+        +<color:blue>getWorkKeyParameterByRecordNumber(recordNumber: Int) → KeyParameter?
+        +<color:blue>getWorkKeyParameterRawDataByRecordNumber(recordNumber: Int) → ByteArray?
+        +<color:blue>getWorkKeyParameterByKifKvc(kif: Byte, kvc: Byte) → KeyParameter?
+        +<color:blue>getWorkKeyParameterRawDataByKifKvc(kif: Byte, kvc: Byte) → ByteArray?
 
         +<color:blue>getKeyPair(commandId: Int) → ByteArray?
         +<color:blue>getComputedCardCertificate(commandId: Int) → ByteArray?
