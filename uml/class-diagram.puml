@@ -279,9 +279,12 @@ package "sam" as sam {
         +getSamParameters() → <color:blue>ByteArray?
 
         +getSystemKeyParameter(systemKeyType: SystemKeyType) → KeyParameter?
+        +<color:blue>getSystemKeyParameterRawData(systemKeyType: SystemKeyType) → ByteArray?
 
         +getWorkKeyParameter(recordNumber: Int) → KeyParameter?
+        +<color:blue>getWorkKeyParameterRawData(recordNumber: Int) → ByteArray?
         +getWorkKeyParameter(kif: Byte, kvc: Byte) → KeyParameter?
+        +<color:blue>getWorkKeyParameterRawData(kif: Byte, kvc: Byte) → ByteArray?
 
         +<color:blue>getKeyPair(commandId: Int) → ByteArray?
         +<color:blue>getComputedCardCertificate(commandId: Int) → ByteArray?
@@ -290,7 +293,6 @@ package "sam" as sam {
         +<color:blue>isSignatureValid(commandId: Int) → Boolean?
     }
     class "KeyParameter" as KeyParameter <<data>> <<green>> {
-        +val rawData: ByteArray
         +val kif: Byte
         +val kvc: Byte
         +val algorithm: Byte
