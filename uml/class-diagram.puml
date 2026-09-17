@@ -150,7 +150,7 @@ package "transaction" as transaction {
 
         +prepareTransferWorkKey(kif: Byte, kvc: Byte, workKeyParameters: ByteArray, targetRecordNumber: Int) → Self
         +prepareTransferWorkKeyDiversified(kif: Byte, kvc: Byte, workKeyParameters: ByteArray, targetRecordNumber: Int) → Self
-        +prepareTransferWorkKeyDiversified(kif: Byte, kvc: Byte, workKeyParameters: ByteArray, targetRecordNumber: Int, diversifier: ByteArray) → Self
+        +<color:blue>prepareTransferWorkKeyDiversifiedWithSpecificDiversifier(kif: Byte, kvc: Byte, workKeyParameters: ByteArray, targetRecordNumber: Int, diversifier: ByteArray) → Self
 
         +prepareTransferLock(lockIndex: Byte, lockParameters: Byte) → Self
         +prepareTransferLockDiversified(lockIndex: Byte, lockParameters: Byte) → Self
@@ -237,11 +237,13 @@ package "transaction" as transaction {
 package "sam" as sam {
     interface "«<back:yellow>CardSelectionExtension</back>»\nLegacySamSelectionExtension" as LegacySamSelectionExtension <<blue>> {
         +setUnlockData(unlockData: String) → Self
-        +setUnlockData(unlockData: String, productType: LegacySamProductType) → Self
-        +setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi) → Self
+        +<color:blue>setUnlockDataForProductType(unlockData: String, productType: LegacySamProductType) → Self
+
         +setStaticUnlockDataProvider(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi, targetSamReader: CardReader) → Self
-        +setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi) → Self
+        +<color:blue>setStaticUnlockDataProviderWithDeferredReader(staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi) → Self
+
         +setDynamicUnlockDataProvider(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi, targetSamReader: CardReader) → Self
+        +<color:blue>setDynamicUnlockDataProviderWithDeferredReader(dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi) → Self
 
         +prepareReadSamParameters() → Self
 
@@ -314,7 +316,6 @@ package "spi" as spi {
         +getUnlockData(samSerialNumber: ByteArray, samChallenge: ByteArray) → ByteArray
     }
     interface LegacySamRevocationServiceSpi <<red>> {
-        +isSamRevoked(serialNumber: ByteArray) → Boolean
         +isSamRevoked(serialNumber: ByteArray, counterValue: Int) → Boolean
     }
 }

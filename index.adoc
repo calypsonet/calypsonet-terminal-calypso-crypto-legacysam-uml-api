@@ -1699,8 +1699,9 @@ If the SAM is *locked*, three mutually exclusive unlocking strategies are offere
   to obtain the 8-byte value expected by the SAM in dynamic mode (computed by an origin SAM).
 
 When the unlocking data is supplied by a provider, a <<ref_cna_tr,CNA-TR-API>> `CardReader` is required for additional
-exchanges. The reader MAY be provided either at selection-extension creation time, or later through the relevant
-overload (e.g. dynamic SAM reader allocation).
+exchanges. The reader MAY be provided either at selection-extension creation time, or later when using
+`setStaticUnlockDataProviderWithDeferredReader` or `setDynamicUnlockDataProviderWithDeferredReader` (e.g. dynamic
+SAM reader allocation).
 
 [[op_LegacySamSelectionExtension_prepareGetData]]
 ===== Prepare Get Data
@@ -1822,28 +1823,7 @@ overload (e.g. dynamic SAM reader allocation).
 |===
 
 [[op_LegacySamSelectionExtension_setDynamicUnlockDataProvider]]
-===== Set Dynamic Unlock Data Provider (No Target SAM Reader)
-
-[cols="^.^1h,.^5", grid=rows, frame=all]
-|===
-| Signature
-| `setDynamicUnlockDataProvider(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi` +
-`) -> Self`
-| Since          | 0.4
-| Description
-| Sets the dynamic-unlock-data provider. This overload is used when the card reader needed to communicate with
-  the target SAM is supplied later in the workflow. The *Unlock* command is initiated after a successful
-  filtering, followed by a request to the provider.
-| Parameters     | `dynamicUnlockDataProvider` (<<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>.
-| Returns        | The current instance (`Self`).
-| Pre-conditions | *Argument* -- every parameter is non-`null`. +
-  *State* -- no unlocking setting has been set.
-| Errors         | None.
-|===
-
-[[op_LegacySamSelectionExtension_setDynamicUnlockDataProvider_withReader]]
-===== Set Dynamic Unlock Data Provider (Target SAM Reader)
+===== Set Dynamic Unlock Data Provider
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
@@ -1863,26 +1843,29 @@ overload (e.g. dynamic SAM reader allocation).
 | Errors         | None.
 |===
 
-[[op_LegacySamSelectionExtension_setStaticUnlockDataProvider]]
-===== Set Static Unlock Data Provider (No Target SAM Reader)
+[[op_LegacySamSelectionExtension_setDynamicUnlockDataProviderWithDeferredReader]]
+===== Set Dynamic Unlock Data Provider With Deferred Reader
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
-| `setStaticUnlockDataProvider(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi` +
+| `setDynamicUnlockDataProviderWithDeferredReader(` +
+`{nbsp}{nbsp}{nbsp}{nbsp}dynamicUnlockDataProvider: LegacySamDynamicUnlockDataProviderSpi` +
 `) -> Self`
 | Since          | 0.4
-| Description    | Sets the static-unlock-data provider. To be used when the SAM reader is supplied later in the workflow. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
-| Parameters     | `staticUnlockDataProvider` (<<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>.
+| Description
+| Sets the dynamic-unlock-data provider. To be used when the card reader needed to communicate with
+  the target SAM is supplied later in the workflow. The *Unlock* command is initiated after a successful
+  filtering, followed by a request to the provider.
+| Parameters     | `dynamicUnlockDataProvider` (<<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamDynamicUnlockDataProviderSpi,`LegacySamDynamicUnlockDataProviderSpi`>>.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *State* -- no unlocking setting has been set.
 | Errors         | None.
 |===
 
-[[op_LegacySamSelectionExtension_setStaticUnlockDataProvider_withReader]]
-===== Set Static Unlock Data Provider (Target SAM Reader)
+[[op_LegacySamSelectionExtension_setStaticUnlockDataProvider]]
+===== Set Static Unlock Data Provider
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
@@ -1902,8 +1885,26 @@ overload (e.g. dynamic SAM reader allocation).
 | Errors         | None.
 |===
 
+[[op_LegacySamSelectionExtension_setStaticUnlockDataProviderWithDeferredReader]]
+===== Set Static Unlock Data Provider With Deferred Reader
+
+[cols="^.^1h,.^5", grid=rows, frame=all]
+|===
+| Signature
+| `setStaticUnlockDataProviderWithDeferredReader(` +
+`{nbsp}{nbsp}{nbsp}{nbsp}staticUnlockDataProvider: LegacySamStaticUnlockDataProviderSpi` +
+`) -> Self`
+| Since          | 0.4
+| Description    | Sets the static-unlock-data provider. To be used when the SAM reader is supplied later in the workflow. The *Unlock* command is initiated after a successful filtering, followed by a request to the provider.
+| Parameters     | `staticUnlockDataProvider` (<<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>) -- an implementation of <<type_LegacySamStaticUnlockDataProviderSpi,`LegacySamStaticUnlockDataProviderSpi`>>.
+| Returns        | The current instance (`Self`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *State* -- no unlocking setting has been set.
+| Errors         | None.
+|===
+
 [[op_LegacySamSelectionExtension_setUnlockData]]
-===== Set Unlock Data (No Product Type)
+===== Set Unlock Data
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
@@ -1918,13 +1919,13 @@ overload (e.g. dynamic SAM reader allocation).
 | Errors         | None.
 |===
 
-[[op_LegacySamSelectionExtension_setUnlockData_withProductType]]
-===== Set Unlock Data (Product Type)
+[[op_LegacySamSelectionExtension_setUnlockDataForProductType]]
+===== Set Unlock Data For Product Type
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
-| `setUnlockData(` +
+| `setUnlockDataForProductType(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}unlockData: String,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}productType: LegacySamProductType` +
 `) -> Self`
@@ -2106,37 +2107,8 @@ The operations on this interface mirror their equivalents on
 | Errors         | None.
 |===
 
-[[op_SecureWriteTransactionManager_prepareTransferWorkKeyDiversified_withDiversifier]]
-===== Prepare Transfer Work Key Diversified (Diversifier)
-
-[cols="^.^1h,.^5", grid=rows, frame=all]
-|===
-| Signature
-| `prepareTransferWorkKeyDiversified(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: ByteArray,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: Int,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}diversifier: ByteArray` +
-`) -> Self`
-| Since          | 0.7
-| Description
-| Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with
-  diversification by the supplied 8-byte diversifier. `workKeyParameters` MUST be 29 bytes long.
-  `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
-| Parameters
-| `kif` -- the KIF of the key. +
-  `kvc` -- the KVC of the key. +
-  `workKeyParameters` -- a 29-byte byte array containing the key parameter data. +
-  `targetRecordNumber` -- the number of the record where to store the key (in range [0..126]). +
-  `diversifier` -- a 8-byte byte array to use as key diversifier.
-| Returns        | The current instance (`Self`).
-| Pre-conditions | *Argument* -- every parameter is non-`null`.
-| Errors         | None.
-|===
-
 [[op_SecureWriteTransactionManager_prepareTransferWorkKeyDiversified]]
-===== Prepare Transfer Work Key Diversified (No Diversifier)
+===== Prepare Transfer Work Key Diversified
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
@@ -2157,6 +2129,35 @@ The operations on this interface mirror their equivalents on
   `kvc` -- the KVC of the key. +
   `workKeyParameters` -- a 29-byte byte array containing the key parameter data. +
   `targetRecordNumber` -- the number of the record where to store the key (in range [0..126]).
+| Returns        | The current instance (`Self`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
+| Errors         | None.
+|===
+
+[[op_SecureWriteTransactionManager_prepareTransferWorkKeyDiversifiedWithSpecificDiversifier]]
+===== Prepare Transfer Work Key Diversified With Specific Diversifier
+
+[cols="^.^1h,.^5", grid=rows, frame=all]
+|===
+| Signature
+| `prepareTransferWorkKeyDiversifiedWithSpecificDiversifier(` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}workKeyParameters: ByteArray,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}targetRecordNumber: Int,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}diversifier: ByteArray` +
+`) -> Self`
+| Since          | 0.7
+| Description
+| Schedules a *Write Key* command transferring a work key from the control SAM to the target SAM, with
+  diversification by the supplied 8-byte diversifier. `workKeyParameters` MUST be 29 bytes long.
+  `targetRecordNumber` MUST be in `[0..126]`; `0` means the SAM MUST choose the location.
+| Parameters
+| `kif` -- the KIF of the key. +
+  `kvc` -- the KVC of the key. +
+  `workKeyParameters` -- a 29-byte byte array containing the key parameter data. +
+  `targetRecordNumber` -- the number of the record where to store the key (in range [0..126]). +
+  `diversifier` -- a 8-byte byte array to use as key diversifier.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
@@ -2344,8 +2345,8 @@ verification failure) and `InconsistentData` (data inconsistency).
 | Purpose    | Interface that the application MUST implement to check dynamically whether a SAM is revoked.
 |===
 
-[[op_LegacySamRevocationServiceSpi_isSamRevoked_withCounter]]
-===== Is SAM Revoked (Counter Value)
+[[op_LegacySamRevocationServiceSpi_isSamRevoked]]
+===== Is SAM Revoked
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
@@ -2361,20 +2362,6 @@ verification failure) and `InconsistentData` (data inconsistency).
 | Parameters
 | `serialNumber` -- the complete or partial SAM serial number to check. +
   `counterValue` -- the SAM counter value.
-| Returns        | `true` if the SAM is revoked, `false` otherwise.
-| Pre-conditions | *Argument* -- every parameter is non-`null`.
-| Errors         | None.
-|===
-
-[[op_LegacySamRevocationServiceSpi_isSamRevoked]]
-===== Is SAM Revoked (No Counter Value)
-
-[cols="^.^1h,.^5", grid=rows, frame=all]
-|===
-| Signature      | `isSamRevoked(serialNumber: ByteArray) -> Boolean`
-| Since          | 0.1
-| Description    | Checks if the SAM with the supplied serial number is revoked. The serial number MAY be complete (4 bytes) or partial (3 LSBytes).
-| Parameters     | `serialNumber` -- the complete or partial SAM serial number to check.
 | Returns        | `true` if the SAM is revoked, `false` otherwise.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
