@@ -903,8 +903,8 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 |===
 | Signature
 | `prepareComputeSignature(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureComputationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureComputationData` +
 `) -> Self`
 | Since          | 0.3
 | Description
@@ -923,8 +923,8 @@ The signature serves many purposes, for example:
   central system SAM uses the master signing key, diversified before signing with the diversifier set previously
   by the *Select Diversifier* command.
 | Parameters
-| `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the computation criteria. +
-  `commandId` -- the application-supplied identifier of this command.
+| `commandId` -- the application-supplied identifier of this command. +
+  `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the computation criteria.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- the input data is consistent.
@@ -941,8 +941,8 @@ The signature serves many purposes, for example:
 |===
 | Signature
 | `prepareVerifySignature(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureVerificationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureVerificationData` +
 `) -> Self`
 | Since          | 0.3
 | Description
@@ -950,8 +950,8 @@ The signature serves many purposes, for example:
   transaction. Once processed, the outcome is available in the <<type_LegacySam,`LegacySam`>> through
   <<op_LegacySam_isSignatureValid,`isSignatureValid`>> called with `commandId`.
 | Parameters
-| `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the verification criteria. +
-  `commandId` -- the application-supplied identifier of this command.
+| `commandId` -- the application-supplied identifier of this command. +
+  `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the verification criteria.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- the input data is consistent.
@@ -996,8 +996,8 @@ The signature serves many purposes, for example:
 |===
 | Signature
 | `prepareComputeCardCertificate(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}data: LegacyCardCertificateComputationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}data: LegacyCardCertificateComputationData` +
 `) -> Self`
 | Since          | 0.5
 | Description
@@ -1005,8 +1005,8 @@ The signature serves many purposes, for example:
   available in the <<type_LegacySam,`LegacySam`>> through
   <<op_LegacySam_getComputedCardCertificate,`getComputedCardCertificate`>> called with `commandId`.
 | Parameters
-| `data` (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>) -- the computation criteria. +
-  `commandId` -- the application-supplied identifier of this command.
+| `commandId` -- the application-supplied identifier of this command. +
+  `data` (<<type_LegacyCardCertificateComputationData,`LegacyCardCertificateComputationData`>>) -- the computation criteria.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
@@ -1021,8 +1021,8 @@ The signature serves many purposes, for example:
 |===
 | Signature
 | `prepareComputeSignature(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureComputationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureComputationData` +
 `) -> Self`
 | Since          | 0.1
 | Description
@@ -1041,8 +1041,8 @@ The signature serves many purposes, for example:
   central system SAM uses the master signing key, diversified before signing with the diversifier set previously
   by the *Select Diversifier* command.
 | Parameters
-| `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the computation criteria. +
-  `commandId` -- the application-supplied identifier of this command.
+| `commandId` -- the application-supplied identifier of this command. +
+  `data` (<<type_SignatureComputationData,`SignatureComputationData`>>) -- the computation criteria.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- the input data is consistent.
@@ -1118,8 +1118,8 @@ The signature serves many purposes, for example:
 |===
 | Signature
 | `prepareVerifySignature(` +
-`{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureVerificationData,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int` +
+`{nbsp}{nbsp}{nbsp}{nbsp}commandId: Int,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}data: SignatureVerificationData` +
 `) -> Self`
 | Since          | 0.1
 | Description
@@ -1127,8 +1127,8 @@ The signature serves many purposes, for example:
   is available in the <<type_LegacySam,`LegacySam`>> through
   <<op_LegacySam_isSignatureValid,`isSignatureValid`>> called with `commandId`.
 | Parameters
-| `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the verification criteria. +
-  `commandId` -- the application-supplied identifier of this command.
+| `commandId` -- the application-supplied identifier of this command. +
+  `data` (<<type_SignatureVerificationData,`SignatureVerificationData`>>) -- the verification criteria.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- the input data is consistent.

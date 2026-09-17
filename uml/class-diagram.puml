@@ -127,15 +127,15 @@ package "transaction" as transaction {
     interface FreeTransactionManager <<blue>> extends ReadTransactionManager {
         +prepareGetData(tag: GetDataTag) → Self
         +prepareGenerateCardAsymmetricKeyPair(commandId: Int) → Self
-        +prepareComputeCardCertificate(data: LegacyCardCertificateComputationData<color:blue>, commandId: Int</color>) → Self
+        +prepareComputeCardCertificate(<color:blue>commandId: Int</color>, data: LegacyCardCertificateComputationData) → Self
 
         +<color:grey>preparePlainLoadWorkKey(kif: Byte, kvc: Byte, workKeyParameters: ByteArray, workKeyValue: ByteArray) → Self
         +<color:grey>preparePlainExportWorkKey(kif: Byte, kvc: Byte, workKeyParameters: ByteArray, workKeyValue: ByteArray) → Self
 
         +preparePlainWriteLock(lockIndex: Byte, lockParameters: Byte, lockValue: ByteArray) → Self
 
-        +prepareComputeSignature(data: SignatureComputationData<color:blue>, commandId: Int</color>) → Self
-        +prepareVerifySignature(data: SignatureVerificationData<color:blue>, commandId: Int</color>) → Self
+        +prepareComputeSignature(<color:blue>commandId: Int</color>, data: SignatureComputationData) → Self
+        +prepareVerifySignature(<color:blue>commandId: Int</color>, data: SignatureVerificationData) → Self
         {method} <size:10><color:#7F8C8D>    ⚠ errors: SamRevoked</color></size>
 
         +exportTargetSamContextForAsyncTransaction() → String
@@ -168,8 +168,8 @@ package "transaction" as transaction {
         +val controlSam: LegacySam
     }
     interface "«<back:pink>CardTransactionCryptoExtension</back>»\nCardTransactionLegacySamExtension" as CardTransactionLegacySamExtension {
-        +prepareComputeSignature(data: SignatureComputationData<color:blue>, commandId: Int</color>) → Self
-        +prepareVerifySignature(data: SignatureVerificationData<color:blue>, commandId: Int</color>) → Self
+        +prepareComputeSignature(<color:blue>commandId: Int</color>, data: SignatureComputationData) → Self
+        +prepareVerifySignature(<color:blue>commandId: Int</color>, data: SignatureVerificationData) → Self
         {method} <size:10><color:#7F8C8D>    ⚠ errors: SamRevoked</color></size>
     }
 
