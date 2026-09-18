@@ -1955,9 +1955,119 @@ SAM reader allocation).
 |===
 
 The operations on this interface mirror their equivalents on
-<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>. `prepareReadSamParameters`,
-`prepareReadSystemKeyParameters`, `prepareReadWorkKeyParametersByRecordNumber`, `prepareReadWorkKeyParametersByKifKvc`, `prepareReadCounterStatus` and
-`prepareReadAllCountersStatus` behaves identically.
+<<type_LegacySamSelectionExtension,`LegacySamSelectionExtension`>>, which make the same readings available during the
+selection.
+
+[[op_ReadTransactionManager_prepareReadAllCountersStatus]]
+===== Prepare Read All Counters Status
+
+[cols="^.^1h,.^5", grid=rows, frame=all]
+|===
+| Signature      | `prepareReadAllCountersStatus() -> Self`
+| Since          | 0.3
+| Description    | Schedules the reading of the status of every counter.
+| Returns        | The current instance (`Self`).
+| Pre-conditions | None.
+| Errors         | None.
+| See also       | <<op_LegacySamSelectionExtension_prepareReadAllCountersStatus,`LegacySamSelectionExtension.prepareReadAllCountersStatus`>>
+|===
+
+[[op_ReadTransactionManager_prepareReadCounterStatus]]
+===== Prepare Read Counter Status
+
+[cols="^.^1h,.^5", grid=rows, frame=all]
+|===
+| Signature      | `prepareReadCounterStatus(counterNumber: Int) -> Self`
+| Since          | 0.3
+| Description
+| Schedules the execution of *Read Event Counter* and *Read Ceiling* commands to read the status of the supplied
+  counter (`[0..26]`). The actual number of commands sent to the SAM will be reduced by reading the
+  whole record at once.
+| Parameters     | `counterNumber` -- the number of the counter whose status is to be read (in range `[0..26]`).
+| Returns        | The current instance (`Self`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the counter number is within range.
+| Errors         | None.
+| See also       | <<op_LegacySamSelectionExtension_prepareReadCounterStatus,`LegacySamSelectionExtension.prepareReadCounterStatus`>>
+|===
+
+[[op_ReadTransactionManager_prepareReadSamParameters]]
+===== Prepare Read SAM Parameters
+
+[cols="^.^1h,.^5", grid=rows, frame=all]
+|===
+| Signature      | `prepareReadSamParameters() -> Self`
+| Since          | 0.7
+| Description    | Schedules the execution of a *Read Parameters* command. The result is available via `LegacySam.getSamParameters`.
+| Returns        | The current instance (`Self`).
+| Pre-conditions | None.
+| Errors         | None.
+| See also       | <<op_LegacySamSelectionExtension_prepareReadSamParameters,`LegacySamSelectionExtension.prepareReadSamParameters`>>
+|===
+
+[[op_ReadTransactionManager_prepareReadSystemKeyParameters]]
+===== Prepare Read System Key Parameters
+
+[cols="^.^1h,.^5", grid=rows, frame=all]
+|===
+| Signature
+| `prepareReadSystemKeyParameters(` +
+`{nbsp}{nbsp}{nbsp}{nbsp}systemKeyType: SystemKeyType` +
+`) -> Self`
+| Since          | 0.3
+| Description    | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result is available via `LegacySam.getSystemKeyParameter`.
+| Parameters     | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the type of system key.
+| Returns        | The current instance (`Self`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
+| Errors         | None.
+| See also       | <<op_LegacySamSelectionExtension_prepareReadSystemKeyParameters,`LegacySamSelectionExtension.prepareReadSystemKeyParameters`>>
+|===
+
+[[op_ReadTransactionManager_prepareReadWorkKeyParametersByKifKvc]]
+===== Prepare Read Work Key Parameters By KIF KVC
+
+[cols="^.^1h,.^5", grid=rows, frame=all]
+|===
+| Signature
+| `prepareReadWorkKeyParametersByKifKvc(` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
+`{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
+`) -> Self`
+| Since          | 0.7
+| Description
+| Schedules the execution of a *Read Key Parameters* command for the work key referenced by its KIF/KVC pair.
+  Once processed, the result is accessible through
+  <<op_LegacySam_getWorkKeyParameterByKifKvc,`LegacySam.getWorkKeyParameterByKifKvc`>>.
+| Parameters
+| `kif` -- the key KIF. +
+  `kvc` -- the key KVC.
+| Returns        | The current instance (`Self`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`.
+| Errors         | None.
+| See also       | <<op_LegacySamSelectionExtension_prepareReadWorkKeyParametersByKifKvc,`LegacySamSelectionExtension.prepareReadWorkKeyParametersByKifKvc`>>
+|===
+
+[[op_ReadTransactionManager_prepareReadWorkKeyParametersByRecordNumber]]
+===== Prepare Read Work Key Parameters By Record Number
+
+[cols="^.^1h,.^5", grid=rows, frame=all]
+|===
+| Signature
+| `prepareReadWorkKeyParametersByRecordNumber(` +
+`{nbsp}{nbsp}{nbsp}{nbsp}recordNumber: Int` +
+`) -> Self`
+| Since          | 0.7
+| Description
+| Schedules the execution of a *Read Key Parameters* command for the work key at the supplied record number
+  (`[1..126]`). Once processed, the result is accessible through
+  <<op_LegacySam_getWorkKeyParameterByRecordNumber,`LegacySam.getWorkKeyParameterByRecordNumber`>>.
+| Parameters     | `recordNumber` -- the key record number (in range `[1..126]`).
+| Returns        | The current instance (`Self`).
+| Pre-conditions | *Argument* -- every parameter is non-`null`. +
+  *Argument* -- the record number is within range.
+| Errors         | None.
+| See also       | <<op_LegacySamSelectionExtension_prepareReadWorkKeyParametersByRecordNumber,`LegacySamSelectionExtension.prepareReadWorkKeyParametersByRecordNumber`>>
+|===
 
 [[type_SecureWriteTransactionManager]]
 ==== Secure Write Transaction Manager
