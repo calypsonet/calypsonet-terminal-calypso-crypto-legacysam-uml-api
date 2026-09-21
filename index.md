@@ -9,7 +9,7 @@ versions:
     files:
       diagram:
         name: "class-diagram.svg"
-        size: "141 kB"
+        size: "139 kB"
       html:
         name: "YYMMDD-SP-CNATerminalAPI-CalypsoCryptoLegacySAM_v2.0.0-SNAPSHOT.html"
         size: "1.7 MB"
