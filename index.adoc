@@ -184,10 +184,10 @@ The API spans three categories of transaction managers:
 
 This specification covers:
 
-* the SAM data model (`LegacySam`, `KeyParameter`);
+* the SAM data model (`LegacySam`, `KeyParameters`);
 * the selection extension used to enrich a Calypso reader selection with SAM-specific commands;
 * the transaction managers, signature data carriers, key-pair and certificate computation data carriers;
-* the security setting carrier and the card-transaction crypto extension;
+* the security settings carrier and the card-transaction crypto extension;
 * the SPIs implemented by the application to provide unlock data and revocation information;
 * the errors raised by the transaction managers.
 
@@ -419,13 +419,13 @@ include::uml/architecture-overview.puml[]
 | Factory, properties and shared enumerations (system key types, counter increment access, GetData tags).
 
 | `calypso.crypto.legacysam.sam`                       | Public API
-| SAM data model: `LegacySam`, `KeyParameter`, `LegacySamSelectionExtension`.
+| SAM data model: `LegacySam`, `KeyParameters`, `LegacySamSelectionExtension`.
 
 | `calypso.crypto.legacysam.spi`                       | SPI
 | Application-implemented SPIs for unlock data computation and SAM revocation.
 
 | `calypso.crypto.legacysam.transaction`               | Public API
-| Transaction managers, signature/key/certificate data carriers, security setting, traceability mode and errors.
+| Transaction managers, signature/key/certificate data carriers, security settings, traceability mode and errors.
 |===
 
 [[sec_class_diagram]]
@@ -565,12 +565,12 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
   the target card or SAM.
 |===
 
-[[type_KeyParameter]]
-==== Key Parameter
+[[type_KeyParameters]]
+==== Key Parameters
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name       | `KeyParameter`
+| Name       | `KeyParameters`
 | Kind       | Data
 | Namespace  | `calypso.crypto.legacysam.sam`
 | Since      | 0.7
@@ -660,16 +660,16 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | 7-byte startup info to embed in the certificate.
 |===
 
-[[type_SecuritySetting]]
-==== Security Setting
+[[type_SecuritySettings]]
+==== Security Settings
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name       | `SecuritySetting`
+| Name       | `SecuritySettings`
 | Kind       | Data
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since      | 0.2
-| Purpose    | Security setting of a legacy-SAM transaction secured by a control SAM, built directly by the application.
+| Purpose    | Security settings of a legacy-SAM transaction secured by a control SAM, built directly by the application.
 |===
 
 [cols="^.^1,^.^1,^.^1,^.^1,.^5", options="header"]
@@ -1414,111 +1414,111 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Errors         | None.
 |===
 
-[[op_LegacySam_getSystemKeyParameter]]
-===== Get System Key Parameter
+[[op_LegacySam_getSystemKeyParameters]]
+===== Get System Key Parameters
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getSystemKeyParameter(systemKeyType: SystemKeyType) -> KeyParameter?`
+| Signature      | `getSystemKeyParameters(systemKeyType: SystemKeyType) -> KeyParameters?`
 | Since          | 0.2
-| Description    | Returns the parameters of the supplied system key; `null` if not available. Each call returns a snapshot decoded from the value returned by `getSystemKeyParameterRawData` at the time of the call.
+| Description    | Returns the parameters of the supplied system key; `null` if not available. Each call returns a snapshot decoded from the value returned by `getSystemKeyParametersRawData` at the time of the call.
 | Parameters     | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the system key whose parameters are requested.
-| Returns        | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
+| Returns        | A <<type_KeyParameters,`KeyParameters`>>, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
-| See also       | <<op_LegacySam_getSystemKeyParameterRawData,`getSystemKeyParameterRawData`>> +
+| See also       | <<op_LegacySam_getSystemKeyParametersRawData,`getSystemKeyParametersRawData`>> +
   <<op_LegacySamSelectionExtension_prepareReadSystemKeyParameters,`LegacySamSelectionExtension.prepareReadSystemKeyParameters`>>
 |===
 
-[[op_LegacySam_getSystemKeyParameterRawData]]
-===== Get System Key Parameter Raw Data
+[[op_LegacySam_getSystemKeyParametersRawData]]
+===== Get System Key Parameters Raw Data
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getSystemKeyParameterRawData(systemKeyType: SystemKeyType) -> ByteArray?`
+| Signature      | `getSystemKeyParametersRawData(systemKeyType: SystemKeyType) -> ByteArray?`
 | Since          | 2.0
-| Description    | Returns the raw parameters of the supplied system key: 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameter,`KeyParameter`>> returned by `getSystemKeyParameter` for the same key at the same time is the decoding of this value; both are `null` together.
+| Description    | Returns the raw parameters of the supplied system key: 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameters,`KeyParameters`>> returned by `getSystemKeyParameters` for the same key at the same time is the decoding of this value; both are `null` together.
 | Parameters     | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the system key whose parameters are requested.
 | Returns        | The 13-byte raw key parameters, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
-| See also       | <<op_LegacySam_getSystemKeyParameter,`getSystemKeyParameter`>>
+| See also       | <<op_LegacySam_getSystemKeyParameters,`getSystemKeyParameters`>>
 |===
 
-[[op_LegacySam_getWorkKeyParameterByKifKvc]]
-===== Get Work Key Parameter By KIF KVC
+[[op_LegacySam_getWorkKeyParametersByKifKvc]]
+===== Get Work Key Parameters By KIF KVC
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
-| `getWorkKeyParameterByKifKvc(` +
+| `getWorkKeyParametersByKifKvc(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
-`) -> KeyParameter?`
+`) -> KeyParameters?`
 | Since          | 0.7
-| Description    | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available. Each call returns a snapshot decoded from the value returned by `getWorkKeyParameterRawDataByKifKvc` at the time of the call.
+| Description    | Returns the parameters of the work key referenced by its KIF/KVC pair; `null` if not available. Each call returns a snapshot decoded from the value returned by `getWorkKeyParametersRawDataByKifKvc` at the time of the call.
 | Parameters
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
-| Returns        | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
+| Returns        | A <<type_KeyParameters,`KeyParameters`>>, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
-| See also       | <<op_LegacySam_getWorkKeyParameterRawDataByKifKvc,`getWorkKeyParameterRawDataByKifKvc`>> +
+| See also       | <<op_LegacySam_getWorkKeyParametersRawDataByKifKvc,`getWorkKeyParametersRawDataByKifKvc`>> +
   <<op_LegacySamSelectionExtension_prepareReadWorkKeyParametersByKifKvc,`LegacySamSelectionExtension.prepareReadWorkKeyParametersByKifKvc`>>
 |===
 
-[[op_LegacySam_getWorkKeyParameterByRecordNumber]]
-===== Get Work Key Parameter By Record Number
+[[op_LegacySam_getWorkKeyParametersByRecordNumber]]
+===== Get Work Key Parameters By Record Number
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getWorkKeyParameterByRecordNumber(recordNumber: Int) -> KeyParameter?`
+| Signature      | `getWorkKeyParametersByRecordNumber(recordNumber: Int) -> KeyParameters?`
 | Since          | 0.7
-| Description    | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available. Each call returns a snapshot decoded from the value returned by `getWorkKeyParameterRawDataByRecordNumber` at the time of the call.
+| Description    | Returns the parameters of the work key at the supplied record number (`[1..126]`); `null` if not available. Each call returns a snapshot decoded from the value returned by `getWorkKeyParametersRawDataByRecordNumber` at the time of the call.
 | Parameters     | `recordNumber` -- the key record number (in range [1..126]).
-| Returns        | A <<type_KeyParameter,`KeyParameter`>>, or `null` if not available.
+| Returns        | A <<type_KeyParameters,`KeyParameters`>>, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Range* -- the record number is within range.
 | Errors         | None.
-| See also       | <<op_LegacySam_getWorkKeyParameterRawDataByRecordNumber,`getWorkKeyParameterRawDataByRecordNumber`>> +
+| See also       | <<op_LegacySam_getWorkKeyParametersRawDataByRecordNumber,`getWorkKeyParametersRawDataByRecordNumber`>> +
   <<op_LegacySamSelectionExtension_prepareReadWorkKeyParametersByRecordNumber,`LegacySamSelectionExtension.prepareReadWorkKeyParametersByRecordNumber`>>
 |===
 
-[[op_LegacySam_getWorkKeyParameterRawDataByKifKvc]]
-===== Get Work Key Parameter Raw Data By KIF KVC
+[[op_LegacySam_getWorkKeyParametersRawDataByKifKvc]]
+===== Get Work Key Parameters Raw Data By KIF KVC
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
 | Signature
-| `getWorkKeyParameterRawDataByKifKvc(` +
+| `getWorkKeyParametersRawDataByKifKvc(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kif: Byte,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}kvc: Byte` +
 `) -> ByteArray?`
 | Since          | 2.0
-| Description    | Returns the raw parameters of the work key referenced by its KIF/KVC pair: 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameter,`KeyParameter`>> returned by `getWorkKeyParameterByKifKvc` for the same key at the same time is the decoding of this value; both are `null` together.
+| Description    | Returns the raw parameters of the work key referenced by its KIF/KVC pair: 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameters,`KeyParameters`>> returned by `getWorkKeyParametersByKifKvc` for the same key at the same time is the decoding of this value; both are `null` together.
 | Parameters
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
 | Returns        | The 13-byte raw key parameters, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
 | Errors         | None.
-| See also       | <<op_LegacySam_getWorkKeyParameterByKifKvc,`getWorkKeyParameterByKifKvc`>>
+| See also       | <<op_LegacySam_getWorkKeyParametersByKifKvc,`getWorkKeyParametersByKifKvc`>>
 |===
 
-[[op_LegacySam_getWorkKeyParameterRawDataByRecordNumber]]
-===== Get Work Key Parameter Raw Data By Record Number
+[[op_LegacySam_getWorkKeyParametersRawDataByRecordNumber]]
+===== Get Work Key Parameters Raw Data By Record Number
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Signature      | `getWorkKeyParameterRawDataByRecordNumber(recordNumber: Int) -> ByteArray?`
+| Signature      | `getWorkKeyParametersRawDataByRecordNumber(recordNumber: Int) -> ByteArray?`
 | Since          | 2.0
-| Description    | Returns the raw parameters of the work key at the supplied record number (`[1..126]`): 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameter,`KeyParameter`>> returned by `getWorkKeyParameterByRecordNumber` for the same key at the same time is the decoding of this value; both are `null` together.
+| Description    | Returns the raw parameters of the work key at the supplied record number (`[1..126]`): 13 bytes carrying KIF, KVC, algorithm and PAR1..PAR10; `null` if not available. The <<type_KeyParameters,`KeyParameters`>> returned by `getWorkKeyParametersByRecordNumber` for the same key at the same time is the decoding of this value; both are `null` together.
 | Parameters     | `recordNumber` -- the key record number (in range [1..126]).
 | Returns        | The 13-byte raw key parameters, or `null` if not available.
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Range* -- the record number is within range.
 | Errors         | None.
-| See also       | <<op_LegacySam_getWorkKeyParameterByRecordNumber,`getWorkKeyParameterByRecordNumber`>>
+| See also       | <<op_LegacySam_getWorkKeyParametersByRecordNumber,`getWorkKeyParametersByRecordNumber`>>
 |===
 
 [[op_LegacySam_isSignatureValid]]
@@ -1558,7 +1558,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Signature
 | `createAsyncTransactionCreatorManager(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}targetSamContext: String,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}securitySetting: SecuritySetting` +
+`{nbsp}{nbsp}{nbsp}{nbsp}securitySettings: SecuritySettings` +
 `) -> AsyncTransactionCreatorManager`
 | Since          | 0.3
 | Description
@@ -1566,7 +1566,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
   MUST have been produced by <<op_FreeTransactionManager_exportTargetSamContextForAsyncTransaction,`FreeTransactionManager.exportTargetSamContextForAsyncTransaction`>>.
 | Parameters
 | `targetSamContext` -- the target SAM context. +
-  `securitySetting` (<<type_SecuritySetting,`SecuritySetting`>>)  -- the security settings.
+  `securitySettings` (<<type_SecuritySettings,`SecuritySettings`>>)  -- the security settings.
 | Returns        | An <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>.
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- every argument is valid.
@@ -1641,14 +1641,14 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | `createSecureWriteTransactionManager(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}samReader: CardReader,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}sam: LegacySam,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}securitySetting: SecuritySetting` +
+`{nbsp}{nbsp}{nbsp}{nbsp}securitySettings: SecuritySettings` +
 `) -> SecureWriteTransactionManager`
 | Since          | 0.7
-| Description    | Returns a new <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>> bound to the supplied SAM, reader and security setting.
+| Description    | Returns a new <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>> bound to the supplied SAM, reader and security settings.
 | Parameters
 | `samReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>))       -- the reader to use to communicate with the SAM. +
   `sam` (<<type_LegacySam,`LegacySam`>>)             -- the SAM image. +
-  `securitySetting` (<<type_SecuritySetting,`SecuritySetting`>>) -- the security settings.
+  `securitySettings` (<<type_SecuritySettings,`SecuritySettings`>>) -- the security settings.
 | Returns        | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- every argument is valid.
@@ -1771,7 +1771,7 @@ SAM reader allocation).
 `{nbsp}{nbsp}{nbsp}{nbsp}systemKeyType: SystemKeyType` +
 `) -> Self`
 | Since          | 0.3
-| Description    | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result is available via `LegacySam.getSystemKeyParameter`.
+| Description    | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result is available via `LegacySam.getSystemKeyParameters`.
 | Parameters     | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the type of system key.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
@@ -1792,7 +1792,7 @@ SAM reader allocation).
 | Description
 | Schedules the execution of a *Read Key Parameters* command for the work key referenced by its KIF/KVC pair.
   Once processed, the result is accessible through
-  <<op_LegacySam_getWorkKeyParameterByKifKvc,`LegacySam.getWorkKeyParameterByKifKvc`>>.
+  <<op_LegacySam_getWorkKeyParametersByKifKvc,`LegacySam.getWorkKeyParametersByKifKvc`>>.
 | Parameters
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
@@ -1814,7 +1814,7 @@ SAM reader allocation).
 | Description
 | Schedules the execution of a *Read Key Parameters* command for the work key at the supplied record number
   (`[1..126]`). Once processed, the result is accessible through
-  <<op_LegacySam_getWorkKeyParameterByRecordNumber,`LegacySam.getWorkKeyParameterByRecordNumber`>>.
+  <<op_LegacySam_getWorkKeyParametersByRecordNumber,`LegacySam.getWorkKeyParametersByRecordNumber`>>.
 | Parameters     | `recordNumber` -- the key record number (in range `[1..126]`).
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
@@ -2015,7 +2015,7 @@ selection.
 `{nbsp}{nbsp}{nbsp}{nbsp}systemKeyType: SystemKeyType` +
 `) -> Self`
 | Since          | 0.3
-| Description    | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result is available via `LegacySam.getSystemKeyParameter`.
+| Description    | Schedules the execution of a *Read Key Parameters* command for the supplied system key. The result is available via `LegacySam.getSystemKeyParameters`.
 | Parameters     | `systemKeyType` (<<type_SystemKeyType,`SystemKeyType`>>) -- the type of system key.
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`.
@@ -2037,7 +2037,7 @@ selection.
 | Description
 | Schedules the execution of a *Read Key Parameters* command for the work key referenced by its KIF/KVC pair.
   Once processed, the result is accessible through
-  <<op_LegacySam_getWorkKeyParameterByKifKvc,`LegacySam.getWorkKeyParameterByKifKvc`>>.
+  <<op_LegacySam_getWorkKeyParametersByKifKvc,`LegacySam.getWorkKeyParametersByKifKvc`>>.
 | Parameters
 | `kif` -- the key KIF. +
   `kvc` -- the key KVC.
@@ -2060,7 +2060,7 @@ selection.
 | Description
 | Schedules the execution of a *Read Key Parameters* command for the work key at the supplied record number
   (`[1..126]`). Once processed, the result is accessible through
-  <<op_LegacySam_getWorkKeyParameterByRecordNumber,`LegacySam.getWorkKeyParameterByRecordNumber`>>.
+  <<op_LegacySam_getWorkKeyParametersByRecordNumber,`LegacySam.getWorkKeyParametersByRecordNumber`>>.
 | Parameters     | `recordNumber` -- the key record number (in range `[1..126]`).
 | Returns        | The current instance (`Self`).
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
