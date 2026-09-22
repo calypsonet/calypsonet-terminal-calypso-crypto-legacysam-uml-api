@@ -82,9 +82,9 @@ interface "LegacySamApiFactory" as LegacySamApiFactory <<blue>> {
     +createSymmetricCryptoCardTransactionManagerFactory(samReader: <back:yellow>CardReader</back>, sam: LegacySam) → <back:pink>SymmetricCryptoCardTransactionManagerFactory</back>
 
     +createFreeTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam) → FreeTransactionManager
-    +<color:grey>createSecureReadTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, securitySetting: SecuritySetting) → SecureReadTransactionManager
-    +createSecureWriteTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, securitySetting: SecuritySetting) → SecureWriteTransactionManager
-    +createAsyncTransactionCreatorManager(targetSamContext: String, securitySetting: SecuritySetting) → AsyncTransactionCreatorManager
+    +<color:grey>createSecureReadTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, securitySettings: SecuritySettings) → SecureReadTransactionManager
+    +createSecureWriteTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, <color:blue>securitySettings: SecuritySettings</color>) → SecureWriteTransactionManager
+    +createAsyncTransactionCreatorManager(targetSamContext: String, <color:blue>securitySettings: SecuritySettings</color>) → AsyncTransactionCreatorManager
     +createAsyncTransactionExecutorManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, samCommands: String) → AsyncTransactionExecutorManager
 }
 enum SystemKeyType <<green>> {
@@ -163,9 +163,9 @@ package "transaction" as transaction {
     interface AsyncTransactionExecutorManager <<blue>> extends TransactionManager {
     }
 
-    class "SecuritySetting" as SecuritySetting <<data>> <<green>> {
-        +val samReader: <back:yellow>CardReader</back>
-        +val controlSam: LegacySam
+    class "<color:blue>SecuritySettings" as SecuritySettings <<data>> <<green>> {
+        +<color:blue>val samReader: <back:yellow>CardReader</back>
+        +<color:blue>val controlSam: LegacySam
     }
     interface "«<back:pink>CardTransactionCryptoExtension</back>»\nCardTransactionLegacySamExtension" as CardTransactionLegacySamExtension {
         +prepareComputeSignature(<color:blue>commandId: Int</color>, data: SignatureComputationData) → Self
@@ -280,13 +280,13 @@ package "sam" as sam {
 
         +getSamParameters() → <color:blue>ByteArray?
 
-        +getSystemKeyParameter(systemKeyType: SystemKeyType) → KeyParameter?
-        +<color:blue>getSystemKeyParameterRawData(systemKeyType: SystemKeyType) → ByteArray?
+        +<color:blue>getSystemKeyParameters(systemKeyType: SystemKeyType) → KeyParameters?
+        +<color:blue>getSystemKeyParametersRawData(systemKeyType: SystemKeyType) → ByteArray?
 
-        +<color:blue>getWorkKeyParameterByRecordNumber(recordNumber: Int) → KeyParameter?
-        +<color:blue>getWorkKeyParameterRawDataByRecordNumber(recordNumber: Int) → ByteArray?
-        +<color:blue>getWorkKeyParameterByKifKvc(kif: Byte, kvc: Byte) → KeyParameter?
-        +<color:blue>getWorkKeyParameterRawDataByKifKvc(kif: Byte, kvc: Byte) → ByteArray?
+        +<color:blue>getWorkKeyParametersByRecordNumber(recordNumber: Int) → KeyParameters?
+        +<color:blue>getWorkKeyParametersRawDataByRecordNumber(recordNumber: Int) → ByteArray?
+        +<color:blue>getWorkKeyParametersByKifKvc(kif: Byte, kvc: Byte) → KeyParameters?
+        +<color:blue>getWorkKeyParametersRawDataByKifKvc(kif: Byte, kvc: Byte) → ByteArray?
 
         +<color:blue>getKeyPair(commandId: Int) → ByteArray?
         +<color:blue>getComputedCardCertificate(commandId: Int) → ByteArray?
@@ -294,7 +294,7 @@ package "sam" as sam {
         +<color:blue>getSignedData(commandId: Int) → ByteArray?
         +<color:blue>isSignatureValid(commandId: Int) → Boolean?
     }
-    class "KeyParameter" as KeyParameter <<data>> <<green>> {
+    class "<color:blue>KeyParameters" as KeyParameters <<data>> <<green>> {
         +val kif: Byte
         +val kvc: Byte
         +val algorithm: Byte
@@ -349,7 +349,7 @@ LegacySamSelectionExtension ..> LegacySamProductType #C_USE : use >
 LegacySamSelectionExtension .up.> GetDataTag #C_USE : use >
 
 LegacySam ..> LegacySamProductType #C_LINK : provide >
-LegacySam ..> KeyParameter #C_LINK : provide >
+LegacySam ..> KeyParameters #C_LINK : provide >
 LegacySam .up..> SystemKeyType #C_USE : use >
 LegacySam .up..> CounterIncrementAccess #C_USE : use >
 
