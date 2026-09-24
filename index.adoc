@@ -660,12 +660,12 @@ include::uml/class-diagram.puml[Terminal Calypso Crypto Legacy SAM API class dia
 | 7-byte startup info to embed in the certificate.
 |===
 
-[[type_SecuritySettings]]
-==== Security Settings
+[[type_LegacySamSecuritySettings]]
+==== Legacy SAM Security Settings
 
 [cols="^.^1h,.^5", grid=rows, frame=all]
 |===
-| Name       | `SecuritySettings`
+| Name       | `LegacySamSecuritySettings`
 | Kind       | Data
 | Namespace  | `calypso.crypto.legacysam.transaction`
 | Since      | 0.2
@@ -1558,7 +1558,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | Signature
 | `createAsyncTransactionCreatorManager(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}targetSamContext: String,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}securitySettings: SecuritySettings` +
+`{nbsp}{nbsp}{nbsp}{nbsp}securitySettings: LegacySamSecuritySettings` +
 `) -> AsyncTransactionCreatorManager`
 | Since          | 0.3
 | Description
@@ -1566,7 +1566,7 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
   MUST have been produced by <<op_FreeTransactionManager_exportTargetSamContextForAsyncTransaction,`FreeTransactionManager.exportTargetSamContextForAsyncTransaction`>>.
 | Parameters
 | `targetSamContext` -- the target SAM context. +
-  `securitySettings` (<<type_SecuritySettings,`SecuritySettings`>>)  -- the security settings.
+  `securitySettings` (<<type_LegacySamSecuritySettings,`LegacySamSecuritySettings`>>)  -- the security settings.
 | Returns        | An <<type_AsyncTransactionCreatorManager,`AsyncTransactionCreatorManager`>>.
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- every argument is valid.
@@ -1641,14 +1641,14 @@ As a *dynamic view* of the SAM image, a `LegacySam` is updated after every succe
 | `createSecureWriteTransactionManager(` +
 `{nbsp}{nbsp}{nbsp}{nbsp}samReader: CardReader,` +
 `{nbsp}{nbsp}{nbsp}{nbsp}sam: LegacySam,` +
-`{nbsp}{nbsp}{nbsp}{nbsp}securitySettings: SecuritySettings` +
+`{nbsp}{nbsp}{nbsp}{nbsp}securitySettings: LegacySamSecuritySettings` +
 `) -> SecureWriteTransactionManager`
 | Since          | 0.7
 | Description    | Returns a new <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>> bound to the supplied SAM, reader and security settings.
 | Parameters
 | `samReader` (`CardReader` (<<ref_cna_tr,CNA-TR-API>>))       -- the reader to use to communicate with the SAM. +
   `sam` (<<type_LegacySam,`LegacySam`>>)             -- the SAM image. +
-  `securitySettings` (<<type_SecuritySettings,`SecuritySettings`>>) -- the security settings.
+  `securitySettings` (<<type_LegacySamSecuritySettings,`LegacySamSecuritySettings`>>) -- the security settings.
 | Returns        | A <<type_SecureWriteTransactionManager,`SecureWriteTransactionManager`>>.
 | Pre-conditions | *Argument* -- every parameter is non-`null`. +
   *Argument* -- every argument is valid.

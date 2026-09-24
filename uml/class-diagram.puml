@@ -82,9 +82,9 @@ interface "LegacySamApiFactory" as LegacySamApiFactory <<blue>> {
     +createSymmetricCryptoCardTransactionManagerFactory(samReader: <back:yellow>CardReader</back>, sam: LegacySam) → <back:pink>SymmetricCryptoCardTransactionManagerFactory</back>
 
     +createFreeTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam) → FreeTransactionManager
-    +<color:grey>createSecureReadTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, securitySettings: SecuritySettings) → SecureReadTransactionManager
-    +createSecureWriteTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, <color:blue>securitySettings: SecuritySettings</color>) → SecureWriteTransactionManager
-    +createAsyncTransactionCreatorManager(targetSamContext: String, <color:blue>securitySettings: SecuritySettings</color>) → AsyncTransactionCreatorManager
+    +<color:grey>createSecureReadTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, securitySettings: LegacySamSecuritySettings) → SecureReadTransactionManager
+    +createSecureWriteTransactionManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, <color:blue>securitySettings: LegacySamSecuritySettings</color>) → SecureWriteTransactionManager
+    +createAsyncTransactionCreatorManager(targetSamContext: String, <color:blue>securitySettings: LegacySamSecuritySettings</color>) → AsyncTransactionCreatorManager
     +createAsyncTransactionExecutorManager(samReader: <back:yellow>CardReader</back>, sam: LegacySam, samCommands: String) → AsyncTransactionExecutorManager
 }
 enum SystemKeyType <<green>> {
@@ -163,7 +163,7 @@ package "transaction" as transaction {
     interface AsyncTransactionExecutorManager <<blue>> extends TransactionManager {
     }
 
-    class "<color:blue>SecuritySettings" as SecuritySettings <<data>> <<green>> {
+    class "<color:blue>LegacySamSecuritySettings" as LegacySamSecuritySettings <<data>> <<green>> {
         +<color:blue>val samReader: <back:yellow>CardReader</back>
         +<color:blue>val controlSam: LegacySam
     }
