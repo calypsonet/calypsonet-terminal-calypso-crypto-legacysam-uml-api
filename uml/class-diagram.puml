@@ -2,7 +2,7 @@
 title
     <img:assets/logos/calypso.svg{scale=0.2}>
 
-    Terminal Calypso Crypto Legacy SAM API 2.0.+ (2026-06-15)
+    Terminal Calypso Crypto Legacy SAM API 2.0 — UML Class Diagram
 end title
 
 ' == THEME (class) ==
@@ -364,5 +364,9 @@ package legacysam #C_GREY1 {}
 package legacysam.spi #C_GREY2 {}
 package legacysam.sam #C_GREY2 {}
 package legacysam.transaction #C_GREY2 {}
+
+center footer
+<size:10><color:#566573>Terminal Calypso Crypto Legacy SAM API 2.0 (2026-07-20) — CNA-TCCL-API — Copyright © Calypso Networks Association — CC BY-ND 4.0 (https://creativecommons.org/licenses/by-nd/4.0/) — https://docs.terminal-api.calypsonet.org</color></size>
+end footer
 
 @enduml
