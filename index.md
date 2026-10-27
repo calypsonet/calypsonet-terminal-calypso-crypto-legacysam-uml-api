@@ -2,6 +2,7 @@
 layout: default
 title: "calypsonet-terminal-calypso-crypto-legacysam-api-spec"
 repository: "calypsonet-terminal-calypso-crypto-legacysam-api-spec"
+doc_name: "Terminal Calypso Crypto Legacy SAM API"
 latest_stable: "1.0.0"
 latest_stable_path: ""
 versions:
