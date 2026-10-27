@@ -1,8 +1,9 @@
 ---
 layout: default
-title: "calypsonet-terminal-calypso-crypto-legacysam-uml-api"
-repository: "calypsonet-terminal-calypso-crypto-legacysam-uml-api"
+title: "calypsonet-terminal-calypso-crypto-legacysam-api-spec"
+repository: "calypsonet-terminal-calypso-crypto-legacysam-api-spec"
 latest_stable: "1.0.0"
+latest_stable_path: ""
 versions:
   - version: "2.0.0-SNAPSHOT"
     status: snapshot
