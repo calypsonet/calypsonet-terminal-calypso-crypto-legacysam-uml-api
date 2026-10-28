@@ -16,5 +16,9 @@ applied to the specified contract:
 
 ## [Unreleased]
 
+## [2.0.0] - 2026-10-28
 ### Added
 - Initial baseline (v2.0.0) of the Terminal Calypso Crypto Legacy SAM API specification.
+
+[unreleased]: https://github.com/calypsonet/calypsonet-terminal-calypso-crypto-legacysam-api-spec/compare/2.0.0...HEAD
+[2.0.0]: https://github.com/calypsonet/calypsonet-terminal-calypso-crypto-legacysam-api-spec/releases/tag/2.0.0
